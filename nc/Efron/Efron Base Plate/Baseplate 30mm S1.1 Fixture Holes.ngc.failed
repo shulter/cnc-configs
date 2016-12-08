@@ -1,0 +1,18 @@
+%
+(1)
+(T140  D=4.05 CR=0. TAPER=118DEG - ZMIN=-50. - DRILL)
+N10 G90 G94 G17 G91.1
+N15 G21
+N20 G53 G0 Z0.
+(DRILL2 2)
+N25 M9
+N30 T140 M6
+(4.05 HSS)
+N35 S2000 M3
+N40 G54
+N45 M8
+N50 M9
+N55 G53 G0 Z0.
+N60 M30
+%
+!Error: Failed to post data. See log for details.

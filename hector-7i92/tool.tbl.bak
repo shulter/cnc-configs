@@ -1,6 +1,6 @@
 T1 P1 D6 ;6mm 4f end mill 
 T2 P2 D4 ;4mm 3f end mill 
-T3 P3 Z0 D3 ;3mm drill 
+T3 P3 D3 ;3mm drill 
 T70 P70 D10 ;6mm spot drill added 20150512 
 T4 P4 D1.6 ;1.6mm drill added 20150512 
 T5 P5 D3 ;4.2mm drill added 20150515 
@@ -10,6 +10,9 @@ T6 P6 D12 ;12mm 3f end mill added 20150517
 T133 P133 D3.3 ;3.3mm drill m4 added 20150517 
 T7 P7 D8 ;8mm 4f roughing stub mill added 20150518 
 T142 P142 D4.2 ;4.2mm drill m5 added 20150519 
-T10 P10 D6 ;6mm 3f long added 20150604 
+T10 P10 Z-0.1 D6 ;6mm 3f long added 20150604 
 T16 P16 D3.175 ;3.175 carbide added 20160706 
 T13 P13 D6 ;6mm 2f end mill short 13mm doc added 20160708 
+T140 P140 D4.2 ;added 20160711 
+T20 P20 D5 ;added 20160712 
+T9 P9 D0.2 ;v-bit 0.2 added 20160718 
