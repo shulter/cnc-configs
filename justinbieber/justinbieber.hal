@@ -34,9 +34,18 @@ net estop-out hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
 
 # external input signals
 
-
 # --- ABORT ---
 net abort     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-00
+
+# --- BOTH-HOME-X ---
+net both-home-x     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-17-not
+
+# --- BOTH-HOME-Y ---
+net both-home-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-18-not
+
+# --- BOTH-HOME-Z ---
+net both-home-z     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-19-not
+
 
 #*******************
 #  AXIS X
@@ -74,24 +83,24 @@ net x-enable   hm2_[HOSTMOT2](BOARD).0.7i77.0.1.analogena
 
 # ---Encoder feedback signals/setup---
 
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.counter-mode 0
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.filter 1
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.index-invert 0
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.index-mask 0
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.index-mask-invert 0
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.scale  [AXIS_0]ENCODER_SCALE
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.counter-mode 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.filter 1
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.index-invert 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.index-mask 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.index-mask-invert 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.scale  [AXIS_0]ENCODER_SCALE
 
-net x-pos-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.01.position
-net x-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.01.velocity
+net x-pos-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.position
+net x-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.velocity
 net x-pos-fb               =>  axis.0.motor-pos-fb
-net x-index-enable    axis.0.index-enable  <=>  hm2_[HOSTMOT2](BOARD).0.encoder.01.index-enable
-net x-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.01.rawcounts
+net x-index-enable    axis.0.index-enable  <=>  hm2_[HOSTMOT2](BOARD).0.encoder.03.index-enable
+net x-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.rawcounts
 
 # ---setup home / limit switch signals---
 
-net x-home-sw     =>  axis.0.home-sw-in
-net x-neg-limit     =>  axis.0.neg-lim-sw-in
-net x-pos-limit     =>  axis.0.pos-lim-sw-in
+net both-home-x     =>  axis.0.home-sw-in
+net both-home-x     =>  axis.0.neg-lim-sw-in
+net both-home-x     =>  axis.0.pos-lim-sw-in
 
 #*******************
 #  AXIS Y
@@ -127,24 +136,24 @@ net y-enable     axis.1.amp-enable-out
 
 # ---Encoder feedback signals/setup---
 
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.counter-mode 0
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.filter 1
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.index-invert 0
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.index-mask 0
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.index-mask-invert 0
-setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.scale  [AXIS_1]ENCODER_SCALE
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.counter-mode 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.filter 1
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.index-invert 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.index-mask 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.index-mask-invert 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.scale  [AXIS_1]ENCODER_SCALE
 
-net y-pos-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.position
-net y-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.velocity
+net y-pos-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.04.position
+net y-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.04.velocity
 net y-pos-fb               =>  axis.1.motor-pos-fb
-net y-index-enable    axis.1.index-enable  <=>  hm2_[HOSTMOT2](BOARD).0.encoder.03.index-enable
-net y-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.rawcounts
+net y-index-enable    axis.1.index-enable  <=>  hm2_[HOSTMOT2](BOARD).0.encoder.04.index-enable
+net y-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.04.rawcounts
 
 # ---setup home / limit switch signals---
 
-net y-home-sw     =>  axis.1.home-sw-in
-net y-neg-limit     =>  axis.1.neg-lim-sw-in
-net y-pos-limit     =>  axis.1.pos-lim-sw-in
+net both-home-y     =>  axis.1.home-sw-in
+net both-home-y     =>  axis.1.neg-lim-sw-in
+net both-home-y     =>  axis.1.pos-lim-sw-in
 
 #*******************
 #  AXIS Z
@@ -195,9 +204,9 @@ net z-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.05.rawcounts
 
 # ---setup home / limit switch signals---
 
-net z-home-sw     =>  axis.2.home-sw-in
-net z-neg-limit     =>  axis.2.neg-lim-sw-in
-net z-pos-limit     =>  axis.2.pos-lim-sw-in
+net both-home-z     =>  axis.2.home-sw-in
+net both-home-z     =>  axis.2.neg-lim-sw-in
+net both-home-z     =>  axis.2.pos-lim-sw-in
 
 #*******************
 #  SPINDLE S
