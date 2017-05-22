@@ -81,8 +81,6 @@ CYCLE_TIME = 0.100
 TOOL_TABLE = tool.tbl
 TOOL_CHANGE_QUILL_UP = 1
 
-[AXIS_0]
-
 #********************
 # Axis X
 # at 3545 rpm: 65m/min = 65000mm/min = 1083mm/s
@@ -99,6 +97,7 @@ TOOL_CHANGE_QUILL_UP = 1
 # servo rpm at 65m/min: 3545 min-1
 # servo rpm at 10V: 4000 min-1
 
+[AXIS_0]
 TYPE = LINEAR
 HOME = 3300.0
 FERROR = 50
@@ -129,8 +128,6 @@ HOME_FINAL_VEL = 50
 HOME_USE_INDEX = NO
 HOME_IGNORE_LIMITS = YES
 
-
-[AXIS_1]
 #********************
 # Axis Y
 # 50m/min = 50000mm/min = 833mm/s
@@ -142,7 +139,7 @@ HOME_IGNORE_LIMITS = YES
 # 1/25 * (22/12) * 2000 
 # x4 for quad encoder counting = 586.6666...
 
-
+[AXIS_1]
 TYPE = LINEAR
 HOME = 1200.0
 
@@ -154,13 +151,13 @@ FERROR = 100.0
 MIN_FERROR = 100.0
 
 MAX_VELOCITY = 833
-MAX_ACCELERATION = 2000.0
+MAX_ACCELERATION = 1000.0
 
 P = 20
 I = 0
 D = 0
 FF0 = 0
-FF1 = 0.97
+FF1 = 2.7
 FF2 = 0.0015
 BIAS = 0
 DEADBAND = 0
@@ -173,7 +170,7 @@ OUTPUT_MAX_LIMIT = 833
 
 BACKLASH = 0.0000
 
-[AXIS_2]
+
 #********************
 # Axis Z
 #********************
@@ -188,6 +185,7 @@ BACKLASH = 0.0000
 # 3000*22/48 = 1375rpm at ball screw
 # 1375 * 10 = 13750mm/min = 229mm/s
 
+[AXIS_2]
 TYPE = LINEAR
 HOME = 0.0
 FERROR = 50	

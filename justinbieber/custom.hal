@@ -1,2 +1,13 @@
 # Include your custom HAL commands here
-# This file will not be overwritten when you run PNCconf again
+
+loadrt lin2rev
+setp lin2rev.0.scale 5
+
+# y axis smart serial link to stmbl servo driver
+
+#net yenable axis.1.amp-enable-out => hm2_[HOSTMOT2](BOARD).0.stbl.0.0.enable-00
+#net yfault hm2_[HOSTMOT2](BOARD).0.stbl.0.0.fault-00 => axis.1.amp-fault-in
+#net yposcmd axis.1.motor-pos-cmd => lin2rev.0.cmd-in
+#net ymposcmd lin2rev.0.cmd-out => hm2_[HOSTMOT2](BOARD).0.stbl.0.0.pos_cmd
+#net yposfb hm2_[HOSTMOT2](BOARD).0.stbl.0.0.pos_fb => lin2rev.0.fb-in
+#net ymposfb lin2rev.0.fb-out => axis.1.motor-pos-fb

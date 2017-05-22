@@ -3,13 +3,15 @@ loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AX
 loadrt hostmot2
 loadrt [HOSTMOT2](DRIVER) config=[HOSTMOT2](CONFIG)
 setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 25000000
-loadrt pid names=pid.x,pid.y,pid.z,pid.s
+#loadrt pid names=pid.x,pid.y,pid.z,pid.s
+loadrt pid names=pid.x,pid.z,pid.s
+
 
 addf hm2_[HOSTMOT2](BOARD).0.read         servo-thread
 addf motion-command-handler   servo-thread
 addf motion-controller        servo-thread
 addf pid.x.do-pid-calcs       servo-thread
-addf pid.y.do-pid-calcs       servo-thread
+#addf pid.y.do-pid-calcs       servo-thread
 addf pid.z.do-pid-calcs       servo-thread
 addf pid.s.do-pid-calcs       servo-thread
 addf hm2_[HOSTMOT2](BOARD).0.write        servo-thread
@@ -106,48 +108,13 @@ net both-home-x     =>  axis.0.pos-lim-sw-in
 #  AXIS Y
 #*******************
 
-setp   pid.y.Pgain     [AXIS_1]P
-setp   pid.y.Igain     [AXIS_1]I
-setp   pid.y.Dgain     [AXIS_1]D
-setp   pid.y.bias      [AXIS_1]BIAS
-setp   pid.y.FF0       [AXIS_1]FF0
-setp   pid.y.FF1       [AXIS_1]FF1
-setp   pid.y.FF2       [AXIS_1]FF2
-setp   pid.y.deadband  [AXIS_1]DEADBAND
-setp   pid.y.maxoutput [AXIS_1]MAX_OUTPUT
-setp   pid.y.error-previous-target true
-
-net y-index-enable  <=> pid.y.index-enable
-net y-enable        =>  pid.y.enable
-net y-pos-cmd       =>  pid.y.command
-net y-vel-cmd       =>  pid.y.command-deriv
-net y-pos-fb        =>  pid.y.feedback
-net y-output        =>  pid.y.output
-
-# ---PWM Generator signals/setup---
-
-setp   hm2_[HOSTMOT2](BOARD).0.7i77.0.1.analogout1-scalemax  [AXIS_1]OUTPUT_SCALE
-setp   hm2_[HOSTMOT2](BOARD).0.7i77.0.1.analogout1-minlim    [AXIS_1]OUTPUT_MIN_LIMIT
-setp   hm2_[HOSTMOT2](BOARD).0.7i77.0.1.analogout1-maxlim    [AXIS_1]OUTPUT_MAX_LIMIT
-
-net y-output                             => hm2_[HOSTMOT2](BOARD).0.7i77.0.1.analogout1
-net y-pos-cmd    axis.1.motor-pos-cmd
-net y-enable     axis.1.amp-enable-out
-
-# ---Encoder feedback signals/setup---
-
+# connected to stmbl via smart serial (custom.hal)
 setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.counter-mode 0
 setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.filter 1
 setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.index-invert 0
 setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.index-mask 0
 setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.index-mask-invert 0
 setp    hm2_[HOSTMOT2](BOARD).0.encoder.04.scale  [AXIS_1]ENCODER_SCALE
-
-net y-pos-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.04.position
-net y-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.04.velocity
-net y-pos-fb               =>  axis.1.motor-pos-fb
-net y-index-enable    axis.1.index-enable  <=>  hm2_[HOSTMOT2](BOARD).0.encoder.04.index-enable
-net y-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.04.rawcounts
 
 # ---setup home / limit switch signals---
 
