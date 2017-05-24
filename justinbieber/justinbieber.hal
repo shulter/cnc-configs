@@ -41,8 +41,9 @@ net abort     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-00
 # --- BOTH-HOME-X ---
 net both-home-x     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-17-not
 
-# --- BOTH-HOME-Y ---
-net both-home-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-18-not
+# --- HOME-Y ---
+net home-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-18-not
+net both-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-21-not
 
 # --- BOTH-HOME-Z ---
 net both-home-z     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-19-not
@@ -120,9 +121,9 @@ net ymposfb lin2rev.0.fb-out => axis.1.motor-pos-fb
 
 # ---setup home / limit switch signals---
 
-net both-home-y     =>  axis.1.home-sw-in
-net both-home-y     =>  axis.1.neg-lim-sw-in
-net both-home-y     =>  axis.1.pos-lim-sw-in
+net home-y     =>  axis.1.home-sw-in
+net both-y     =>  axis.1.neg-lim-sw-in
+net both-y     =>  axis.1.pos-lim-sw-in
 
 #*******************
 #  AXIS Z
