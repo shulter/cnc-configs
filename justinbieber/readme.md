@@ -18,8 +18,8 @@ IO mapping
 | #233 |                                    |                             | 
 | #234 |                                    |                             | 
 | #235 |                                    |                             | 
-| #236 |                                    |                             | 
-| #237 |                                    |                             | 
+| #236 | Draw Bar is down                   |06                           | 
+| #237 | Draw Bar is up                     |07                           | 
 | #238 |                                    |                             | 
 | #239 |                                    |                             | 
 | #240 |  TC Pocket#1 is up                 |00  (net tc1is-up)           | 
@@ -46,11 +46,11 @@ IO mapping
 | #325 |                                    |                             | 
 | #326 |                                    |                             | 
 | #327 |                                    |                             | 
-| #328 |  ISO30 Aggregate Down              |04                           | 6A5 35|
+| #328 |  ISO30 Aggregate Down              |03                           | 6A5 35|
 | #329 |  (1000? ISO30 Aggregate Up?) FIXME |                             | 
-| #330 |  ISO30 Draw Bar + Flush Air        |03                           | 6A5 33|
-| #331 |  TC All Down                       |07                           | 6A5 32|
-| #332 |  TC Pocket#1 up (is up: 240)       |08                           | 6A5 13|
+| #330 |  ISO30 Draw Bar + Flush Air        |02                           | 6A5 33|
+| #331 |  TC All Down                       |06                           | 6A5 32, Relais 27K2|
+| #332 |  TC Pocket#1 up (is up: 240)       |07                           | 6A5 13|
 | #333 |  TC Pocket#2 up (is up: 241)       |                             | 
 | #334 |  TC Pocket#3 up (is up: 242)       |                             | 
 | #335 |  TC Pocket#4 up (is up: 243)       |                             | 
@@ -58,8 +58,8 @@ IO mapping
 | #337 |  TC Pocket#6 up (is up: 245)       |                             | 
 | #338 |  TC Cover Down (Open)              |                             | 
 | #339 |  TC Cover Up (Close)               |                             | 
-| #340 |  ISO30 Dust Hood Down              |05                           | 6A4
-| #341 |  ISO30 Dust Hood Up                |06                           | 6A25
+| #340 |  ISO30 Dust Hood Down              |04                           | 6A4
+| #341 |  ISO30 Dust Hood Up                |05                           | 6A25
 |      |                                    |                             | 
 | #348 |  drill down 1 (rightmost)          |                             | 
 | #349 |  drill 2 (second to right)         |                             | 
