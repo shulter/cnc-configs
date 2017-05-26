@@ -3,7 +3,7 @@ loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AX
 loadrt hostmot2
 loadrt [HOSTMOT2](DRIVER) config=[HOSTMOT2](CONFIG)
 setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 25000000
-loadrt pid names=pid.x,pid.z,pid.s
+loadrt pid names=pid.x,pid.z
 loadrt lin2rev
 
 addf hm2_[HOSTMOT2](BOARD).0.read         servo-thread
@@ -12,41 +12,7 @@ addf motion-command-handler   servo-thread
 addf motion-controller        servo-thread
 addf pid.x.do-pid-calcs       servo-thread
 addf pid.z.do-pid-calcs       servo-thread
-addf pid.s.do-pid-calcs       servo-thread
 addf hm2_[HOSTMOT2](BOARD).0.write        servo-thread
-
-# external output signals
-
-
-# --- MACHINE-IS-ENABLED ---
-net machine-is-enabled hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-00
-
-# --- SPINDLE-ON ---
-net spindle-on hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-01
-
-# --- COOLANT-FLOOD ---
-net coolant-flood hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02
-
-# --- COOLANT-MIST ---
-net coolant-mist hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
-
-# --- ESTOP-OUT ---
-net estop-out hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
-
-# external input signals
-
-# --- ABORT ---
-net abort     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-00
-
-# --- BOTH-HOME-X ---
-net both-home-x     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-17-not
-
-# --- HOME-Y ---
-net home-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-18-not
-net both-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-21-not
-
-# --- BOTH-HOME-Z ---
-net both-home-z     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-19-not
 
 
 #*******************
@@ -100,9 +66,10 @@ net x-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.rawcounts
 
 # ---setup home / limit switch signals---
 
-net both-home-x     =>  axis.0.home-sw-in
-net both-home-x     =>  axis.0.neg-lim-sw-in
-net both-home-x     =>  axis.0.pos-lim-sw-in
+net home-x     =>  axis.0.home-sw-in
+net limit-all     =>  axis.0.neg-lim-sw-in
+net limit-all     =>  axis.0.pos-lim-sw-in
+
 
 #*******************
 #  AXIS Y
@@ -122,8 +89,8 @@ net ymposfb lin2rev.0.fb-out => axis.1.motor-pos-fb
 # ---setup home / limit switch signals---
 
 net home-y     =>  axis.1.home-sw-in
-net both-y     =>  axis.1.neg-lim-sw-in
-net both-y     =>  axis.1.pos-lim-sw-in
+net limit-all     =>  axis.1.neg-lim-sw-in
+net limit-all     =>  axis.1.pos-lim-sw-in
 
 #*******************
 #  AXIS Z
@@ -174,30 +141,13 @@ net z-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.05.rawcounts
 
 # ---setup home / limit switch signals---
 
-net both-home-z     =>  axis.2.home-sw-in
-net both-home-z     =>  axis.2.neg-lim-sw-in
-net both-home-z     =>  axis.2.pos-lim-sw-in
+net home-z     =>  axis.2.home-sw-in
+net limit-all     =>  axis.2.neg-lim-sw-in
+net limit-all     =>  axis.2.pos-lim-sw-in
 
 #*******************
 #  SPINDLE S
 #*******************
-
-setp   pid.s.Pgain     [SPINDLE_9]P
-setp   pid.s.Igain     [SPINDLE_9]I
-setp   pid.s.Dgain     [SPINDLE_9]D
-setp   pid.s.bias      [SPINDLE_9]BIAS
-setp   pid.s.FF0       [SPINDLE_9]FF0
-setp   pid.s.FF1       [SPINDLE_9]FF1
-setp   pid.s.FF2       [SPINDLE_9]FF2
-setp   pid.s.deadband  [SPINDLE_9]DEADBAND
-setp   pid.s.maxoutput [SPINDLE_9]MAX_OUTPUT
-setp   pid.s.error-previous-target true
-
-net spindle-index-enable  <=> pid.s.index-enable
-net spindle-enable        =>  pid.s.enable
-net spindle-vel-cmd-rpm-abs     => pid.s.command
-net spindle-vel-fb-rpm-abs      => pid.s.feedback
-net spindle-output        <=  pid.s.output
 
 # ---PWM Generator signals/setup---
 
@@ -207,25 +157,16 @@ setp   hm2_[HOSTMOT2](BOARD).0.7i77.0.1.analogout3-maxlim    [SPINDLE_9]OUTPUT_M
 
 net spindle-vel-cmd-rpm-abs     => hm2_[HOSTMOT2](BOARD).0.7i77.0.1.analogout3
 
-# ---setup spindle control signals---
-
 net spindle-vel-cmd-rps        <=  motion.spindle-speed-out-rps
 net spindle-vel-cmd-rps-abs    <=  motion.spindle-speed-out-rps-abs
 net spindle-vel-cmd-rpm        <=  motion.spindle-speed-out
 net spindle-vel-cmd-rpm-abs    <=  motion.spindle-speed-out-abs
 net spindle-enable             <=  motion.spindle-on
-net spindle-cw                 <=  motion.spindle-forward
-net spindle-ccw                <=  motion.spindle-reverse
 net spindle-brake              <=  motion.spindle-brake
 net spindle-revs               =>  motion.spindle-revs
 net spindle-at-speed           =>  motion.spindle-at-speed
 net spindle-vel-fb-rps         =>  motion.spindle-speed-in
 net spindle-index-enable      <=>  motion.spindle-index-enable
-
-# ---Setup spindle at speed signals---
-
-sets spindle-at-speed true
-
 
 #******************************
 # connect miscellaneous signals
