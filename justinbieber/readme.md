@@ -4,8 +4,8 @@ Retrofit of Weeke BP12 Optimat, Indramat TDM Analog Servo Amps
 IO mapping
 
 
-| Con No|  Descr                            | 7177 pin                    | 
-|------:|-----------------------------------|-----------------------------| 
+| Con No|  Descr                            | 7177 pin                    | Con No2|
+|------:|-----------------------------------|-----------------------------|-----------|
 | #224 |  Saw is down                       |                             | 
 | #225 |  Saw is up                         |                             | 
 | #226 |                                    |                             | 
@@ -31,9 +31,9 @@ IO mapping
 | #325 |                                    |                             | 
 | #326 |                                    |                             | 
 | #327 |                                    |                             | 
-| #328 |  ISO30 Aggregate Down              |                             | 
+| #328 |  ISO30 Aggregate Down              |04                            | 6A5 35|
 | #329 |  (1000? ISO30 Aggregate Up?) FIXME |                             | 
-| #330 |  ISO30 Draw Bar + Flush Air        |                             | 
+| #330 |  ISO30 Draw Bar + Flush Air        |03                            | 6A5 33|
 | #331 |  TC All Down                       |                             | 
 | #332 |  TC Pocket#1 up (is up: 240)       |                             | 
 | #333 |  TC Pocket#2 up (is up: 241)       |                             | 
