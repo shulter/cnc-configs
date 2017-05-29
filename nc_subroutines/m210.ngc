@@ -1,0 +1,8 @@
+;TC all up
+o<m210> sub
+M5 ;spindle stop
+M205 ;saw off and up
+M65P3 ;tc down release, just in case solenoid is powered
+M64P4 ;tc1 holder up
+o<m210> endsub
+M2
