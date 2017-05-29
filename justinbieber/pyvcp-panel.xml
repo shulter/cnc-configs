@@ -4,28 +4,139 @@
          <relief>RIDGE</relief>         
          <bd>6</bd>
                 <label>
-                        <text>"ISO30 Speed:"</text>
-                        <font>("Helvetica",20)</font>
+                        <text>"ISO30 Spindle Speed RPM:"</text>
                 </label>
                 <bar>
                         <halpin>"spindle-speed"</halpin>
                         <max_>18000</max_>
                 </bar>
-                <label>
-                        <text>"ISO30 at Speed:"</text>
-                        <font>("Helvetica",20)</font>
-                </label>
+
                 <hbox>
                     <label>
-                            <text>"             "</text>
-                            <font>("Helvetica",20)</font>
+                            <text>"ISO30 at speed: "</text>
                     </label>
                     <led>
                         <halpin>"spindle-at-speed-led"</halpin> 
-                        <size>30</size> 
+                        <size>20</size> 
                         <on_color>"green"</on_color>
                         <off_color>"red"</off_color>
                     </led>
                 </hbox>
+                <hbox>
+                    <label>
+                            <text>"ISO30 drawbar release cmd: "</text>
+                    </label>
+                    <led>
+                        <halpin>"spindle-drawbar-led"</halpin> 
+                        <size>20</size> 
+                        <on_color>"green"</on_color>
+                        <off_color>"red"</off_color>
+                    </led>
+                </hbox>
+                <hbox>
+                    <label>
+                            <text>"ISO30 move down cmd: "</text>
+                    </label>
+                    <led>
+                        <halpin>"spindle-down-led"</halpin> 
+                        <size>20</size> 
+                        <on_color>"green"</on_color>
+                        <off_color>"red"</off_color>
+                    </led>
+                </hbox>
+                 <hbox>
+                    <label>
+                            <text>"ISO30 dust hood move down cmd: "</text>
+                    </label>
+                    <led>
+                        <halpin>"spindle-hood-down-led"</halpin> 
+                        <size>20</size> 
+                        <on_color>"green"</on_color>
+                        <off_color>"red"</off_color>
+                    </led>
+                </hbox>
+                 <hbox>
+                    <label>
+                            <text>"ISO30 dust hood move up cmd: "</text>
+                    </label>
+                    <led>
+                        <halpin>"spindle-hood-up-led"</halpin> 
+                        <size>20</size> 
+                        <on_color>"green"</on_color>
+                        <off_color>"red"</off_color>
+                    </led>
+                </hbox>
+                 <hbox>
+                    <label>
+                            <text>"Saw on cmd: "</text>
+                    </label>
+                    <led>
+                        <halpin>"saw-on-led"</halpin> 
+                        <size>20</size> 
+                        <on_color>"green"</on_color>
+                        <off_color>"red"</off_color>
+                    </led>
+                </hbox>
+                 <hbox>
+                    <label>
+                            <text>"TC open + pockets down cmd: "</text>
+                    </label>
+                    <led>
+                        <halpin>"tc-down"</halpin> 
+                        <size>20</size> 
+                        <on_color>"green"</on_color>
+                        <off_color>"red"</off_color>
+                    </led>
+                </hbox>
+                 <hbox>
+                    <label>
+                            <text>"TC pockets up cmd: "</text>
+                    </label>
+                    <led>
+                        <halpin>"tc1up"</halpin> 
+                        <size>20</size> 
+                        <on_color>"green"</on_color>
+                        <off_color>"red"</off_color>
+                    </led>
+                </hbox>
+                 <hbox>
+                    <label>
+                            <text>"TC pocket1 is up: "</text>
+                    </label>
+                    <led>
+                        <halpin>"tc1is-up"</halpin> 
+                        <size>20</size> 
+                        <on_color>"green"</on_color>
+                        <off_color>"red"</off_color>
+                    </led>
+                </hbox>
+                 <hbox>
+                    <label>
+                            <text>"TC pocket2 is up: "</text>
+                    </label>
+                    <led>
+                        <halpin>"tc2is-up"</halpin> 
+                        <size>20</size> 
+                        <on_color>"green"</on_color>
+                        <off_color>"red"</off_color>
+                    </led>
+                </hbox>
+
         </vbox>
+
+<hbox>
+<labelframe text="MDI commands">
+    <button>
+        <halpin>"quillup"</halpin>
+        <text>"Quill Up"</text> 
+        <justify>"center"</justify>
+    </button>
+
+    <button>
+        <halpin>"referencepos"</halpin>
+        <text>"Reference pos."</text> 
+        <justify>"center"</justify>
+    </button>
+</labelframe>
+</hbox>
 </pyvcp>

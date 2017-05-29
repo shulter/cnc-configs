@@ -4,8 +4,27 @@
 
 # **** Setup of spindle speed display using pyvcp -START ****
 
-net spindle-vel-cmd-rpm-abs    =>    pyvcp.spindle-speed
-net spindle-at-speed        =>    pyvcp.spindle-at-speed-led
+net spindle-vel-cmd-rpm-abs    	=>    pyvcp.spindle-speed
+net spindle-at-speed        	=>    pyvcp.spindle-at-speed-led
+net spindle-drawbar        	=>    pyvcp.spindle-drawbar-led
+net spindle-down        	=>    pyvcp.spindle-down-led
+net spindle-hood-down	   	=>    pyvcp.spindle-hood-down-led
+net spindle-hood-up	   	=>    pyvcp.spindle-hood-up-led
+net saw-on	   		=>    pyvcp.saw-on-led
+net tc-down	   	=>    pyvcp.tc-down
+net tc1up	   	=>    pyvcp.tc1up
+
+
+net tc1is-up 	=>	pyvcp.tc1is-up
+net tc2is-up 	=>	pyvcp.tc2is-up
+#net tc3is-up 	=>	pyvcp.tc3is-up
+#net tc4is-up 	=>	pyvcp.tc4is-up
+#net tc5is-up 	=>	pyvcp.tc5is-up
+#net tc6is-up	=>	pyvcp.tc6is-up
 
 # **** Setup of spindle speed display using pyvcp -END ****
 
+#net quill-up             pyvcp.quillup              spindle-drawbar
+#net reference-pos        pyvcp.referencepos         saw-on
+#net iso30-open		 pyvcp.iso30open	    <=
+#net iso30-close		 pyvcp.iso30close           <=

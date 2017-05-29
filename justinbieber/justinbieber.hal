@@ -1,5 +1,5 @@
 loadrt trivkins
-loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AXES
+loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AXES num_dio=32
 loadrt hostmot2
 loadrt [HOSTMOT2](DRIVER) config=[HOSTMOT2](CONFIG)
 setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 25000000
@@ -67,15 +67,17 @@ net x-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.rawcounts
 # ---setup home / limit switch signals---
 
 net home-x     =>  axis.0.home-sw-in
-net limit-all     =>  axis.0.neg-lim-sw-in
-net limit-all     =>  axis.0.pos-lim-sw-in
+net home-x     =>  axis.0.neg-lim-sw-in
+net home-x     =>  axis.0.pos-lim-sw-in
 
 
 #*******************
 #  AXIS Y
 #*******************
 
-setp lin2rev.0.scale -13.6318
+#setp lin2rev.0.scale -13.6318
+setp lin2rev.0.scale -13.61356
+#setp lin2rev.0.scale -13.64530141
 
 net yenable axis.1.amp-enable-out => hm2_[HOSTMOT2](BOARD).0.stbl.0.2.enable-00
 net yfault hm2_[HOSTMOT2](BOARD).0.stbl.0.2.fault-00 => axis.1.amp-fault-in
@@ -89,8 +91,8 @@ net ymposfb lin2rev.0.fb-out => axis.1.motor-pos-fb
 # ---setup home / limit switch signals---
 
 net home-y     =>  axis.1.home-sw-in
-net limit-all     =>  axis.1.neg-lim-sw-in
-net limit-all     =>  axis.1.pos-lim-sw-in
+net home-y     =>  axis.1.neg-lim-sw-in
+net home-y     =>  axis.1.pos-lim-sw-in
 
 #*******************
 #  AXIS Z
@@ -142,8 +144,8 @@ net z-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.05.rawcounts
 # ---setup home / limit switch signals---
 
 net home-z     =>  axis.2.home-sw-in
-net limit-all     =>  axis.2.neg-lim-sw-in
-net limit-all     =>  axis.2.pos-lim-sw-in
+net home-z     =>  axis.2.neg-lim-sw-in
+net home-z     =>  axis.2.pos-lim-sw-in
 
 #*******************
 #  SPINDLE S
