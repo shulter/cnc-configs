@@ -54,7 +54,7 @@ IO mapping
 | #326 |                                    |                             | 
 | #327 |                                    |                             | 
 | #328 |  ISO30 Aggregate Down              |03                           | 6A5 35|
-| #329 |  (1000? ISO30 Aggregate Up?) FIXME |                             | 
+| #329 |  ? |                             | 
 | #330 |  ISO30 Draw Bar + Flush Air        |02                           | 6A5 33|
 | #331 |  TC All Down                       |06                           | 6A5 32, Relais 27K2|
 | #332 |  TC Pocket#1 up (is up: 240)       |07                           | 6A5 13|
@@ -79,4 +79,12 @@ IO mapping
 | #356 |  drill ?                           |                             | 
 | #363 |  drill (frontmost)                 |                             | 
 | #364 |  drill (second to left)            |                             | 
-| #365 |  drill (forstner,leftmost?)        |             | 
+| #365 |  drill (forstner,leftmost?)        |             |
+|  |                             |                             | 
+| #1000 |  ISO30?                           |                             | 
+| #1001 |  Limit X                                 |                             | 
+| #1002 |  Limit Y                                |                             | 
+| #1003 |  Limit Z                                 |                             | 
+| #1004 |  ISO30 through spindle air        |                             | 
+| #1005 |  ISO30 draw bar release tool      |                             | 
+
