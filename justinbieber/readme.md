@@ -18,16 +18,23 @@ IO mapping
 | #233 |                                    |                             | 
 | #234 |                                    |                             | 
 | #235 |                                    |                             | 
-| #236 | Draw Bar is down                   |06                           | 
-| #237 | Draw Bar is up                     |07                           | 
+| #236 | Draw Bar is down                   |00                           | 
+| #237 | Draw Bar is up                     |01                           | 
 | #238 |                                    |                             | 
-| #239 |                                    |                             | 
-| #240 |  TC Pocket#1 is up                 |00  (net tc1is-up)           | 
-| #241 |  TC Pocket#2 is up                 |01                           | 
-| #242 |  TC Pocket#3 is up                 |02                           | 
-| #243 |  TC Pocket#4 is up                 |03                           | 
-| #244 |  TC Pocket#5 is up                 |04                           | 
-| #245 |  TC Pocket#6 is up                 |05                           | 
+| #239 |  Manual Tool Change BTN            |02                           | 
+| #240 |  TC Pocket#1 is up                 |07  (net tc1is-up)            | 
+| #241 |  TC Pocket#2 is up                 |08                            | 
+| #242 |  TC Pocket#3 is up                 |09                            | 
+| #243 |  TC Pocket#4 is up                 |10                            | 
+| #244 |  TC Pocket#5 is up                 |11                            | 
+| #245 |  TC Pocket#6 is up                 |12                           | 
+| #246 |  TC Cover closed                   |03                           | 
+| #247 |  TC Cover open                     |04                           | 
+| #247 |  TC Cover close BTN                |05                           | 
+| #247 |  TC Cover open BTN                 |06                           | 
+|      |                                    |                             | 
+|      |                                    |                             | 
+|      |                                    |                             | 
 |      |                                    |                             | 
 |      |                                    |                             | 
 | #310 |  pneumatic registration pins left  |                             | 
