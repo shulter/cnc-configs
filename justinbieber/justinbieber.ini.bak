@@ -1,3 +1,6 @@
+#loadrt hostmot2
+#loadrt hm2_eth board_ip="192.168.42.121" config="num_encoders=6 num_pwmgens=0 num_stepgens=0 sserial_port_0=000xxx"
+
 [HOSTMOT2]
 # DRIVER0=hm2_eth
 # BOARD0=7i80
@@ -7,8 +10,8 @@ CONFIG=" num_encoders=6 num_pwmgens=0 num_stepgens=0 sserial_port_0=000xxx"
 
 [EMC]
 MACHINE = justinbieber
-DEBUG = 0
-#DEBUG =                0x00000007
+#DEBUG = 0
+DEBUG =                0x00000007
 
 [DISPLAY]
 DISPLAY = axis
@@ -16,13 +19,13 @@ POSITION_OFFSET = RELATIVE
 POSITION_FEEDBACK = ACTUAL
 MAX_FEED_OVERRIDE = 5.000000
 MAX_SPINDLE_OVERRIDE = 1.500000
-MIN_SPINDLE_OVERRIDE = 0.500000
+MIN_SPINDLE_OVERRIDE = 0.100000
 INTRO_GRAPHIC = linuxcnc.gif
 INTRO_TIME = 0.1
-PROGRAM_PREFIX = /home/as/linuxcnc/nc_files
+PROGRAM_PREFIX = /home/as/Desktop/nc_files
 INCREMENTS = 100mm 10mm 1mm .1mm .01mm .001mm
 POSITION_FEEDBACK = ACTUAL
-DEFAULT_LINEAR_VELOCITY = 10
+DEFAULT_LINEAR_VELOCITY = 20
 MAX_LINEAR_VELOCITY = 1200
 MIN_LINEAR_VELOCITY = 0.05
 DEFAULT_ANGULAR_VELOCITY = 12.000000
@@ -30,6 +33,7 @@ MAX_ANGULAR_VELOCITY = 180.000000
 MIN_ANGULAR_VELOCITY = 1.666667
 EDITOR = mousepad
 GEOMETRY = xyz
+PYVCP = pyvcp-panel.xml
 
 [FILTER]
 PROGRAM_EXTENSION = .png,.gif,.jpg Greyscale Depth Image
@@ -43,20 +47,87 @@ py = python
 TASK = milltask
 CYCLE_TIME = 0.010
 
+[PYTHON]
+#PATH_PREPEND=./python
+#PATH_APPEND=../python-stdglue
+#TOPLEVEL=python/toplevel.py
+
 [RS274NGC]
 PARAMETER_FILE = linuxcnc.var
+USER_M_PATH = nc_subroutines
+SUBROUTINE_PATH = nc_subroutines
+#SUBROUTINE_PATH = /home/as/linuxcnc/configs/justinbieber/nc_subroutines
+REMAP= M200  modalgroup=10 ngc=m200 #iso30 dust hood down
+REMAP= M201  modalgroup=10 ngc=m201 #iso30 dust hood up
+REMAP= M202  modalgroup=10 ngc=m202 #
+REMAP= M203  modalgroup=10 ngc=m203 #saw on and down
+REMAP= M205  modalgroup=10 ngc=m205 #saw off
+
+REMAP= M210  modalgroup=10 ngc=m210 #TC all up
+REMAP= M211  modalgroup=10 ngc=m211 #TC all down
+
+REMAP= M250  modalgroup=10 ngc=m250 #draw bar release
+REMAP= M251  modalgroup=10 ngc=m251 #draw bar tight
+#REMAP= M400  modalgroup=10 argspec=Pq ngc=m400
+#REMAP= M410  modalgroup=10 argspec=@Pq ngc=m410
+
+#REMAP=T prolog=prepare_prolog ngc=prepare epilog=prepare_epilog
+
+# optional features - a bit mask to selectively turn on experimental/dubious features
+# see 
+# RETAIN_G43           0x00000001
+# OWORD_N_ARGS         0x00000002
+# INI_VARS             0x00000004
+# HAL_PIN_VARS         0x00000008
+# NO_DOWNCASE_OWORD    0x00000010
+# turn on all optional features
+
+# turn on all optional features except RETAIN_G43
+#FEATURES=30
+
+#ON_ABORT_COMMAND=O <on_abort> call 
+
+# ------ remapping toolchange - related codes ----------------------
+#
+# see python/remap.py for the prolog and epilog handlers
+# see nc_files/remap-subroutines for the NGC procedures
+#
+#REMAP=M6   modalgroup=6  prolog=change_prolog   ngc=rack_change  epilog=change_epilog
+
 
 [EMCMOT]
 EMCMOT = motmod
 COMM_TIMEOUT = 1.0
 COMM_WAIT = 0.010
 SERVO_PERIOD = 1000000
+#SERVO_PERIOD = 700000
+
+[TOOL_SLOT_DELTA]
+X = 0
+Y = -118.6  
+Z = 0
+
+# this is not named TOOL_CHANGE_POSITION on purpose - canon uses it and will
+# interfere
+[CHANGE_POSITION]
+X = 3057
+Y = 882.6  
+Z = 0
+
+[DWELL]
+LOCK_TIME = 0.5
+MYSTERY = 0
+NEW_TOOL = 1.0
+POST_UNLOCK = 0.5
 
 [HAL]
 HALUI = halui
 HALFILE = justinbieber.hal
+HALFILE = io.hal
 HALFILE = custom.hal
+HALFILE = racktoolchange.hal
 POSTGUI_HALFILE = postgui_call_list.hal
+POSTGUI_HALFILE = pyvcp_options.hal
 SHUTDOWN = shutdown.hal
 
 [HALUI]
@@ -68,18 +139,21 @@ LINEAR_UNITS = mm
 ANGULAR_UNITS = degree
 CYCLE_TIME = 0.010
 DEFAULT_VELOCITY = 100
-MAX_LINEAR_VELOCITY = 1200
+MAX_LINEAR_VELOCITY = 5000
 
 # DEFAULT_ACCELERATION =  1000.0
 # MAX_ACCELERATION =      10000.0
 
 POSITION_FILE = position.txt
+NO_FORCE_HOMING = 1
 
 [EMCIO]
 EMCIO = io
 CYCLE_TIME = 0.100
 TOOL_TABLE = tool.tbl
 TOOL_CHANGE_QUILL_UP = 1
+
+[AXIS_0]
 
 #********************
 # Axis X
@@ -97,13 +171,12 @@ TOOL_CHANGE_QUILL_UP = 1
 # servo rpm at 65m/min: 3545 min-1
 # servo rpm at 10V: 4000 min-1
 
-[AXIS_0]
 TYPE = LINEAR
 HOME = 3300.0
-FERROR = 50
-MIN_FERROR = 10
+FERROR = 5
+MIN_FERROR = 0.2
 MAX_VELOCITY = 1200
-MAX_ACCELERATION = 2200.0
+MAX_ACCELERATION = 2000.0
 P = 50
 I = 0
 D = 0
@@ -117,17 +190,19 @@ ENCODER_SCALE = 436.3636
 OUTPUT_SCALE = 1222.22
 OUTPUT_MIN_LIMIT = -1222.22
 OUTPUT_MAX_LIMIT = 1222.22
-BACKLASH = 0.0001
+BACKLASH = 0.02
 MIN_LIMIT = -0.01
 MAX_LIMIT = 3320.0
 HOME_OFFSET = 3320.5
 
-HOME_SEARCH_VEL = 50
-HOME_LATCH_VEL = 0.4
-HOME_FINAL_VEL = 50
+HOME_SEARCH_VEL = 70
+HOME_LATCH_VEL = 0.5
+HOME_FINAL_VEL = 40
 HOME_USE_INDEX = NO
 HOME_IGNORE_LIMITS = YES
+HOME_SEQUENCE = 2
 
+[AXIS_1]
 #********************
 # Axis Y
 # 50m/min = 50000mm/min = 833mm/s
@@ -139,38 +214,29 @@ HOME_IGNORE_LIMITS = YES
 # 1/25 * (22/12) * 2000 
 # x4 for quad encoder counting = 586.6666...
 
-[AXIS_1]
+
 TYPE = LINEAR
 HOME = 1200.0
 
 MIN_LIMIT = -0.0
-MAX_LIMIT = 1200.1
-HOME_OFFSET = 1200.0
+MAX_LIMIT = 1228.1
+HOME_OFFSET = 1228.5
 
-FERROR = 100.0
-MIN_FERROR = 100.0
+HOME_SEARCH_VEL = 70
+HOME_LATCH_VEL = 0.5
+HOME_FINAL_VEL = 80
+HOME_USE_INDEX = NO
+HOME_IGNORE_LIMITS = YES
+HOME_SEQUENCE = 1
+FERROR = 10
+MIN_FERROR = 0.2
 
-MAX_VELOCITY = 833
-MAX_ACCELERATION = 1000.0
+MAX_VELOCITY = 800
+MAX_ACCELERATION = 2000.0
 
-P = 20
-I = 0
-D = 0
-FF0 = 0
-FF1 = 2.7
-FF2 = 0.0015
-BIAS = 0
-DEADBAND = 0
-MAX_OUTPUT = 830
+BACKLASH = 0.02
 
-ENCODER_SCALE = 586.6667
-OUTPUT_SCALE = 833
-OUTPUT_MIN_LIMIT = -833
-OUTPUT_MAX_LIMIT = 833
-
-BACKLASH = 0.0000
-
-
+[AXIS_2]
 #********************
 # Axis Z
 #********************
@@ -185,11 +251,10 @@ BACKLASH = 0.0000
 # 3000*22/48 = 1375rpm at ball screw
 # 1375 * 10 = 13750mm/min = 229mm/s
 
-[AXIS_2]
 TYPE = LINEAR
 HOME = 0.0
-FERROR = 50	
-MIN_FERROR = 50
+FERROR = 10	
+MIN_FERROR = 0.1
 MAX_VELOCITY = 225.0
 MAX_ACCELERATION = 5000.0
 P = 50
@@ -206,14 +271,16 @@ OUTPUT_SCALE = -230
 OUTPUT_MIN_LIMIT = -230
 OUTPUT_MAX_LIMIT = 230
 BACKLASH = 0.0
-MIN_LIMIT = -140.0
+MIN_LIMIT = -171.0
 MAX_LIMIT = 0.01
 
-HOME_OFFSET = 0.4
-HOME_SEARCH_VEL = 30.000000
-HOME_LATCH_VEL = 0.2
+HOME_OFFSET = 0.6
+HOME_SEARCH_VEL = 70.000000
+HOME_LATCH_VEL = 0.25
+HOME_FINAL_VEL = 50
 HOME_IGNORE_LIMITS = YES
 HOME_SEQUENCE = 0
+HOME_USE_INDEX = NO
 
 #********************
 # Spindle 
@@ -227,13 +294,18 @@ FF1 = 0.0
 FF2 = 0.0
 BIAS = 0.0
 DEADBAND = 0.0
-MAX_OUTPUT = 10000.0
-OUTPUT_SCALE = 10000
+MAX_OUTPUT = 18000.0
+OUTPUT_SCALE = 18000
 OUTPUT_MIN_LIMIT = 0
-OUTPUT_MAX_LIMIT = 10000
+OUTPUT_MAX_LIMIT = 18000
 
 
-
+# F(Hz)	S(min-1)
+# 20		600
+# 50  	1500
+# 400 	12000
+# 600 	18000
+# 700 	21000
 
 
 

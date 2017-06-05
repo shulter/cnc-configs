@@ -1,8 +1,3 @@
-# _DO NOT_ include your HAL commands here.
-# Put custom HAL commands in custom_postgui.hal
-# The commands in this file are run after the GUI loads
-
-# **** Setup of spindle speed display using pyvcp -START ****
 
 net spindle-vel-cmd-rpm-abs    	=>    pyvcp.spindle-speed
 net spindle-at-speed        	=>    pyvcp.spindle-at-speed-led
@@ -10,21 +5,21 @@ net spindle-drawbar        	=>    pyvcp.spindle-drawbar-led
 net spindle-down        	=>    pyvcp.spindle-down-led
 net spindle-hood-down	   	=>    pyvcp.spindle-hood-down-led
 net spindle-hood-up	   	=>    pyvcp.spindle-hood-up-led
+net saw-down			=>    pyvcp.saw-down-led
 net saw-on	   		=>    pyvcp.saw-on-led
-net tc-down	   	=>    pyvcp.tc-down
-net tc1up	   	=>    pyvcp.tc1up
+net tc-down	   		=>    pyvcp.tc-down
+net tc1up	   		=>    pyvcp.tc1up
 
+net tc-manual-btn		=>    pyvcp.tcmanual-btn-led
 
 net tc1is-up 	=>	pyvcp.tc1is-up
 net tc2is-up 	=>	pyvcp.tc2is-up
-#net tc3is-up 	=>	pyvcp.tc3is-up
-#net tc4is-up 	=>	pyvcp.tc4is-up
-#net tc5is-up 	=>	pyvcp.tc5is-up
-#net tc6is-up	=>	pyvcp.tc6is-up
-
-# **** Setup of spindle speed display using pyvcp -END ****
+net tc3is-up 	=>	pyvcp.tc3is-up
+net tc4is-up 	=>	pyvcp.tc4is-up
+net tc5is-up 	=>	pyvcp.tc5is-up
+net tc6is-up	=>	pyvcp.tc6is-up
 
 #net quill-up             pyvcp.quillup              spindle-drawbar
 #net reference-pos        pyvcp.referencepos         saw-on
-#net iso30-open		 pyvcp.iso30open	    <=
-#net iso30-close		 pyvcp.iso30close           <=
+#net spindle-drawbar-is-down		 pyvcp.iso30open	    <=
+#net spindle-drawbar-is-up		 pyvcp.iso30close           <=
