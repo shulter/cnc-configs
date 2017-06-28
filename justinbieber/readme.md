@@ -1,7 +1,16 @@
-Retrofit of Weeke BP12 Optimat, Indramat TDM Analog Servo Amps
+Retrofit of Weeke BP12 Optimat
+
+LinuxCNC uspace Debian 1kHz on Lenovo W510 laptop, Mesa 7i80DB, Mesa 7i77
+
+Y: STMBL V3.4, servo motor motor has a faulty tachogenerator hence the Indramat servo amp can't be used. STMBL closes loop with encoder, no need for tacho
+X, Z: Indramat TDM Analog Servo Amps
+ISO30 Spindle:
 
 
 IO mapping
+200..300 Inputs, ie. signals coming from the machine generated with switches
+300..400 Outputs
+1000=< limit switches
 
 
 | Con No|  Descr                            | 7177 pin                    | Con No2|
