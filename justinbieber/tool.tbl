@@ -21,3 +21,5 @@ T40 P40 D10 ;10x1 thread mill added 20170328
 T22 P22 D8.5 ;8.5mm 3f carbide doc19 fl29 added 20170412 
 T17 P17 D6 ;spot drill 6mm added 20170503 
 T12 P12 D9.7 ;added 20170526 
+T25 P25 D3 ;3mm drill added 20170609 
+T26 P26 D6 ;6mm 2f carbide wood added 20170611 
