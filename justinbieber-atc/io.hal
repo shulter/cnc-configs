@@ -1,0 +1,63 @@
+# external input and output signals
+# see README for more pinout
+
+# net drills-on hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04 
+net spindle-drawbar 	motion.digital-out-01 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02
+net spindle-down 	motion.digital-out-02 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
+net spindle-hood-down 	motion.digital-out-06	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
+net spindle-hood-up 	motion.digital-out-07 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-05
+net tc-down 		motion.digital-out-03 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-06
+net tc1up 		motion.digital-out-04 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-07
+
+net saw-on		motion.digital-out-05 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-00
+net saw-down		motion.digital-out-10 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-10
+
+net spindle-drawbar-is-down	motion.digital-in-00 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-00
+net spindle-drawbar-is-up 	motion.digital-in-01 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-01
+net tc-manual-btn 	motion.digital-in-02 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-02
+net tc-cover-is-closed 	motion.digital-in-03 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-03
+net tc-cover-is-open 	motion.digital-in-04 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-04
+net tc-cover-open-btn 	motion.digital-in-05 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-05
+net tc-cover-close-btn 	motion.digital-in-06 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-06
+
+net tc1is-up 		motion.digital-in-07 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-07
+net tc2is-up 		motion.digital-in-08 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-08
+net tc3is-up 		motion.digital-in-09 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-09
+net tc4is-up 		motion.digital-in-10 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-10
+net tc5is-up 		motion.digital-in-11 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-11
+net tc6is-up  		motion.digital-in-12 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-12
+
+# --- MACHINE-IS-ENABLED ---
+# net machine-is-enabled hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-00
+
+# --- SPINDLE-ON ---
+net spindle-on hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-01
+net spindle-fwd motion.spindle-forward hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-08
+net spindle-rev motion.spindle-reverse hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-09
+net spindle-at-speed motion.digital-in-24 motion.spindle-at-speed hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-24
+# sets spindle-at-speed true
+
+# --- COOLANT-FLOOD ---
+#net coolant-flood hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02
+
+# --- COOLANT-MIST ---
+#net coolant-mist hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
+
+# --- ESTOP-OUT ---
+#net estop-out hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
+
+
+# --- ABORT ---
+#net abort     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-00
+
+# --- HOME-X ---
+#net home-x     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-17-not
+net home-x     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-21-not
+
+# --- HOME-Y ---
+#net home-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-18-not
+net home-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-20-not
+
+# --- HOME-Z ---
+#net home-z     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-19-not
+net home-z     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-22-not

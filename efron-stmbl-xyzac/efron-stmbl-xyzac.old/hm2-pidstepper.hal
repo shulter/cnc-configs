@@ -1,0 +1,271 @@
+# kinematics
+loadrt trivkins
+
+loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AXES num_dio=32
+loadrt hostmot2
+#loadrt pid num_chan=4
+loadrt [HOSTMOT2](DRIVER) config=[HOSTMOT2](CONFIG)
+setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 25000000
+loadrt lin2rev
+
+
+# ################################################
+# THREADS
+# ################################################
+
+addf hm2_[HOSTMOT2](BOARD).0.read         servo-thread
+addf lin2rev.0 		      		  servo-thread
+addf motion-command-handler               servo-thread
+addf motion-controller                    servo-thread
+#addf pid.0.do-pid-calcs                   servo-thread
+#addf pid.1.do-pid-calcs                   servo-thread
+#addf pid.2.do-pid-calcs                   servo-thread
+#addf pid.3.do-pid-calcs                   servo-thread
+addf hm2_[HOSTMOT2](BOARD).0.write        servo-thread
+#addf hm2_[HOSTMOT2](BOARD).0.pet_watchdog servo-thread
+
+# --- MACHINE-IS-ENABLED --- db25 pin1
+setp hm2_[HOSTMOT2](BOARD).0.gpio.000.is_output true
+#setp hm2_[HOSTMOT2](BOARD).0.gpio.000.is_opendrain true
+#setp hm2_[HOSTMOT2](BOARD).0.gpio.000.invert_output true
+
+net machine-is-enabled => hm2_[HOSTMOT2](BOARD).0.gpio.000.out
+
+# --- COOLANT-FLOOD --- db25 pin 17
+#setp hm2_[HOSTMOT2](BOARD).0.gpio.007.is_output true
+#net coolant-flood hm2_[HOSTMOT2](BOARD).0.gpio.017.out
+
+# --- SPINDLE --- db25 pin 9
+setp hm2_[HOSTMOT2](BOARD).0.gpio.012.is_output true
+net spindle-enable => hm2_[HOSTMOT2](BOARD).0.gpio.012.out
+
+# external input signals
+
+# --- Y-HOME --- db25 pin 11
+net min-home-y <=  hm2_[HOSTMOT2](BOARD).0.gpio.014.in_not
+net min-home-y => axis.1.home-sw-in
+net min-home-y => axis.1.neg-lim-sw-in
+
+#shu: connect all limit switches to one GPIO input to save pins for now.
+#net min-home-y => axis.0.home-sw-in
+#net min-home-y => axis.0.neg-lim-sw-in
+#net min-home-y => axis.2.home-sw-in
+#net min-home-y => axis.2.pos-lim-sw-in
+
+# --- X-HOME --- db25 pin 10
+net min-home-x <=  hm2_[HOSTMOT2](BOARD).0.gpio.013.in_not
+net min-home-x => axis.0.home-sw-in
+net min-home-x => axis.0.neg-lim-sw-in
+
+# --- Z-HOME --- db25 pin 12
+net max-home-z     <=  hm2_[HOSTMOT2](BOARD).0.gpio.015.in_not
+net max-home-z => axis.2.home-sw-in
+net max-home-z => axis.2.pos-lim-sw-in
+
+# --- ESTOP-EXT --- db25 pin 11
+# net estop-ext     <=  hm2_[HOSTMOT2](BOARD).0.gpio.014.in
+
+# --- PROBE-IN --- db25 pin 13
+net probe-in     <=  hm2_[HOSTMOT2](BOARD).0.gpio.016.in_not
+
+
+
+# ######################################################
+# Axis-of-motion Specific Configs (not the GUI)
+# ######################################################
+
+
+# ################
+# X [0] Axis
+# ################
+
+setp lin2rev.0.scale 10
+
+net xenable axis.1.amp-enable-out => hm2_[HOSTMOT2](BOARD).0.stbl.0.2.enable-00
+net xfault hm2_[HOSTMOT2](BOARD).0.stbl.0.2.fault-00 => axis.1.amp-fault-in
+net xposcmd axis.1.motor-pos-cmd => lin2rev.0.cmd-in
+net xmposcmd lin2rev.0.cmd-out => hm2_[HOSTMOT2](BOARD).0.stbl.0.2.pos_cmd
+net xposfb hm2_[HOSTMOT2](BOARD).0.stbl.0.2.pos_fb => lin2rev.0.fb-in
+net xmposfb lin2rev.0.fb-out => axis.1.motor-pos-fb
+
+# ################
+# Y [1] Axis
+# ################
+setp hm2_[HOSTMOT2](BOARD).0.gpio.006.invert_output true
+
+# axis enable chain
+newsig emcmot.01.enable bit
+sets emcmot.01.enable FALSE
+
+net emcmot.01.enable <= axis.1.amp-enable-out
+net emcmot.01.enable => hm2_[HOSTMOT2](BOARD).0.stepgen.01.enable pid.1.enable
+
+# position command and feedback
+net emcmot.01.pos-cmd axis.1.motor-pos-cmd => pid.1.command
+net emcmot.01.vel-cmd axis.1.joint-vel-cmd => pid.1.command-deriv
+net motor.01.pos-fb <= hm2_[HOSTMOT2](BOARD).0.stepgen.01.position-fb axis.1.motor-pos-fb pid.1.feedback
+net motor.01.command pid.1.output hm2_[HOSTMOT2](BOARD).0.stepgen.01.velocity-cmd
+setp pid.1.error-previous-target true
+
+# timing parameters
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.dirsetup        [AXIS_1]DIRSETUP
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.dirhold         [AXIS_1]DIRHOLD
+
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.steplen         [AXIS_1]STEPLEN
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.stepspace       [AXIS_1]STEPSPACE
+
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.position-scale  [AXIS_1]SCALE
+
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.maxvel          [AXIS_1]MAX_VELOCITY
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.maxaccel        [AXIS_1]STEPGEN_MAXACCEL
+
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.step_type       0
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.control-type    1
+
+# set PID loop gains from inifile
+setp pid.1.Pgain [AXIS_1]P
+setp pid.1.Igain [AXIS_1]I
+setp pid.1.Dgain [AXIS_1]D
+setp pid.1.bias [AXIS_1]BIAS
+setp pid.1.FF0 [AXIS_1]FF0
+setp pid.1.FF1 [AXIS_1]FF1
+setp pid.1.FF2 [AXIS_1]FF2
+setp pid.1.deadband [AXIS_1]DEADBAND
+setp pid.1.maxoutput [AXIS_1]MAX_OUTPUT
+setp pid.1.maxerror [AXIS_1]MAX_ERROR
+
+# ################
+# Z [2] Axis
+# ################
+
+#invert direction output:
+#for 7i80:
+setp hm2_[HOSTMOT2](BOARD).0.gpio.009.invert_output true
+
+#for 7i92:
+#setp hm2_[HOSTMOT2](BOARD).0.gpio.010.invert_output true
+
+# axis enable chain
+newsig emcmot.02.enable bit
+sets emcmot.02.enable FALSE
+
+net emcmot.02.enable <= axis.2.amp-enable-out
+net emcmot.02.enable => hm2_[HOSTMOT2](BOARD).0.stepgen.02.enable pid.2.enable
+
+
+# position command and feedback
+net emcmot.02.pos-cmd axis.2.motor-pos-cmd => pid.2.command
+net emcmot.02.vel-cmd axis.2.joint-vel-cmd => pid.2.command-deriv
+net motor.02.pos-fb <= hm2_[HOSTMOT2](BOARD).0.stepgen.02.position-fb axis.2.motor-pos-fb pid.2.feedback
+net motor.02.command pid.2.output hm2_[HOSTMOT2](BOARD).0.stepgen.02.velocity-cmd
+setp pid.2.error-previous-target true
+
+
+# timing parameters
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.dirsetup        [AXIS_2]DIRSETUP
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.dirhold         [AXIS_2]DIRHOLD
+
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.steplen         [AXIS_2]STEPLEN
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.stepspace       [AXIS_2]STEPSPACE
+
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.position-scale  [AXIS_2]SCALE
+
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.maxvel          [AXIS_2]MAX_VELOCITY
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.maxaccel        [AXIS_2]STEPGEN_MAXACCEL
+
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.step_type       0
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.control-type    1
+
+# set PID loop gains from inifile
+setp pid.2.Pgain [AXIS_2]P
+setp pid.2.Igain [AXIS_2]I
+setp pid.2.Dgain [AXIS_2]D
+setp pid.2.bias [AXIS_2]BIAS
+setp pid.2.FF0 [AXIS_2]FF0
+setp pid.2.FF1 [AXIS_2]FF1
+setp pid.2.FF2 [AXIS_2]FF2
+setp pid.2.deadband [AXIS_2]DEADBAND
+setp pid.2.maxoutput [AXIS_2]MAX_OUTPUT
+setp pid.2.maxerror [AXIS_2]MAX_ERROR
+
+# ################
+# Spindle1
+# ################
+
+# set PID loop gains from inifile
+setp pid.3.Pgain [SPINDLE_9]P
+setp pid.3.Igain [SPINDLE_9]I
+setp pid.3.Dgain [SPINDLE_9]D
+setp pid.3.bias [SPINDLE_9]BIAS
+setp pid.3.FF0 [SPINDLE_9]FF0
+setp pid.3.FF1 [SPINDLE_9]FF1
+setp pid.3.FF2 [SPINDLE_9]FF2
+setp pid.3.deadband [SPINDLE_9]DEADBAND
+setp pid.3.maxoutput [SPINDLE_9]MAX_OUTPUT
+setp pid.3.maxerror [SPINDLE_9]MAX_ERROR
+
+net spindle-vel-cmd-rpm     => pid.3.command
+net spindle-vel-fb-rpm      => pid.3.feedback
+net spindle-output      => hm2_[HOSTMOT2](BOARD).0.pwmgen.00.value
+
+net spindle-enable      => hm2_[HOSTMOT2](BOARD).0.pwmgen.00.enable
+
+setp hm2_[HOSTMOT2](BOARD).0.pwmgen.00.output-type 1
+setp hm2_[HOSTMOT2](BOARD).0.pwmgen.00.scale  [SPINDLE_9]OUTPUT_SCALE
+
+#setp hm2_[HOSTMOT2](BOARD).0.7i76.0.0.spinout-scalemax [SPINDLE_9]SCALE
+#setp hm2_[HOSTMOT2](BOARD).0.7i76.0.0.spinout-minlim [SPINDLE_9]MINLIM
+#setp hm2_[HOSTMOT2](BOARD).0.7i76.0.0.spinout-maxlim [SPINDLE_9]MAXLIM
+
+# ##################################################
+# Standard I/O Block - EStop, Etc
+# ##################################################
+
+#  ---HALUI signals---
+
+
+# ---setup spindle control signals---
+
+net spindle-vel-cmd-rps        <=  motion.spindle-speed-out-rps
+net spindle-vel-cmd-rps-abs    <=  motion.spindle-speed-out-rps-abs
+net spindle-vel-cmd-rpm        <=  motion.spindle-speed-out
+net spindle-vel-cmd-rpm-abs    <=  motion.spindle-speed-out-abs
+net spindle-enable             <=  motion.spindle-on
+net spindle-cw                 <=  motion.spindle-forward
+net spindle-ccw                <=  motion.spindle-reverse
+net spindle-brake              <=  motion.spindle-brake
+net spindle-revs               =>  motion.spindle-revs
+net spindle-at-speed           =>  motion.spindle-at-speed
+net spindle-vel-fb-rps         =>  motion.spindle-speed-in
+net spindle-index-enable      <=>  motion.spindle-index-enable
+
+# ---Setup spindle at speed signals---
+
+# sets spindle-at-speed true
+
+#  ---coolant signals---
+
+net coolant-mist      <=  iocontrol.0.coolant-mist
+net coolant-flood     <=  iocontrol.0.coolant-flood
+
+#  ---probe signal---
+net probe-in     =>  motion.probe-input
+
+#  ---motion control signals---
+
+net in-position               <=  motion.in-position
+net machine-is-enabled        <=  motion.motion-enabled
+
+# create a signal for the estop loopback
+net estop-loop iocontrol.0.user-enable-out => iocontrol.0.emc-enable-in
+
+# create signals for tool loading loopback
+
+#net tool-prep-loop iocontrol.0.tool-prepare => iocontrol.0.tool-prepared
+#net tool-change-loop iocontrol.0.tool-change => iocontrol.0.tool-changed
+
+loadusr -W hal_manualtoolchange
+net tool-change iocontrol.0.tool-change => hal_manualtoolchange.change
+net tool-changed iocontrol.0.tool-changed <= hal_manualtoolchange.changed
+net tool-number iocontrol.0.tool-prep-number => hal_manualtoolchange.number
+net tool-prepare-loopback iocontrol.0.tool-prepare => iocontrol.0.tool-prepared

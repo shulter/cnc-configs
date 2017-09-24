@@ -2,7 +2,7 @@ Retrofit of Weeke BP12 Optimat
 
 LinuxCNC uspace Debian 1kHz on Lenovo W510 laptop, Mesa 7i80DB, Mesa 7i77
 
-Y: STMBL V3.4, servo motor motor has a faulty tachogenerator hence the Indramat servo amp can't be used. STMBL closes loop with encoder, no need for tacho
+Y: STMBL V3.4, servo motor motor has a faulty tachogenerator hence the Indramat servo amp can't be used. STMBL closes loop with encoder, no need for tacho.
 
 X, Z: Indramat TDM Analog Servo Amps
 

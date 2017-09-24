@@ -1,0 +1,6 @@
+;Saw off and up
+o<m205> sub
+M65P5 ;Saw off
+M65P10 ;Saw up
+o<m205> endsub
+M2

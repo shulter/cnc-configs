@@ -1,0 +1,29 @@
+#load the debounce. One set of three channels.
+loadrt debounce cfg=3
+
+#add the debounce to a thread, so that it gets run
+#this is running in the fast base-thread
+#One could use the servo thread. I am not sure which would be best.
+addf debounce.0 servo-thread
+
+#Unlink the parport pins and limit inputs for rewiring
+
+#net max-home-x <= parport.0.pin-10-in-not
+#net min-home-y <= parport.0.pin-11-in-not
+#net min-home-z <= parport.0.pin-12-in-not
+
+delsig min-home-x
+delsig min-home-y
+delsig max-home-z
+
+net x-raw parport.0.pin-10-in-not => debounce.0.0.in
+net y-raw parport.0.pin-11-in-not => debounce.0.1.in
+net z-raw parport.0.pin-12-in-not => debounce.0.2.in
+
+net x-filt debounce.0.0.out =>  axis.0.home-sw-in  axis.0.pos-lim-sw-in  axis.0.neg-lim-sw-in
+net y-filt debounce.0.1.out =>  axis.1.home-sw-in  axis.1.pos-lim-sw-in  axis.1.neg-lim-sw-in
+net z-filt debounce.0.2.out =>  axis.2.home-sw-in  axis.2.pos-lim-sw-in  axis.2.neg-lim-sw-in
+
+#It's important to actually activate the debounce
+#10 base-threads is about 0.4mS. The typical machine doesn't move far in that time.
+setp debounce.0.delay 10

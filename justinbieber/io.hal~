@@ -1,0 +1,53 @@
+# external input and output signals
+#348 drill 1 (rightmost)
+#349 drill 2 (second to right)
+#350 drill 3
+#351 drill 4
+#352 drill 5
+#353 drill 6
+#354 drill 7
+#355 drill 8
+
+#356 drill 
+
+#363 drill (frontmost)
+
+#364 drill (second to left)
+#365 drill (forstner, leftmost)
+
+
+# --- MACHINE-IS-ENABLED ---
+net machine-is-enabled hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-00
+
+# --- SPINDLE-ON ---
+net spindle-on hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-01
+net spindle-fwd motion.spindle-forward hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-08
+net spindle-rev motion.spindle-reverse hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-09
+net spindle-at-speed motion.spindle-at-speed hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-24
+# sets spindle-at-speed true
+
+# --- COOLANT-FLOOD ---
+net coolant-flood hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02
+
+# --- COOLANT-MIST ---
+net coolant-mist hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
+
+# --- ESTOP-OUT ---
+net estop-out hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
+
+# external input signals
+
+# --- ABORT ---
+net abort     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-00
+
+# --- HOME-X ---
+net home-x     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-17-not
+net limit-x     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-20
+
+# --- HOME-Y ---
+net home-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-18-not
+net limit-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-21
+
+# --- HOME-Z ---
+net home-z     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-19-not
+net limit-z     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-22
