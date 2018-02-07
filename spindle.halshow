@@ -1,0 +1,26 @@
+# halshow watchlist created Thu Feb 01 03:37:52 CET 2018
+
+pin+hm2_7i80.0.pwmgen.01.enable
+pin+hm2_7i80.0.pwmgen.01.value
+pin+motion.spindle-on
+pin+motion.spindle-revs
+pin+motion.spindle-speed-cmd-rps
+pin+motion.spindle-speed-in
+pin+motion.spindle-speed-out
+pin+motion.spindle-speed-out-rps
+pin+motion.spindle-speed-out-rps-abs
+pin+hm2_7i80.0.encoder.01.count
+pin+hm2_7i80.0.encoder.01.position
+pin+hm2_7i80.0.encoder.01.rawcounts
+pin+lowpass.spindle.out
+sig+spindle-fb-rpm-abs-filtered
+sig+spindle-fb-rpm
+pin+pid.3.enable
+pin+pid.3.error
+pin+pid.3.feedback
+pin+pid.3.index-enable
+pin+pid.3.output
+pin+pid.3.saturated
+pin+pid.3.saturated-count
+pin+pid.3.saturated-s
+pin+pid.3.command
