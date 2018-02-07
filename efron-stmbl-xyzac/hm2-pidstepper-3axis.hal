@@ -2,11 +2,12 @@
 loadrt [KINS]KINEMATICS
 #autoconverted  trivkins
 
-loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS num_dio=32 
+loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS num_dio=32
 loadrt hostmot2
 loadrt pid num_chan=4
 loadrt [HOSTMOT2](DRIVER) config=[HOSTMOT2](CONFIG)
 setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 25000000
+
 
 
 # ################################################
@@ -23,33 +24,6 @@ addf pid.3.do-pid-calcs                   servo-thread
 addf hm2_[HOSTMOT2](BOARD).0.write        servo-thread
 #addf hm2_[HOSTMOT2](BOARD).0.pet_watchdog servo-thread
 
-# --- MACHINE-IS-ENABLED --- db25 pin1
-setp hm2_[HOSTMOT2](BOARD).0.gpio.000.is_output true
-#setp hm2_[HOSTMOT2](BOARD).0.gpio.000.is_opendrain true
-#setp hm2_[HOSTMOT2](BOARD).0.gpio.000.invert_output true
-
-net machine-is-enabled => hm2_[HOSTMOT2](BOARD).0.gpio.000.out
-
-# --- COOLANT-FLOOD --- db25 pin 17
-#setp hm2_[HOSTMOT2](BOARD).0.gpio.007.is_output true
-#net coolant-flood hm2_[HOSTMOT2](BOARD).0.gpio.017.out
-
-# --- SPINDLE --- db25 pin 9
-setp hm2_[HOSTMOT2](BOARD).0.gpio.012.is_output true
-net spindle-enable => hm2_[HOSTMOT2](BOARD).0.gpio.012.out
-
-# external input signals
-
-# --- Z-HOME --- db25 pin 12
-net max-home-z     <=  hm2_[HOSTMOT2](BOARD).0.gpio.015.in_not
-net max-home-z => joint.2.home-sw-in
-net max-home-z => joint.2.pos-lim-sw-in
-
-# --- ESTOP-EXT --- db25 pin 11
-# net estop-ext     <=  hm2_[HOSTMOT2](BOARD).0.gpio.014.in
-
-# --- PROBE-IN --- db25 pin 13
-net probe-in     <=  hm2_[HOSTMOT2](BOARD).0.gpio.016.in_not
 
 
 
@@ -73,10 +47,6 @@ net probe-in     <=  hm2_[HOSTMOT2](BOARD).0.gpio.016.in_not
 #net xposcmd joint.0.motor-pos-cmd => hm2_[HOSTMOT2](BOARD).0.stbl.0.0.pos_cmd
 #net xposfb hm2_[HOSTMOT2](BOARD).0.stbl.0.0.pos_fb => joint.0.motor-pos-fb
 
-net max-home-x     <=  hm2_[HOSTMOT2](BOARD).0.stbl.0.0.input_pins-00
-net max-home-x => joint.0.home-sw-in
-net max-home-x => joint.0.neg-lim-sw-in
-net max-home-x => joint.0.pos-lim-sw-in
 
 ####
 ####
@@ -177,10 +147,6 @@ setp pid.1.deadband [JOINT_1]DEADBAND
 setp pid.1.maxoutput [JOINT_1]MAX_OUTPUT
 setp pid.1.maxerror [JOINT_1]MAX_ERROR
 
-net max-home-y     <=  hm2_[HOSTMOT2](BOARD).0.stbl.0.0.input_pins-01
-net max-home-y => joint.1.home-sw-in
-net max-home-y => joint.1.neg-lim-sw-in
-net max-home-y => joint.1.pos-lim-sw-in
 
 # ################
 # Z [2] Axis
@@ -199,6 +165,7 @@ sets emcmot.02.enable FALSE
 
 net emcmot.02.enable <= joint.2.amp-enable-out
 net emcmot.02.enable => hm2_[HOSTMOT2](BOARD).0.stepgen.02.enable pid.2.enable
+
 
 
 # position command and feedback
@@ -240,13 +207,13 @@ setp pid.2.maxerror [JOINT_2]MAX_ERROR
 # A [3] Axis
 # ################
 
-net aenable joint.3.amp-enable-out => hm2_[HOSTMOT2](BOARD).0.stbl.0.4.enable
-net afault hm2_[HOSTMOT2](BOARD).0.stbl.0.4.fault => joint.3.amp-fault-in
-net aposcmd joint.3.motor-pos-cmd => hm2_[HOSTMOT2](BOARD).0.stbl.0.4.pos_cmd
-net aposfb hm2_[HOSTMOT2](BOARD).0.stbl.0.4.pos_fb => joint.3.motor-pos-fb
+#net aenable joint.3.amp-enable-out => hm2_[HOSTMOT2](BOARD).0.stbl.0.4.enable
+#net afault hm2_[HOSTMOT2](BOARD).0.stbl.0.4.fault => joint.3.amp-fault-in
+#net aposcmd joint.3.motor-pos-cmd => hm2_[HOSTMOT2](BOARD).0.stbl.0.4.pos_cmd
+#net aposfb hm2_[HOSTMOT2](BOARD).0.stbl.0.4.pos_fb => joint.3.motor-pos-fb
 
-net max-home-a     <=  hm2_[HOSTMOT2](BOARD).0.stbl.0.4.input_pins-00
-net max-home-a => joint.3.home-sw-in
+#net max-home-a     <=  hm2_[HOSTMOT2](BOARD).0.stbl.0.4.input_pins-00
+#net max-home-a => joint.3.home-sw-in
 
 
 # ################
@@ -254,68 +221,20 @@ net max-home-a => joint.3.home-sw-in
 # ################
 
 
-net cenable joint.5.amp-enable-out => hm2_[HOSTMOT2](BOARD).0.stbl.0.5.enable
-net cfault hm2_[HOSTMOT2](BOARD).0.stbl.0.5.fault => joint.5.amp-fault-in
-net cposcmd joint.5.motor-pos-cmd => hm2_[HOSTMOT2](BOARD).0.stbl.0.5.pos_cmd
-net cposfb hm2_[HOSTMOT2](BOARD).0.stbl.0.5.pos_fb => joint.5.motor-pos-fb
+#net cenable joint.5.amp-enable-out => hm2_[HOSTMOT2](BOARD).0.stbl.0.5.enable
+#net cfault hm2_[HOSTMOT2](BOARD).0.stbl.0.5.fault => joint.5.amp-fault-in
+#net cposcmd joint.5.motor-pos-cmd => hm2_[HOSTMOT2](BOARD).0.stbl.0.5.pos_cmd
+#net cposfb hm2_[HOSTMOT2](BOARD).0.stbl.0.5.pos_fb => joint.5.motor-pos-fb
 
-net max-home-c     <=  hm2_[HOSTMOT2](BOARD).0.stbl.0.5.input_pins-00
-net max-home-c => joint.5.home-sw-in
+#net max-home-c     <=  hm2_[HOSTMOT2](BOARD).0.stbl.0.5.input_pins-00
+#net max-home-c => joint.5.home-sw-in
 
-# ################
-# Spindle1
-# ################
-
-# set PID loop gains from inifile
-setp pid.3.Pgain [SPINDLE_9]P
-setp pid.3.Igain [SPINDLE_9]I
-setp pid.3.Dgain [SPINDLE_9]D
-setp pid.3.bias [SPINDLE_9]BIAS
-setp pid.3.FF0 [SPINDLE_9]FF0
-setp pid.3.FF1 [SPINDLE_9]FF1
-setp pid.3.FF2 [SPINDLE_9]FF2
-setp pid.3.deadband [SPINDLE_9]DEADBAND
-setp pid.3.maxoutput [SPINDLE_9]MAX_OUTPUT
-setp pid.3.maxerror [SPINDLE_9]MAX_ERROR
-
-net spindle-vel-cmd-rpm     => pid.3.command
-net spindle-vel-fb-rpm      => pid.3.feedback
-net spindle-output      => hm2_[HOSTMOT2](BOARD).0.pwmgen.00.value
-
-net spindle-enable      => hm2_[HOSTMOT2](BOARD).0.pwmgen.00.enable
-
-setp hm2_[HOSTMOT2](BOARD).0.pwmgen.00.output-type 1
-setp hm2_[HOSTMOT2](BOARD).0.pwmgen.00.scale  [SPINDLE_9]OUTPUT_SCALE
-
-#setp hm2_[HOSTMOT2](BOARD).0.7i76.0.0.spinout-scalemax [SPINDLE_9]SCALE
-#setp hm2_[HOSTMOT2](BOARD).0.7i76.0.0.spinout-minlim [SPINDLE_9]MINLIM
-#setp hm2_[HOSTMOT2](BOARD).0.7i76.0.0.spinout-maxlim [SPINDLE_9]MAXLIM
 
 # ##################################################
 # Standard I/O Block - EStop, Etc
 # ##################################################
 
 #  ---HALUI signals---
-
-
-# ---setup spindle control signals---
-
-net spindle-vel-cmd-rps        <=  motion.spindle-speed-out-rps
-net spindle-vel-cmd-rps-abs    <=  motion.spindle-speed-out-rps-abs
-net spindle-vel-cmd-rpm        <=  motion.spindle-speed-out
-net spindle-vel-cmd-rpm-abs    <=  motion.spindle-speed-out-abs
-net spindle-enable             <=  motion.spindle-on
-net spindle-cw                 <=  motion.spindle-forward
-net spindle-ccw                <=  motion.spindle-reverse
-net spindle-brake              <=  motion.spindle-brake
-net spindle-revs               =>  motion.spindle-revs
-net spindle-at-speed           =>  motion.spindle-at-speed
-net spindle-vel-fb-rps         =>  motion.spindle-speed-in
-net spindle-index-enable      <=>  motion.spindle-index-enable
-
-# ---Setup spindle at speed signals---
-
-# sets spindle-at-speed true
 
 #  ---coolant signals---
 

@@ -1,0 +1,105 @@
+# for spindle #1:
+loadrt abs names=abs.spindle
+loadrt lowpass names=lowpass.spindle
+loadrt scale names=scale.spindle
+loadrt near
+loadrt limit1 names=limit1.spindle
+
+addf scale.spindle	                servo-thread
+addf abs.spindle                        servo-thread
+addf lowpass.spindle                    servo-thread
+addf near.0		                servo-thread
+addf limit1.spindle			servo-thread
+
+# --- SPINDLE --- db25 pin 9
+setp hm2_[HOSTMOT2](BOARD).0.gpio.028.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.028.invert_output true
+net spindle-enable => hm2_[HOSTMOT2](BOARD).0.gpio.028.out
+
+setp hm2_[HOSTMOT2](BOARD).0.gpio.022.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.022.invert_output true
+net spindle-ccw => hm2_[HOSTMOT2](BOARD).0.gpio.022.out
+
+# ################
+# Spindle1, 1000p/rev encoder, transmission 2:1
+# ################
+
+
+# set PID loop gains from inifile
+setp pid.3.Pgain [SPINDLE_9]P
+setp pid.3.Igain [SPINDLE_9]I
+setp pid.3.Dgain [SPINDLE_9]D
+setp pid.3.bias [SPINDLE_9]BIAS
+setp pid.3.FF0 [SPINDLE_9]FF0
+setp pid.3.FF1 [SPINDLE_9]FF1
+setp pid.3.FF2 [SPINDLE_9]FF2
+setp pid.3.deadband [SPINDLE_9]DEADBAND
+setp pid.3.maxoutput [SPINDLE_9]MAX_OUTPUT
+setp pid.3.maxerror [SPINDLE_9]MAX_ERROR
+setp pid.3.error-previous-target true
+
+net spindle-index-enable  	<=> pid.3.index-enable
+net spindle-enable		=> pid.3.enable
+net spindle-vel-cmd-rpm    	=> pid.3.command
+net spindle-vel-fb-rpm     	=> pid.3.feedback
+net spindle-pid-output        	=>  pid.3.output
+
+#limit pid output to positive values
+setp	limit1.spindle.min 0
+setp	limit1.spindle.max [SPINDLE_9]MAX_OUTPUT
+
+net spindle-pid-output => limit1.spindle.in
+net spindle-pid-output-limited <= limit1.spindle.out
+
+net spindle-vel-cmd-rpm => hm2_[HOSTMOT2](BOARD).0.pwmgen.01.value
+net spindle-enable      => hm2_[HOSTMOT2](BOARD).0.pwmgen.01.enable
+
+setp hm2_[HOSTMOT2](BOARD).0.pwmgen.01.output-type 1
+setp hm2_[HOSTMOT2](BOARD).0.pwmgen.01.scale  [SPINDLE_9]OUTPUT_SCALE
+
+#setp hm2_[HOSTMOT2](BOARD).0.7i76.0.0.spinout-scalemax [SPINDLE_9]SCALE
+#setp hm2_[HOSTMOT2](BOARD).0.7i76.0.0.spinout-minlim [SPINDLE_9]MINLIM
+#setp hm2_[HOSTMOT2](BOARD).0.7i76.0.0.spinout-maxlim [SPINDLE_9]MAXLIM
+
+# ---Encoder feedback signals/setup---
+
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.counter-mode 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.filter 1
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.index-invert 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.index-mask 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.index-mask-invert 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.01.scale [SPINDLE_9]ENCODER_SCALE
+
+net spindle-revs             <=   hm2_[HOSTMOT2](BOARD).0.encoder.01.position
+net spindle-vel-fb-rps       <=   hm2_[HOSTMOT2](BOARD).0.encoder.01.velocity
+net spindle-index-enable     <=>  hm2_[HOSTMOT2](BOARD).0.encoder.01.index-enable
+
+
+#lowpass for spindle speed due to high sampling rate
+#scaling from rps to rpm
+setp     scale.spindle.gain 60
+setp     lowpass.spindle.gain 0.0010000
+net spindle-vel-fb-rps                                    =>     scale.spindle.in
+net spindle-vel-fb-rpm               scale.spindle.out        =>   abs.spindle.in
+net spindle-vel-fb-rpm-abs           abs.spindle.out          =>   lowpass.spindle.in
+net spindle-vel-fb-rpm-abs-filtered  lowpass.spindle.out
+
+
+# ---setup spindle control signals, HALUI---
+
+net spindle-vel-cmd-rps        <=  motion.spindle-speed-out-rps
+net spindle-vel-cmd-rps-abs    <=  motion.spindle-speed-out-rps-abs
+net spindle-vel-cmd-rpm        <=  motion.spindle-speed-out
+net spindle-vel-cmd-rpm-abs    <=  motion.spindle-speed-out-abs
+net spindle-enable             <=  motion.spindle-on
+net spindle-cw                 <=  motion.spindle-forward
+net spindle-ccw                <=  motion.spindle-reverse
+net spindle-brake              <=  motion.spindle-brake
+net spindle-revs               =>  motion.spindle-revs
+net spindle-at-speed           =>  motion.spindle-at-speed
+net spindle-vel-fb-rps         =>  motion.spindle-speed-in
+net spindle-index-enable      <=>  motion.spindle-index-enable
+
+# ---Setup spindle at speed signals---
+
+# sets spindle-at-speed true

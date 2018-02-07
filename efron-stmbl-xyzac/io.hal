@@ -1,0 +1,40 @@
+
+# --- MACHINE-IS-ENABLED --- db25 pin1
+setp hm2_[HOSTMOT2](BOARD).0.gpio.000.is_output true
+#setp hm2_[HOSTMOT2](BOARD).0.gpio.000.is_opendrain true
+#setp hm2_[HOSTMOT2](BOARD).0.gpio.000.invert_output true
+
+net machine-is-enabled => hm2_[HOSTMOT2](BOARD).0.gpio.000.out
+
+# --- COOLANT-FLOOD --- db25 pin 17
+#setp hm2_[HOSTMOT2](BOARD).0.gpio.007.is_output true
+#net coolant-flood hm2_[HOSTMOT2](BOARD).0.gpio.017.out
+
+
+# external input signals
+
+# --- Z-HOME --- db25 pin 12
+net max-home-z     <=  hm2_[HOSTMOT2](BOARD).0.gpio.020.in
+net max-home-z => joint.2.home-sw-in
+net max-home-z => joint.2.pos-lim-sw-in
+
+# --- ESTOP-EXT --- db25 pin 11
+# net estop-ext     <=  hm2_[HOSTMOT2](BOARD).0.gpio.014.in
+
+# --- PROBE-IN --- db25 pin 13
+net probe-in     <=  hm2_[HOSTMOT2](BOARD).0.gpio.016.in_not
+
+
+net max-home-x     <=  hm2_[HOSTMOT2](BOARD).0.gpio.021.in
+net max-home-x => joint.0.home-sw-in
+net max-home-x => joint.0.neg-lim-sw-in
+net max-home-x => joint.0.pos-lim-sw-in
+
+
+net max-home-y     <=  hm2_[HOSTMOT2](BOARD).0.gpio.023.in
+net max-home-y => joint.1.home-sw-in
+net max-home-y => joint.1.neg-lim-sw-in
+net max-home-y => joint.1.pos-lim-sw-in
+
+
+#net zfault hm2_[HOSTMOT2](BOARD).0.gpio.014.in => joint.2.amp-fault-in #DMM Servo Fault Output

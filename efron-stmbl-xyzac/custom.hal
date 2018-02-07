@@ -5,18 +5,18 @@ addf debounce.0 servo-thread
 
 #Unlink the input pins and limit inputs for rewiring
 
-#net min-home-x     <=  hm2_[HOSTMOT2](BOARD).0.gpio.013.in_not
-#net min-home-y     <=  hm2_[HOSTMOT2](BOARD).0.gpio.014.in_not
+#net max-home-x     <=  hm2_[HOSTMOT2](BOARD).0.gpio.014.in_not
+#net max-home-y     <=  hm2_[HOSTMOT2](BOARD).0.gpio.003.in_not
 #net max-home-z     <=  hm2_[HOSTMOT2](BOARD).0.gpio.015.in_not
 #net probe-in       <=  hm2_[HOSTMOT2](BOARD).0.gpio.016.in
 
-delsig min-home-x
-delsig min-home-y
+delsig max-home-x
+delsig max-home-y
 delsig max-home-z
 delsig probe-in
 
-net x-raw hm2_[HOSTMOT2](BOARD).0.gpio.013.in_not => debounce.0.0.in
-net y-raw hm2_[HOSTMOT2](BOARD).0.gpio.014.in_not => debounce.0.1.in
+net x-raw hm2_[HOSTMOT2](BOARD).0.gpio.014.in_not => debounce.0.0.in
+net y-raw hm2_[HOSTMOT2](BOARD).0.gpio.003.in_not => debounce.0.1.in
 net z-raw hm2_[HOSTMOT2](BOARD).0.gpio.015.in_not => debounce.0.2.in
 net probe-raw hm2_[HOSTMOT2](BOARD).0.gpio.016.in_not => debounce.0.3.in
 
@@ -25,6 +25,6 @@ net y-filt debounce.0.1.out =>  joint.1.home-sw-in  joint.1.pos-lim-sw-in  joint
 net z-filt debounce.0.2.out =>  joint.2.home-sw-in  joint.2.pos-lim-sw-in  joint.2.neg-lim-sw-in
 net probe-filt debounce.0.3.out =>  motion.probe-input
 
-#activate the debouncer, 10ms
+#activate the debouncer
 
-setp debounce.0.delay 10
+setp debounce.0.delay 8
