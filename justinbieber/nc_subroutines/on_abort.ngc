@@ -1,10 +1,12 @@
-; if aborted during a toolchange, disable pins
+; on abort
 
 o<on_abort> sub
 
 (debug, executing on_abort subroutine)
-M251
-
+M5 ;spindle off
+M251 ;ISO30 clamp tool
+M221 ;Saw off
+M206 ;drills off
 o<reset_state> call
 
 o<on_abort> endsub

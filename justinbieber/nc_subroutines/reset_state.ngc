@@ -14,7 +14,8 @@ o<reset_state> sub
 ;M48 (set feed and speed overrides)
 ;G40 (cutter compensation off)
 M5  (spindle off)
-M205 (saw off and up)
+M221 (saw off and up)
+M206 (drills off)
 ; M2 sets G1, but  this fails with feed zero
 ; a G80 is the next best safe thing
 G80 (cancel modal motion)

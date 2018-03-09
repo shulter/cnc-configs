@@ -1,8 +1,7 @@
-;ISO30 dust hood down
-o<m200> sub
-M65P7
-M64P6
-G4P1
-M65P6
-o<m200> endsub
+;ISO30 aggregate down
+o<m202> sub
+M65P15
+M64P3
+G4P0.5
+o<m202> endsub
 M2

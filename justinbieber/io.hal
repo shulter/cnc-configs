@@ -10,19 +10,31 @@ net spindle-drawbar motion.digital-out-01 => or2.0.in0
 net tc-manual-btn motion.digital-in-02 => or2.0.in1
 net spindle-drawbar-activate or2.0.out => hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02
 
-# net drills-on hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04 
 #net spindle-drawbar 	motion.digital-out-01 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02
-net spindle-down 	motion.digital-out-02 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
+net spindle-down 	motion.digital-out-03 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
 net spindle-hood-down 	motion.digital-out-06	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
 net spindle-hood-up 	motion.digital-out-07 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-05
-net tc-down 		motion.digital-out-03 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-06
-net tc1up 		motion.digital-out-04 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-07
+
+#net tc-down 		motion.digital-out-03 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-06
+#net tc1up 		motion.digital-out-04 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-07
 
 net saw-on		motion.digital-out-05 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-00
 net saw-down		motion.digital-out-10 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-10
+net saw-unlock		motion.digital-out-11 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-11
+net saw-y		motion.digital-out-12 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-12
+net saw-x		motion.digital-out-13 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-13
+
+net drills-hor-down 	motion.digital-out-14 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-14
+net spindle-and-hor-up	motion.digital-out-15	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-15
+net drill1		motion.digital-out-16 	
+net drill2		motion.digital-out-17 	
+net drill3		motion.digital-out-18 	
+net drill4		motion.digital-out-19 	
+
 
 net spindle-drawbar-is-down	motion.digital-in-00 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-00
 net spindle-drawbar-is-up 	motion.digital-in-01 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-01
+net tc-manual-btn 		motion.digital-in-02 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-02
 net tc-cover-is-closed 	motion.digital-in-03 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-03
 net tc-cover-is-open 	motion.digital-in-04 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-04
 net tc-cover-open-btn 	motion.digital-in-05 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-05
@@ -34,6 +46,7 @@ net tc3is-up 		motion.digital-in-09 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-09
 net tc4is-up 		motion.digital-in-10 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-10
 net tc5is-up 		motion.digital-in-11 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-11
 net tc6is-up  		motion.digital-in-12 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-12
+
 
 # --- MACHINE-IS-ENABLED ---
 # net machine-is-enabled hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-00

@@ -2,7 +2,7 @@
 o<m250> sub
 M5 ;stop spindle
 M66 P0 L4 Q3 (wait up to 3 seconds spindle to stop)
-M205 ;stop saw and pull up
+M221 ;stop saw and pull up
 M64P1 ;release draw bar
 o<m250> endsub
 M2

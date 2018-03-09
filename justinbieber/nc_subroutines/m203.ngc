@@ -1,7 +1,10 @@
-;Saw on
+;ISO30 aggregate up, HOR up
 o<m203> sub
-M201 ;ISO30 dust hood up
-M64P5 ;Saw on
-M64P10 ;Saw down
+M65P3
+M65P14
+G4P0.1
+M64P15
+G4P1
+M65P15
 o<m203> endsub
 M2

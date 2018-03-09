@@ -1,4 +1,4 @@
-;ISO30 draw bar pull up
+;ISO30 tool clamp tight, draw bar pull up
 o<m251> sub
 M65P1 ;pull up draw bar to secure tool in spindle
 G4P1

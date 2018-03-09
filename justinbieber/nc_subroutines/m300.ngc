@@ -1,0 +1,6 @@
+;drills off, up
+o<m300> sub
+M203 ;hor aggregate + ISO30 UP
+G4P1;
+o<m300> endsub
+M2
