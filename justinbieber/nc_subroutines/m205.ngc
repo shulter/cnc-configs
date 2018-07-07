@@ -1,7 +1,7 @@
 ;drills on
 o<m205> sub
-M201 ;ISO 30 Dust Hood up
-M221 ;Saw off
-M64P15
+;M201 ;ISO 30 Dust Hood up
+;M221 ;Saw off
+M64P2 ; Drills On
 o<m205> endsub
 M2

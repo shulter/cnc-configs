@@ -10,13 +10,17 @@ net spindle-drawbar motion.digital-out-01 => or2.0.in0
 net tc-manual-btn motion.digital-in-02 => or2.0.in1
 net spindle-drawbar-activate or2.0.out => hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02
 
+net drills-on 		motion.digital-out-02	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-01
 #net spindle-drawbar 	motion.digital-out-01 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02
 net spindle-down 	motion.digital-out-03 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
 net spindle-hood-down 	motion.digital-out-06	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
 net spindle-hood-up 	motion.digital-out-07 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-05
 
-#net tc-down 		motion.digital-out-03 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-06
-#net tc1up 		motion.digital-out-04 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-07
+#net tc-down 		motion.digital-out-0 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-06
+#net tc1up 		motion.digital-out-0 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-07
+
+net spindle-fwd 	motion.spindle-forward 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-08
+net spindle-rev 	motion.spindle-reverse 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-09
 
 net saw-on		motion.digital-out-05 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-00
 net saw-down		motion.digital-out-10 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-10
@@ -47,16 +51,11 @@ net tc4is-up 		motion.digital-in-10 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-10
 net tc5is-up 		motion.digital-in-11 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-11
 net tc6is-up  		motion.digital-in-12 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-12
 
+# net spindle-at-speed motion.digital-in-24 motion.spindle-at-speed hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-24
+sets spindle-at-speed true
 
 # --- MACHINE-IS-ENABLED ---
 # net machine-is-enabled hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-00
-
-# --- SPINDLE-ON ---
-net spindle-on hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-01
-net spindle-fwd motion.spindle-forward hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-08
-net spindle-rev motion.spindle-reverse hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-09
-# net spindle-at-speed motion.digital-in-24 motion.spindle-at-speed hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-24
-sets spindle-at-speed true
 
 # --- COOLANT-FLOOD ---
 #net coolant-flood hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02

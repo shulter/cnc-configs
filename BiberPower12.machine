@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<machine xmlns="http://www.hsmworks.com/xml/2009/machine">
+
+  <vendor>SHU Machine Crafting</vendor>
+
+  <model>Biber Power 12</model>
+
+  <description>Vertical Machining Centre 3+4</description>
+
+  <control>LinuxCNC</control>
+
+  <machining jet="no" milling="yes" turning="no"/>
+
+  <dimensions depth="1800mm" height="2100mm" weight="4400kg" width="4400mm"/>
+
+  <capacities depth="1250mm" height="100mm" weight="500kg" width="3300mm"/>
+
+  <tooling maximumToolDiameter="0mm" maximumToolLength="0mm" maximumToolWeight="0kg" numberOfTools="10000" toolChanger="yes" toolPreload="yes"/>
+
+  <machiningTime ratio="1" toolChangeTime="60s"/>
+
+  <coolant options="FLOOD"/>
+
+  <home x="3200mm" y="1200mm" z="0mm"/>
+
+  <capabilities maximumBlockProcessingSpeed="0" maximumFeedrate="50000mm/min" workOffsets="100"/>
+
+  <post>
+    <postProcessor></postProcessor>
+    <setupSheet></setupSheet>
+  </post>
+
+  <simulation retractOnIndexing="yes" shortestAngularRotation="yes" wcs="0mm 0mm 0mm">
+    <machineAssembly></machineAssembly>
+  </simulation>
+
+  <multiAxis adjust="yes" angle="10deg" cone="3deg" linearizationTolerance="0.040000000000000001mm" method="off" tolerance="0.040000000000000001mm"/>
+
+  <axis actuator="linear" id="Y" link="table" maximumFeed="50000mm/min" range="0mm 1250mm" resolution="0.0040000000000000001mm"/>
+
+  <axis actuator="linear" id="X" link="table" maximumFeed="75000mm/min" range="0mm 3300mm" resolution="0mm"/>
+
+  <axis actuator="rotational" axis="1 0 0" coordinate="X" id="U" link="table" maximumFeed="21600deg/min" name="" offset="0mm 0mm 0mm" preference="dont care" range="0deg 360deg" resolution="0deg"/>
+
+  <axis actuator="rotational" axis="0 0 1" coordinate="Z" id="V" link="table" maximumFeed="21600deg/min" name="" offset="0mm 0mm 0mm" preference="dont care" range="0deg 360deg" resolution="0deg"/>
+
+  <axis actuator="linear" id="Z" link="head" maximumFeed="0mm/min" range="0mm 0mm" resolution="0mm"/>
+
+  <spindle axis="0 0 1" maximumPower="0kW" maximumSpeed="10000rpm" minimumSpeed="1rpm">
+    <description></description>
+  </spindle>
+
+</machine>

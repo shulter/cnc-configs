@@ -8,6 +8,41 @@ X, Z: Indramat TDM Analog Servo Amps
 
 ISO30 Spindle: 0-10V VFD
 
+Custom M Codes:
+============================
+
+REMAP= M200  modalgroup=10 ngc=m200 #iso30 dust hood down
+REMAP= M201  modalgroup=10 ngc=m201 #iso30 dust hood up
+REMAP= M202  modalgroup=10 ngc=m202 #iso30 down
+REMAP= M203  modalgroup=10 ngc=m203 #iso30 up, HOR up
+
+REMAP= M205  modalgroup=10 ngc=m205 #drills on
+REMAP= M206  modalgroup=10 ngc=m206 #drills off
+
+REMAP= M210  modalgroup=10 ngc=m210 #TC all up
+REMAP= M211  modalgroup=10 ngc=m211 #TC all down
+
+REMAP= M220  modalgroup=10 ngc=m220 #saw on and down
+REMAP= M221  modalgroup=10 ngc=m221 #saw off and up
+REMAP= M222  modalgroup=10 ngc=m222 #saw swivel to X
+REMAP= M223  modalgroup=10 ngc=m223 #saw swivel to Y
+REMAP= M224  modalgroup=10 ngc=m224 #saw down
+
+REMAP= M299  modalgroup=10 ngc=m299 #horizontal aggregate down
+REMAP= M300  modalgroup=10 ngc=m300 #all drills retreat up, power off, including horizontal aggregate
+#REMAP= M301  modalgroup=10 ngc=m301 #drill 1
+#REMAP= M302  modalgroup=10 ngc=m302 #drill 2
+#REMAP= M303  modalgroup=10 ngc=m303 #drill 3
+#REMAP= M304  modalgroup=10 ngc=m304 #drill 4
+#REMAP= M305  modalgroup=10 ngc=m305 #drill 5
+#REMAP= M306  modalgroup=10 ngc=m306 #drill 6
+#REMAP= M307  modalgroup=10 ngc=m307 #drill 7
+
+REMAP= M250  modalgroup=10 ngc=m250 #draw bar release
+REMAP= M251  modalgroup=10 ngc=m251 #draw bar clamp
+REMAP= M252  modalgroup=10 ngc=m252 #draw bar 2sec tool release + clamp again
+
+
 
 IO mapping:
 ============================
@@ -35,7 +70,7 @@ IO mapping:
 | #235 |                                    |                             | 
 | #236 | Draw Bar is down                   |00                           | 
 | #237 | Draw Bar is up                     |01                           | 
-| #238 |                                    |                             | 
+| #238 |  ISO 30 Tool present               |                             | 
 | #239 |  Manual Tool Change BTN            |02                           | 
 | #240 |  TC Pocket#1 is up                 |07  (net tc1is-up)            | 
 | #241 |  TC Pocket#2 is up                 |08                            | 

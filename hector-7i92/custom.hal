@@ -25,6 +25,6 @@ net y-filt debounce.0.1.out =>  axis.1.home-sw-in  axis.1.pos-lim-sw-in  axis.1.
 net z-filt debounce.0.2.out =>  axis.2.home-sw-in  axis.2.pos-lim-sw-in  axis.2.neg-lim-sw-in
 net probe-filt debounce.0.3.out =>  motion.probe-input
 
-#activate the debouncer, 3ms
+#activate the debouncer, 10ms
 
-setp debounce.0.delay 8
+setp debounce.0.delay 10

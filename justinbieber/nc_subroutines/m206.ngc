@@ -1,5 +1,5 @@
-;drills on
+;drills off
 o<m206> sub
-M65P15 ;switch off power for drill aggregate
+M65P2 ;switch off power for drill aggregate
 o<m206> endsub
 M2

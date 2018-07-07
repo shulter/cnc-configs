@@ -94,8 +94,8 @@ setp hm2_[HOSTMOT2](BOARD).0.gpio.000.is_output true
 net machine-is-enabled => hm2_[HOSTMOT2](BOARD).0.gpio.000.out
 
 # --- COOLANT-FLOOD --- db25 pin 17
-setp hm2_[HOSTMOT2](BOARD).0.gpio.007.is_output true
-net coolant-flood hm2_[HOSTMOT2](BOARD).0.gpio.017.out
+#setp hm2_[HOSTMOT2](BOARD).0.gpio.007.is_output true
+#net coolant-flood hm2_[HOSTMOT2](BOARD).0.gpio.017.out
 
 # --- SPINDLE --- db25 pin 9
 setp hm2_[HOSTMOT2](BOARD).0.gpio.012.is_output true

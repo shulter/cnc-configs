@@ -2,12 +2,12 @@
 
 o<on_abort> sub
 
-(debug, executing on_abort subroutine)
-M5 ;spindle off
-M251 ;ISO30 clamp tool
-M221 ;Saw off
-M206 ;drills off
-o<reset_state> call
+(debug, exec on_abort subroutine)
+; The following is called in the reset-state subroutinea already:
+;M5 ;spindle off
+;M221 ;Saw off
+;M206 ;drills off
 
+o<reset_state> call
 o<on_abort> endsub
 m2

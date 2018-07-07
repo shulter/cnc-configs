@@ -2,6 +2,5 @@
 o<m221> sub
 M65P5 ;Saw off
 M65P10 ;Saw up
-G4P0.2 ;wait
 o<m221> endsub
 M2

@@ -16,11 +16,9 @@ o<reset_state> sub
 M5  (spindle off)
 M221 (saw off and up)
 M206 (drills off)
+M9  (mist and coolant off)
 ; M2 sets G1, but  this fails with feed zero
 ; a G80 is the next best safe thing
 G80 (cancel modal motion)
-
-M9  (mist and coolant off)
-
 o<reset_state> endsub
 m2
