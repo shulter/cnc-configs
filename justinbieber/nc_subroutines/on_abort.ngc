@@ -3,7 +3,7 @@
 o<on_abort> sub
 
 (debug, exec on_abort subroutine)
-; The following is called in the reset-state subroutinea already:
+; The following is called in the reset-state subroutine already:
 M5 ;spindle off
 M221 ;Saw off
 M206 ;drills off
