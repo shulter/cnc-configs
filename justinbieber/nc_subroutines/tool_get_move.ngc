@@ -1,24 +1,25 @@
 ; parameter: new tool pocket
 o<tool_get_move> sub  
-o100 if [EXISTS[#<_ini[change_position]x>]]
- 	M65P3 (open tool rack cover, lower all tools)
- 	M64P4 (tool holder #1 up)    
-	g53 g1 Z0 F15000
-     	g53 g0 X [#<_ini[change_position]x> + 48.7]
-	g53 g1 Z-1 F15000
-     	g53 g0 Y [#<_ini[change_position]y> + #1 * #<_ini[tool_slot_delta]y>]     
-	g53 g0 Z -70
-	M250
-	G4P0.2
-	G53 G1 Z-113 F2000
+o100 if [EXISTS[#<_ini[change_position_#1]x>]]
+	G53 g1 Z0 F15000
+     	G53 g0 X [#<_ini[change_position]x>]
+     	G53 g0 Y [#<_ini[change_position_#1]y> + #1 * #<_ini[tool_slot_delta]y>]     
+     	G53 g0 X [#<_ini[change_position_#1]x> - 80]
+	G53 g1 Z [#<_ini[change_position_#1]z> + 50] F2000
+	M250 ; draw bar down, release tool and flush spindle with air
+	G4P0.2 ; wait for draw bar
+	G53 G1 Z [#<_ini[change_position_#1]z> F2000
 	G4P0.1
-	M251
-	g53 g1 Z-93.5 F2000
-     	g53 g1 X [#<_ini[change_position]x>] F2000
-     	g53 g0 Z0
-     	M65P4
-     	G4P0.5
-	M65P3
+	M251 ; pull draw bar up, clamp tool
+	G4P0.2
+	
+	; TODO: check if tool is present with limit switch here
+	
+	G53 g1 X [#<_ini[change_position_#1]x> - 100] X [#<_ini[change_position_#1]Y> + 10] F2000 ; move out of pocket
+     	G53 g0 Z0
+     	;M65P4
+     	;G4P0.5
+	;M65P3
 o100 endif
 o<tool_get_move> endsub  
 

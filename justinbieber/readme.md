@@ -28,6 +28,17 @@ REMAP= M222  modalgroup=10 ngc=m222 #saw swivel to X
 REMAP= M223  modalgroup=10 ngc=m223 #saw swivel to Y
 REMAP= M224  modalgroup=10 ngc=m224 #saw down
 
+REMAP= M230  modalgroup=10 ngc=m230 #reg pins and lifts back down
+REMAP= M231  modalgroup=10 ngc=m231 #reg pins left up
+REMAP= M232  modalgroup=10 ngc=m232 #reg pins right up
+REMAP= M233  modalgroup=10 ngc=m233 #left and right lift bars up
+REMAP= M235  modalgroup=10 ngc=m235 #all lift bars and reg pins up
+REMAP= M236  modalgroup=10 ngc=m236 #all lift bars and reg pins down, vac power on
+
+REMAP= M240  modalgroup=10 ngc=m240 #vac pump power on
+REMAP= M241  modalgroup=10 ngc=m241 #vac pump power off
+
+
 REMAP= M299  modalgroup=10 ngc=m299 #horizontal aggregate down
 REMAP= M300  modalgroup=10 ngc=m300 #all drills retreat up, power off, including horizontal aggregate
 #REMAP= M301  modalgroup=10 ngc=m301 #drill 1
@@ -41,6 +52,7 @@ REMAP= M300  modalgroup=10 ngc=m300 #all drills retreat up, power off, including
 REMAP= M250  modalgroup=10 ngc=m250 #draw bar release
 REMAP= M251  modalgroup=10 ngc=m251 #draw bar clamp
 REMAP= M252  modalgroup=10 ngc=m252 #draw bar 2sec tool release + clamp again
+
 
 
 
@@ -68,15 +80,15 @@ IO mapping:
 | #233 |                                    |                             | 
 | #234 |                                    |                             | 
 | #235 |                                    |                             | 
-| #236 | Draw Bar is down                   |00                           | 
-| #237 | Draw Bar is up                     |01                           | 
-| #238 |  ISO 30 Tool present               |                             | 
-| #239 |  Manual Tool Change BTN            |02                           | 
-| #240 |  TC Pocket#1 is up                 |07  (net tc1is-up)            | 
-| #241 |  TC Pocket#2 is up                 |08                            | 
-| #242 |  TC Pocket#3 is up                 |09                            | 
-| #243 |  TC Pocket#4 is up                 |10                            | 
-| #244 |  TC Pocket#5 is up                 |11                            | 
+| #236 | Draw Bar is down                   |00                           | 7i77.0.0.input-00
+| #237 | Draw Bar is up                     |01                           | 7i77.0.0.input-01
+| #238 |  ISO 30 Tool present               |13                           | 7i77.0.0.input-13
+| #239 |  Manual Tool Change BTN            |02                           | 7i77.0.0.input-02
+| #240 |  TC Pocket#1 is up                 |07  (net tc1is-up)           | 
+| #241 |  TC Pocket#2 is up                 |08                           | 
+| #242 |  TC Pocket#3 is up                 |09                           | 
+| #243 |  TC Pocket#4 is up                 |10                           | 
+| #244 |  TC Pocket#5 is up                 |11                           | 
 | #245 |  TC Pocket#6 is up                 |12                           | 
 | #246 |  TC Cover closed                   |03                           | 
 | #247 |  TC Cover open                     |04                           | 
@@ -85,13 +97,13 @@ IO mapping:
 |      |                                    |                             | 
 |      |                                    |                             | 
 |      |                                    |                             | 
-|      |                                    |                             | 
-|      |                                    |                             | 
-| #310 |  pneumatic registration pins left  |                             | 
-| #311 |  pneumatic registration pins right |                             | 
+| #308 |  vac loop left  pneumatic valve    |0.gpio.027.out DIO38                           | 
+| #309 |  vac loop right pneumatic valve    |0.gpio.027.out DIO39                           | 
+| #310 |  pneumatic registration pins left  |gpio.022.out   DIO35              | 
+| #311 |  pneumatic registration pins right |gpio.024.out   DIO36              | 
 | #312 |  ?                                 |                             | 
-| #314 |  right lifts                       |                             | 
-| #315 |  left lifts                        |                             | 
+| #314 |  right lifts                       |gpio.018.out                 | 
+| #315 |  left lifts                        |gpio.018.out                 | 
 | #316 |  ISO30+HOR up                      |15                           | 6A4  4, via relay 2K1, via #1000
 | #317 |  Drill Aggregate ON                |01                           | 6A4 25, grey - gold stripes
 | #318 |  Saw ON                            |00                           | 6A4 24, white - pink stripes
@@ -105,7 +117,7 @@ IO mapping:
 | #326 |                                    |                             | 
 | #327 |                                    |                             | 
 | #328 |  ISO30 Aggregate Push Down         |03                           | 6A5 35|
-| #329 |  ? |                             | 
+| #329 |  'Flood Coolant' / Fan ISO30       |25                           | 
 | #330 |  ISO30 Draw Bar + Flush Air        |02                           | 6A5 33|
 | #331 |  TC All Down                       |06                           | 6A5 32, Relais 27K2|
 | #332 |  TC Pocket#1 up (is up: 240)       |07                           | 6A5 13|
@@ -119,10 +131,10 @@ IO mapping:
 | #340 |  ISO30 Dust Hood Down              |04                           | 6A5 4, white - ? stripes
 | #341 |  ISO30 Dust Hood Up                |05                           | 6A5 25, grey - gold stripes 
 |      |                                    |                             | 
-| #348 |  drill down 1 (rightmost)          |                             | 
-| #349 |  drill 2 (second to right)         |                             | 
-| #350 |  drill 3                           |                             | 
-| #351 |  drill 4                           |                             | 
+| #348 |  drill down 1 (rightmost)          |16                           | 
+| #349 |  drill 2 (second to right)         |17                           | 
+| #350 |  drill 3                           |18                           | 
+| #351 |  drill 4                           |19                           | 
 | #352 |  drill 5                           |                             | 
 | #353 |  drill 6                           |                             | 
 | #354 |  drill 7                           |                             | 
@@ -132,9 +144,12 @@ IO mapping:
 | #364 |  drill (second to left)            |                             | 
 | #365 |  drill (forstner,leftmost?)        |             |
 |  |                             |                             | 
-| #1000 |  ISO30, hor aggregate up          |                             | 
-| #1001 |  Limit X                                 |                             | 
-| #1002 |  Limit Y                                |                             | 
-| #1003 |  Limit Z                                 |                             | 
+| #1000 |  ISO30, hor aggregate up          |15                             | 
+| #1001 |  Limit X                                 | 7i77.0.0.input-21-not                            | 
+| #1002 |  Limit Y                                | 7i77.0.0.input-18-not                            | 
+| #1003 |  Limit Z                                 | 7i77.0.0.input-22-not                            | 
 | #1004 |  ISO30 through spindle air        |                             | 
 | #1005 |  ISO30 draw bar release tool      |                             | 
+
+| # |  vac pump power      | gpio.026.out                            | 
+| # |  net.coolant-flood   | gpio.025.out                            | 

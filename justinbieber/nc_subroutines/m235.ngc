@@ -1,0 +1,8 @@
+;All lifts up, all reg pins up
+o<m235> sub
+m241 ;vac off
+m231 ;pins up
+m232 ;pins up
+m233 ;lifts up
+o<m235> endsub
+M2

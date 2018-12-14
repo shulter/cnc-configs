@@ -2,6 +2,8 @@
 o<m202> sub
 M65P15
 M64P3
-G4P0.5
+;G4P0.5
+;(wait for limit switch at ISO30 AGGR neg travel)
+;(wait for limit switch at HOR AGGR pos travel)
 o<m202> endsub
 M2

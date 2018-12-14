@@ -4,7 +4,9 @@ M65P3
 M65P14
 G4P0.1
 M64P15
-G4P1
+G4P2
 M65P15
+;(wait for limit switch at ISO30 AGGR pos travel)
+;(wait for limit switch at HOR AGGR pos travel)
 o<m203> endsub
 M2

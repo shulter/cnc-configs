@@ -17,6 +17,7 @@ M5  (spindle off)
 M221 (saw off and up)
 M206 (drills off)
 M9  (mist and coolant off)
+M251 (draw bar pulled up, tool clamped)
 ; M2 sets G1, but  this fails with feed zero
 ; a G80 is the next best safe thing
 G80 (cancel modal motion)

@@ -4,9 +4,11 @@ o<on_abort> sub
 
 (debug, exec on_abort subroutine)
 ; The following is called in the reset-state subroutinea already:
-;M5 ;spindle off
-;M221 ;Saw off
-;M206 ;drills off
+M5 ;spindle off
+M221 ;Saw off
+M206 ;drills off
+
+;M251 ;pull draw bar up, clamp tool
 
 o<reset_state> call
 o<on_abort> endsub

@@ -1,0 +1,9 @@
+;All lifts down, all reg pins down, vac power on
+o<m236> sub
+m230 ;lifts down
+g4p0.5
+m230 ;pins and lifts down
+m240 ;vac on
+g4p0.3
+o<m236> endsub
+M2

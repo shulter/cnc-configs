@@ -1,0 +1,7 @@
+;Vac pump power on
+o<m240> sub
+M64P37 ;vac pump power on
+M64P38 ;left vac loop on
+;M64P39 ;right vac loop on
+o<m240> endsub
+M2

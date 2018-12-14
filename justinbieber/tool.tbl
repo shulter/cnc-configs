@@ -1,37 +1,44 @@
-T1 P1 D6.000000 Z+185.642000 ;6mm 4f end mill 
-T2 P2 D20.000000 Z+114.951000 ;20x28mm 1+1f pkd endmill 
-T3 P3 D2.500000 ;2.5mm drill 
-T70 P70 D10.000000 ;6mm spot drill added 20150512 
-T4 P4 D12.000000 Z+135.147000 ;12mm r6 carbide ball end mill 2f 
-T5 P5 D10.750000 Z+115.071000 ;3+3f carbide endmill 
-T125 P125 D2.500000 ;2.5mm drill m3 added 20150517 
-T130 P130 D3.000000 ;3mm drill added 20150517 
-T6 P6 D2.000000 Z+68.262400 ;2x10mm 45deg 2f chamfer mill 
-T133 P133 D3.300000 ;3.3mm drill m4 added 20150517 
-T7 P7 D10.000000 Z+112.513000 ;lefthand 10mm 1+1f nester 
-T142 P142 D4.200000 ;4.2mm drill m5 added 20150519 
-T10 P10 D10.700000 Z+113.309000 ;10.7mm 3f 30mm doc added 20150604 
-T16 P16 D3.175000 ;3.175 carbide added 20160706 
-T13 P13 D6.000000 ;6mm 2f end mill short 13mm doc added 20160708 
-T140 P140 D4.200000 ;added 20160711 
-T20 P20 D5.000000 ;added 20160712 
-T9 P9 D0.200000 Z+90.927318 ;v-bit 0.2 30deg added 20160718 
-T21 P21 D5.000000 ;added 20160720 
-T40 P40 D10.000000 ;10x1 thread mill added 20170328 
-T22 P22 D8.500000 ;8.5mm 3f carbide doc19 fl29 added 20170412 
-T17 P17 D6.000000 ;spot drill 6mm added 20170503 
-T12 P12 D9.700000 Z+185.000000 ;added 20170526 
-T25 P25 D3.000000 ;3mm drill added 20170609 
-T26 P26 D6.000000 ;6mm 2f carbide wood added 20170611 
-T33 P33 D26.000000 Z+125.634000 ;26mm 2f hss added 20180315 
-T51 P51 D6.800000 ;6.8mm drill added 20180317 
-T50 P50 D6.000000 Z+133.993000 ;6.00mm drill added 20180409 
-T52 P52 D11.150000 Z+131.713000 ;2f rougher added 20180420 
-T32 P32 D2.000000 ;2mm 2f carbide added 20180504 
-T1001 P1001 D10.000000 X+141.280000 Y-252.000000 Z+187.000000 ;hor x+ added 20180509 
-T2001 P2001 D10.000000 X+274.000000 Y-121.000000 Z+187.000000 ;hor y- added 20180509 
-T3001 P3001 D10.000000 X+403.707000 Y-252.000000 Z+187.000000 ;hor x- added 20180509 
-T4001 P4001 D10.000000 X+274.000000 Y-384.000000 Z+187.000000 ;hor y+ added 20180509 
-T34 P34 D2.000000 Z+92.643600 ;1f carbide end mill added 20180523 
-T55 P55 D12.700000 Z+96.731100 ;r16 roundover 2f added 20180529 
-T8 P8 D4.000000 Z+102.271000 ;4mm 1f carbide added 20180604 
+T1 P1 Z185.642 D6 ;6mm 4f end mill 
+T2 P2 Z118.22 D20 ;20x28mm 1+1f pkd endmill 
+T3 P3 Z101.22 D2.5 ;2.5mm drill 
+T70 P70 D10 ;6mm spot drill added 20150512 
+T4 P4 Z135.147 D12 ;12mm r6 carbide ball end mill 2f 
+T5 P5 Z113.155 D10.94 ;3+3f carbide endmill 
+T125 P125 D2.5 ;2.5mm drill m3 added 20150517 
+T130 P130 D3 ;3mm drill added 20150517 
+T6 P6 Z68.2624 D2 ;2x10mm 45deg 2f chamfer mill 
+T133 P133 D3.3 ;3.3mm drill m4 added 20150517 
+T7 P7 Z109.42 D10 ;lefthand 10mm 1+1f nester 
+T142 P142 D4.2 ;4.2mm drill m5 added 20150519 
+T10 P10 Z100.679 D6 ;6mm r1 2f long bull nose added 20150604 
+T16 P16 D3.175 ;3.175 carbide added 20160706 
+T13 P13 D6 ;6mm 2f end mill short 13mm doc added 20160708 
+T140 P140 D4.2 ;added 20160711 
+T20 P20 D5 ;added 20160712 
+T9 P9 Z88.0179 D0.2 ;v-bit 0.2 30deg added 20160718 
+T21 P21 Z122.001 D5 ;2f carbide drill added 20160720 
+T40 P40 D10 ;10x1 thread mill added 20170328 
+T22 P22 D8.5 ;8.5mm 3f carbide doc19 fl29 added 20170412 
+T17 P17 D6 ;spot drill 6mm added 20170503 
+T12 P12 Z95.0869 D4 ;4mm downcut 2f mill added 20170526 
+T25 P25 D3 ;3mm drill added 20170609 
+T26 P26 D6 ;6mm 2f carbide wood added 20170611 
+T33 P33 Z125.634 D26 ;26mm 2f hss added 20180315 
+T51 P51 D6.8 ;6.8mm drill added 20180317 
+T50 P50 Z133.993 D6 ;6.00mm drill added 20180409 
+T52 P52 Z131.713 D11.15 ;2f rougher added 20180420 
+T32 P32 D2 ;2mm 2f carbide added 20180504 
+T1001 P1001 X141.28 Y-252 Z187 D10 ;hor x+ added 20180509 
+T2001 P2001 X274 Y-121 Z187 D10 ;hor y- added 20180509 
+T3001 P3001 X403.707 Y-252 Z187 D10 ;hor x- added 20180509 
+T4001 P4001 X272.4 Y-384 Z187 D10 ;hor y+ added 20180509 
+T34 P34 Z92.6436 D2 ;1f carbide end mill added 20180523 
+T55 P55 Z96.7311 D12.7 ;r16 roundover 2f added 20180529 
+T8 P8 Z102.271 D4 ;4mm 1f carbide added 20180604 
+T11 P11 Z114.345 D9 ;9mm 4f bull nose added 20180722 
+T24 P24 Z120.419 D5 ;5mm drill wood added 20180724 
+T35 P35 Z117.912 D9.1 ;9.1mm 3+3f end mill wood added 20180724 
+T5001 P5001 X248.065 Y87.6552 Z96.1007 D3 ;saw aggregate d150 3mm x 
+T5002 P5002 X330.908 Y10.3306 Z96.1 D3 ;saw aggregate d150 3mm y 
+T36 P36 Z98.9476 D6 ;6mm composites end mill added 20181014 
+T4002 P4002 X272.4 Y-384 Z93.69 D5 ;hor y+ (from front) d5 drill 

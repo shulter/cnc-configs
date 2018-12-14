@@ -4,6 +4,47 @@
 loadrt or2 count=1
 addf or2.0 servo-thread
 
+# --- MACHINE-IS-ENABLED ---
+
+setp hm2_[HOSTMOT2](BOARD).0.gpio.018.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.018.invert_output true
+
+setp hm2_[HOSTMOT2](BOARD).0.gpio.022.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.022.invert_output true
+
+setp hm2_[HOSTMOT2](BOARD).0.gpio.024.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.024.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.025.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.025.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.026.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.026.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.027.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.027.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.028.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.028.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.029.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.029.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.030.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.030.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.031.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.031.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.032.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.032.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.033.is_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.033.invert_output true
+
+net machine-is-enabled hm2_[HOSTMOT2](BOARD).0.gpio.029.out
+
+# Aux, lifts and reg pins
+
+net lifts 		motion.digital-out-34	hm2_[HOSTMOT2](BOARD).0.gpio.018.out
+net regpins-left	motion.digital-out-35	hm2_[HOSTMOT2](BOARD).0.gpio.022.out
+net regpins-right	motion.digital-out-36	hm2_[HOSTMOT2](BOARD).0.gpio.024.out
+net vac			motion.digital-out-37	hm2_[HOSTMOT2](BOARD).0.gpio.026.out
+net vac-loop-left	motion.digital-out-38	hm2_[HOSTMOT2](BOARD).0.gpio.027.out
+net vac-loop-right	motion.digital-out-39	hm2_[HOSTMOT2](BOARD).0.gpio.028.out
+
+
 # iso30 spindle draw bar control with manual button at z axis head
 
 net spindle-drawbar motion.digital-out-01 => or2.0.in0
@@ -33,7 +74,9 @@ net spindle-and-hor-up	motion.digital-out-15	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.ou
 net drill1		motion.digital-out-16 	
 net drill2		motion.digital-out-17 	
 net drill3		motion.digital-out-18 	
-net drill4		motion.digital-out-19 	
+net drill4		motion.digital-out-19
+
+net drill18		motion.digital-out-33
 
 
 net spindle-drawbar-is-down	motion.digital-in-00 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-00
@@ -51,14 +94,13 @@ net tc4is-up 		motion.digital-in-10 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-10
 net tc5is-up 		motion.digital-in-11 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-11
 net tc6is-up  		motion.digital-in-12 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-12
 
+net tool-present 	motion.digital-in-13 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-13
+
 # net spindle-at-speed motion.digital-in-24 motion.spindle-at-speed hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-24
 sets spindle-at-speed true
 
-# --- MACHINE-IS-ENABLED ---
-# net machine-is-enabled hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-00
-
 # --- COOLANT-FLOOD ---
-#net coolant-flood hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02
+net coolant-flood hm2_[HOSTMOT2](BOARD).0.gpio.025.out
 
 # --- COOLANT-MIST ---
 #net coolant-mist hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
