@@ -8,7 +8,7 @@ M73 (auto-restore modal settings on return)
 (print, rack_change: current tool=#<_current_tool> current pocket: #<_current_pocket>)
 (print, rack_change: selected tool=#<_selected_tool> selected pocket: #<_selected_pocket>)
 
-; unload previous tool
+; unload previous tool into previous pocket
 o300 if [#<_current_pocket> GT 0]
 o301 if [#<_current_pocket> LT 7]
      (debug, tool_put_move start)
@@ -16,24 +16,34 @@ o301 if [#<_current_pocket> LT 7]
      (debug, tool_put_move end)
 o301 endif
 o302 if [#<_current_pocket> GT 6]
-     (debug, pocket number exceeds magazine pockets)
+     (debug, current pocket #<_current_pocket> exceeds magazine pockets)
      (debug, initiating manual tool extraction)
-     o<tool_put_move> call [#<_current_pocket>]
+     G53 g1 Z0 F20000
+     G53 g0 X[#<_ini[change_position_0]x>] Y[#<_ini[change_position_0]x>]
+     ;TODO insert manual tool change
      (debug, pocket out of range)
 o302 endif
 o300 endif
 
 
-; go to new tool
+; go to new pocket and load the new tool
 (debug, tool_get_move start)
 o303 if [#<_selected_pocket> GT 0]
-o304 if [#<_current_pocket> LT 7]
+o304 if [#<_selected_pocket> LT 7]
 o<tool_get_move> call [#<_selected_pocket>]
 o304 endif
+o305 if [#<_selected_pocket> GT 6]
+     (debug, selected pocket #<_selected_pocket> exceeds magazine pockets)
+     (debug, initiating manual tool insertion)
+     G53 g1 Z0 F20000
+     G53 g0 X[#<_ini[change_position_0]x>] Y[#<_ini[change_position_0]x>]
+     ;TODO insert manual tool change
+     (debug, pocket out of range)
+o305 endif
 o303 endif
 (debug, tool_get_move end)
 
-M64P3 ;lower all tools and close cover
+;M64P3 ;lower all tools and close cover
 
 ; succeed by returning a positive value
 (debug, rack_change finished)

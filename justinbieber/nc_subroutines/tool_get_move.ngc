@@ -1,26 +1,63 @@
 ; parameter: new tool pocket
-o<tool_get_move> sub  
-o100 if [EXISTS[#<_ini[change_position_#1]x>]]
-	G53 g1 Z0 F15000
-     	G53 g0 X [#<_ini[change_position]x>]
-     	G53 g0 Y [#<_ini[change_position_#1]y> + #1 * #<_ini[tool_slot_delta]y>]     
-     	G53 g0 X [#<_ini[change_position_#1]x> - 80]
-	G53 g1 Z [#<_ini[change_position_#1]z> + 50] F2000
+o<tool_get_move> sub
+
+o100 if [EXISTS[#<_ini[change_position_1]x>]]
+
+  M70 ;save modal settings
+  G53 g1 Z0 F30000
+
+	; TODO check if tool is present with limit switch here. abort if a tool is present!
+  ;M3 S1000 ;turn on spindle as some tool holders have notches that make them invisible to the tool presence sensor.
+	;M66 P2 L4 Q1 ;check if tool presence sensor is LOW, 1s timeout.
+	; o102 if [#5399 LT 1] ; did a timeout occur at the previous M66?
+
+  o101 if [#1 EQ 1]
+    G53 G0 X[#<_ini[change_position_1]X>]
+    G53 G0 Y[#<_ini[change_position_1]Y>]
+    G53 G1 Z-1 F3200
+  o101 ELSEIF [#1 EQ 2]
+		G53 G0 X[#<_ini[change_position_2]X>]
+		G53 G0 Y[#<_ini[change_position_2]Y>]
+		G53 G1 Z-1 F3200
+  o101 ELSEIF [#1 EQ 3]
+		G53 G0 X[#<_ini[change_position_3]X>]
+		G53 G0 Y[#<_ini[change_position_3]Y>]
+		G53 G1 Z-1 F3200
+  o101 ELSEIF [#1 EQ 4]
+		G53 G0 X[#<_ini[change_position_4]X>]
+		G53 G0 Y[#<_ini[change_position_4]Y>]
+		G53 G1 Z-1 F3200
+  o101 endif
+
+	; TODO set servo amp max current low at this point to reduce crash damage if a tool is still in the spindle!
+	G53 G1 Z[#<_ini[change_position_1]Z> + 50] F3200
 	M250 ; draw bar down, release tool and flush spindle with air
-	G4P0.2 ; wait for draw bar
-	G53 G1 Z [#<_ini[change_position_#1]z> F2000
-	G4P0.1
-	M251 ; pull draw bar up, clamp tool
+	G4P0.1 ; wait for draw bar
+  ; TODO check draw bar cylinder position here
+
+	o102 if [#1 EQ 1]
+		G53 G1 X[#<_ini[change_position_1]Z>] F2000
+	o102 ELSEIF [#1 EQ 2]
+		G53 G1 X[#<_ini[change_position_2]Z>] F2000
+	o102 ELSEIF [#1 EQ 3]
+		G53 G1 X[#<_ini[change_position_3]Z>] F2000
+	o102 ELSEIF [#1 EQ 4]
+		G53 G1 X[#<_ini[change_position_4]Z>] F2000
+	o101 endif
+
+	M251 ; pull draw bar up, clamp tool. There is a tool present in the spindle now.
 	G4P0.2
-	
-	; TODO: check if tool is present with limit switch here
-	
-	G53 g1 X [#<_ini[change_position_#1]x> - 100] X [#<_ini[change_position_#1]Y> + 10] F2000 ; move out of pocket
-     	G53 g0 Z0
-     	;M65P4
-     	;G4P0.5
-	;M65P3
+	; TODO check if tool is present with limit switch here
+
+	G91 ;relative distance mode
+  G1 X[#<_ini[change_offset]X>] Y[#<_ini[change_offset]Y>] F1000 ;move gently out of tool pocket
+  G90 ;absolute distance mode
+
+	; TODO revert servo amp max current to default
+  G53 G1 Z0 F30000
+  M71 ;restore modal settings
 o100 endif
-o<tool_get_move> endsub  
+
+o<tool_get_move> endsub
 
 m2
