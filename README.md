@@ -8,3 +8,6 @@ loadusr halmeter -s pin motion.program-line
 
 Specify window location:
 loadusr halmeter -s pin motion.program-line -g 0 500
+
+Set XY max acceleration to 8000:
+M100P8000
