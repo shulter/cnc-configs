@@ -1,8 +1,0 @@
-; if aborted during a toolchange, disable pins
-
-o<prepare> sub
-
-(debug, prepare tool for toolchange)
-
-o<prepare> endsub [1]
-m2

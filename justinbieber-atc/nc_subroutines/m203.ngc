@@ -1,7 +1,0 @@
-;Saw on
-o<m203> sub
-M201 ;ISO30 dust hood up
-M64P5 ;Saw on
-M64P10 ;Saw down
-o<m203> endsub
-M2
