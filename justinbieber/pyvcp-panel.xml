@@ -7,6 +7,7 @@
                         <text>"ISO30 Spindle Speed RPM:"</text>
                 </label>
                 <bar>
+                        <min_>550</min_>
                         <halpin>"spindle-speed"</halpin>
                         <max_>18000</max_>
                 </bar>
@@ -20,6 +21,17 @@
                         <size>20</size> 
                         <on_color>"green"</on_color>
                         <off_color>"red"</off_color>
+                    </led>
+                </hbox>
+                 <hbox>
+                    <label>
+                            <text>"ISO30 tool indicator (mind the gap): "</text>
+                    </label>
+                    <led>
+                        <halpin>"iso30-toolpresent"</halpin> 
+                        <size>20</size> 
+                        <on_color>"green"</on_color>
+                        <off_color>"blue"</off_color>
                     </led>
                 </hbox>
                 <hbox>
@@ -172,17 +184,6 @@
                     </label>
                     <led>
                         <halpin>"tc5is-up"</halpin> 
-                        <size>20</size> 
-                        <on_color>"green"</on_color>
-                        <off_color>"red"</off_color>
-                    </led>
-                </hbox>
-                 <hbox>
-                    <label>
-                            <text>"TC pocket6 is up: "</text>
-                    </label>
-                    <led>
-                        <halpin>"tc6is-up"</halpin> 
                         <size>20</size> 
                         <on_color>"green"</on_color>
                         <off_color>"red"</off_color>

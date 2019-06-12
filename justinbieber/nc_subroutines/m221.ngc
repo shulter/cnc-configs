@@ -2,5 +2,6 @@
 o<m221> sub
 M65P5 ;Saw off
 M65P10 ;Saw up
+; TODO: check limit switch if saw is up now
 o<m221> endsub
 M2

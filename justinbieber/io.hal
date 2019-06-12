@@ -94,7 +94,7 @@ net tc4is-up 		motion.digital-in-10 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-10
 net tc5is-up 		motion.digital-in-11 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-11
 net tc6is-up  		motion.digital-in-12 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-12
 
-net tool-present 	motion.digital-in-13 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-13
+net spindle-tool-present 	motion.digital-in-13 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-13
 
 # net spindle-at-speed motion.digital-in-24 motion.spindle-at-speed hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-24
 sets spindle-at-speed true
@@ -105,9 +105,9 @@ net coolant-flood hm2_[HOSTMOT2](BOARD).0.gpio.025.out
 # --- COOLANT-MIST ---
 #net coolant-mist hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
 
-# --- ESTOP-OUT ---
+# --- ESTOP ---
 #net estop-out hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
-
+net estop-in halui.estop.activate <= motion.digital-out-63
 
 # --- ABORT ---
 #net abort     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-00

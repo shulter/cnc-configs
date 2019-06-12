@@ -5,6 +5,7 @@ net spindle-drawbar        	=>    pyvcp.spindle-drawbar-led
 net spindle-down        	=>    pyvcp.spindle-down-led
 net spindle-hood-down	   	=>    pyvcp.spindle-hood-down-led
 net spindle-hood-up	   	=>    pyvcp.spindle-hood-up-led
+net spindle-tool-present 	=>    pyvcp.iso30-toolpresent
 net saw-down			=>    pyvcp.saw-down-led
 net saw-on	   		=>    pyvcp.saw-on-led
 net tc-down	   		=>    pyvcp.tc-down
@@ -17,7 +18,7 @@ net tc2is-up 	=>	pyvcp.tc2is-up
 net tc3is-up 	=>	pyvcp.tc3is-up
 net tc4is-up 	=>	pyvcp.tc4is-up
 net tc5is-up 	=>	pyvcp.tc5is-up
-net tc6is-up	=>	pyvcp.tc6is-up
+
 
 #net quill-up             pyvcp.quillup              spindle-drawbar
 #net reference-pos        pyvcp.referencepos         saw-on

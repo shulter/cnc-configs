@@ -2,8 +2,7 @@
 o<m299> sub
 M203 ;ISO 30+HOR up
 M201 ;ISO 30 Dust Hood up
-M221 ;Saw off
-G4P0.3
-M64P14 ;
+G4P0.1
+M64P14 ;HOR down
 o<m299> endsub
 M2

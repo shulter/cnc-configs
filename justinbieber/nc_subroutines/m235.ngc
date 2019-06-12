@@ -1,6 +1,6 @@
 ;All lifts up, all reg pins up
 o<m235> sub
-m241 ;vac off
+m240 ;vac off
 m231 ;pins up
 m232 ;pins up
 m233 ;lifts up

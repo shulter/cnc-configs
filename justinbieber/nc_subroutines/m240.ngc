@@ -1,7 +1,7 @@
-;Vac pump power on
+;Vac pump power off
 o<m240> sub
-M64P37 ;vac pump power on
-M64P38 ;left vac loop on
-;M64P39 ;right vac loop on
+M65P37 ;vac pump power off
+M65P38 ;left vac loop off
+M65P39 ;right vac loop off
 o<m240> endsub
 M2

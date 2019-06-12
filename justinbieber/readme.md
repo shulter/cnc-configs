@@ -96,7 +96,6 @@ IO mapping:
 | #247 |  TC Cover open BTN                 |06                           | 
 |      |                                    |                             | 
 |      |                                    |                             | 
-|      |                                    |                             | 
 | #308 |  vac loop left  pneumatic valve    |0.gpio.027.out DIO38                           | 
 | #309 |  vac loop right pneumatic valve    |0.gpio.027.out DIO39                           | 
 | #310 |  pneumatic registration pins left  |gpio.022.out   DIO35              | 
@@ -108,7 +107,7 @@ IO mapping:
 | #317 |  Drill Aggregate ON                |01                           | 6A4 25, grey - gold stripes
 | #318 |  Saw ON                            |00                           | 6A4 24, white - pink stripes
 | #319 |  Saw Down (hold, up automatic)     |10                           | 6A4 20, pink - gold stripes
-| #320 |  Saw Swivel unlock, high=unlock    |11                           | 6A4 21  white - blue stripes
+| #320 |  Saw Swivel unlock, high=unlock    |11                           | 6A4 21  white - blue stripes, #320, cable #25 seems broken between cabinet and machine head. #301 = cable #24 or #21 was used.
 | #321 |  Saw Swivel into position Y        |12                           | 6A4 22, dark blue - gold stripes
 | #322 |  Saw Swivel into position X        |13                           | 6A4 23, white - red stripes
 | #323 |  Horizontal Drills down            |14                           | 6A4  1, brown - red stripes

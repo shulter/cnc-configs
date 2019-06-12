@@ -1,6 +1,10 @@
-;Saw down
+;Saw down and off
 o<m224> sub
 M201 ;ISO30 dust hood up
+M203 ;ISO30 up
+M5 ;ISO30 stop
 M64P10 ;Saw down
+; TODO: check limit switch if saw is down
+M65P5 ;Saw off
 o<m224> endsub
 M2

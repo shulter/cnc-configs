@@ -1,6 +1,8 @@
 ;Saw on
 o<m220> sub
 M201 ;ISO30 dust hood up
+M203 ;ISO30 up
+M5 ;ISO30 stop
 M64P5 ;Saw on, regardless of orientation!
 M64P10 ;Saw down
 o<m220> endsub
