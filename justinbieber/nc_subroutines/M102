@@ -1,5 +1,6 @@
 #!/bin/bash
 # M101 enable soft limit on X axis, M102 disable soft limits
-halcmd setp ini.0.max_limit 3395.0;
-echo "x softlimit at 3395";
+halcmd setp ini.0.max_limit 3399.0;
+halcmd setp ini.x.max_limit 3399.0;
+echo "x softlimit at 3399";
 exit 0

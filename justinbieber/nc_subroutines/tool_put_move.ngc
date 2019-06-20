@@ -5,70 +5,80 @@ o<tool_put_move> sub
 
 (print, tool_put_move sub start)
 M70 ;save modal settings
-(print,4)
 o500 if [EXISTS[#<_ini[change_position_1]x>]]
-  (print,6)
   G53 G1 Z0 F96000
-  (print,7)
   o501 if [#1 EQ 1]
     G53 G0 Y[ [#<_ini[change_position_1]Y>] + [#<_ini[change_offset]Y>] ]
     G53 G0 X[ [#<_ini[change_position_1]X>] + [#<_ini[change_offset]X>] ]
     ;move down, we are now at height right next to the tool magazine pocket.
-  (print,8)
-    G53 G1 Z[ [#<_ini[change_position_1]Z>]] F#<f1>
-  (print,9)
+    G53 G1 Z[[#<_ini[change_position_1]Z>]] F#<f1>
   o501 ELSEIF [#1 EQ 2]
     G53 G0 Y[[#<_ini[change_position_2]Y>] + [#<_ini[change_offset]Y>] ]
     G53 G0 X[[#<_ini[change_position_2]X>] + [#<_ini[change_offset]X>] ]
-    G53 G1 Z [[#<_ini[change_position_2]Z>]] F#<f1>
+    G53 G1 Z[[#<_ini[change_position_2]Z>]] F#<f1>
   o501 ELSEIF [#1 EQ 3]
     G53 G0 Y[[#<_ini[change_position_3]Y>] + [#<_ini[change_offset]Y>] ]
     G53 G0 X[[#<_ini[change_position_3]X>] + [#<_ini[change_offset]X>] ]
-    G53 G1 Z [[#<_ini[change_position_3]Z>]] F#<f1>
+    G53 G1 Z[[#<_ini[change_position_3]Z>]] F#<f1>
   o501 ELSEIF [#1 EQ 4]
     G53 G0 Y[[#<_ini[change_position_4]Y>] + [#<_ini[change_offset]Y>] ]
     G53 G0 X[[#<_ini[change_position_4]X>] + [#<_ini[change_offset]X>] ]
-    G53 G1 Z [[#<_ini[change_position_4]Z>]] F#<f1>
+    G53 G1 Z[[#<_ini[change_position_4]Z>]] F#<f1>
   o501 ELSEIF [#1 EQ 5]
     G53 G0 Y[[#<_ini[change_position_5]Y>] + [#<_ini[change_offset]Y>] ]
     G53 G0 X[[#<_ini[change_position_5]X>] + [#<_ini[change_offset]X>] ]
-    G53 G1 Z [[#<_ini[change_position_5]Z>]] F3200
+    G53 G1 Z[[#<_ini[change_position_5]Z>]] F#<f1>
   o501 ELSEIF [#1 EQ 6]
     G53 G0 Y[[#<_ini[change_position_6]Y>] + [#<_ini[change_offset]Y>] ]
     G53 G0 X[[#<_ini[change_position_6]X>] + [#<_ini[change_offset]X>] ]
-    G53 G1 Z [[#<_ini[change_position_6]Z>]] F3200
+    G53 G1 Z[[#<_ini[change_position_6]Z>]] F#<f1>
   o501 ELSEIF [#1 EQ 7]
     G53 G0 Y[[#<_ini[change_position_7]Y>] + [#<_ini[change_offset]Y>] ]
     G53 G0 X[[#<_ini[change_position_7]X>] + [#<_ini[change_offset]X>] ]
-    G53 G1 Z [[#<_ini[change_position_7]Z>]] F3200
+    G53 G1 Z[[#<_ini[change_position_7]Z>]] F#<f1>
+  o501 ELSEIF [#1 EQ 8]
+    G53 G0 Y[[#<_ini[change_position_8]Y>] + [#<_ini[change_offset]Y>] ]
+    G53 G0 X[[#<_ini[change_position_8]X>] + [#<_ini[change_offset]X>] ]
+    G53 G1 Z[[#<_ini[change_position_8]Z>]] F#<f1>
+  o501 ELSEIF [#1 EQ 9]
+    G53 G0 Y[[#<_ini[change_position_9]Y>] + [#<_ini[change_offset]Y>] ]
+    G53 G0 X[[#<_ini[change_position_9]X>] + [#<_ini[change_offset]X>] ]
+    G53 G1 Z[[#<_ini[change_position_9]Z>]] F#<f1>
+  o501 ELSEIF [#1 EQ 10]
+    G53 G0 Y[[#<_ini[change_position_10]Y>] + [#<_ini[change_offset]Y>] ]
+    G53 G0 X[[#<_ini[change_position_10]X>] + [#<_ini[change_offset]X>] ]
+    G53 G1 Z[[#<_ini[change_position_10]Z>]] F#<f1>
   o501 endif
-  (print,10)
+ 
   G91 ;relative distance mode
   ; TODO set servo amp max current low at this point to reduce crash damage if a tool is still in the pocket.
   G1 X[-#<_ini[change_offset]X>] Y[-#<_ini[change_offset]Y>] F#<f2> ;move gently into tool pocket
   G90 ;absolute distance mode
-  (print,11)
-	M250 ; draw bar down, release tool and flush spindle with air
-	G4P0.9 ; wait for draw bar
-  ; TODO check draw bar cylinder position here
-	G53 G1 Z[#<_ini[change_position_1]Z> + 7] F2000 ;move up slighty, leave tool in pocket
-	M66 P13 L4 Q1 ;check if tool presence sensor is LOW = no tool in spindle.
-	;did a timeout occur at the previous M66? Then the result should be (-1)
-   	o510 if [#5399 ne 0]
-    		(MSG, WARNING - Tool detected, but spindle should be empty.)
+  M250 ; draw bar down, release tool and flush spindle with air
+  M66 P1 L3 Q1 ;check if draw bar is all the way down = tool is not held tight in spindle anymore
+  o505 if [#5399 ne 1] 
+    		(MSG, WARNING - Tool not released. Draw bar stuck. Check air pressure.)
+		G4P0.25
+		M251
+    		M71 ;restore modal settings
+    		M64 P63 (trigger e-stop)
+  o505 endif
+  G4P0.6 ; tool to settle
+  G53 G1 Z[#<_ini[change_position_1]Z> + 7] F2000 ;move up slighty, leave tool in pocket
+  M66 P13 L4 Q1 ;check if tool presence sensor is LOW = no tool in spindle.
+  o510 if [#5399 ne 0]
+    		(MSG, WARNING - Tool detected, but spindle should be empty. Tool stuck in spindle?)
 		G53 G1 Z[#<_ini[change_position_1]Z>] F2000 ;move down again into the pocket
 		G4P0.25
 		M251
     		M71 ;restore modal settings
     		M64 P63 (trigger e-stop)
-   	o510 endif
-	G53 G1 Z[#<_ini[change_position_1]Z> + 60] F90000 ;move up further
-	M251 ; pull draw bar up, clamp tool. There is no tool present in the spindle now.
-	G4P0.2
-	; TODO check if tool is present with limit switch here
+  o510 endif
+  G53 G1 Z[#<_ini[change_position_1]Z> + 60] F90000 ;move up further
+  M251 ; pull draw bar up, clamp tool. There is no tool present in the spindle now.
+  G4P0.1
   ; TODO revert servo amp max current to default
   G53 G1 Z0 F96000
-  (print,11)
   G53 G1 X [#<_ini[change_position]X>] F96000
 o500 endif
 M71 ;restore modal settings

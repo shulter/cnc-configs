@@ -3,46 +3,66 @@ o<tool_get_move> sub
 #<f1>=2400.0 (feedrate to move tool down to pocket plane)
 (print, change_position_1 X: #<_ini[change_position_1]x>)
 o100 if [EXISTS[#<_ini[change_position_1]x>]]
+(print, tool_get_move pocket: #1)
 (debug, tool_get_move pocket: #1)
   M70 ;save modal settings
   G53 g1 Z0 F30000
   G64 P0.5
-
+  M65 P63 (reset internal e-stop loop)
   o<check_tool_presence> call
   ;did a timeout occur at the previous M66? Then the result should be (-1)
    o110 if [#5399 GT -1]
     (MSG, WARNING - Tool detected, but spindle should be empty.)
     M71 ;restore modal settings
+    M666 (e-stop)
     o100 return
    o110 endif
   o120 if [#5399 LT 0]
-  (print, tool_get_move 18)
   o101 if [#1 EQ 1]
 	G53 G0 Y[#<_ini[change_position_1]Y>]
 	G53 G0 X[#<_ini[change_position_1]X>]
-	G53 G1 Z-1 F3200
-	(debug, tool_get_move 23)
   o101 ELSEIF [#1 EQ 2]
 	G53 G0 Y[#<_ini[change_position_2]Y>]
 	G53 G0 X[#<_ini[change_position_2]X>]
-	G53 G1 Z-1 F3200
-	(debug, tool_get_move 28)
   o101 ELSEIF [#1 EQ 3]
 	G53 G0 Y[#<_ini[change_position_3]Y>]
 	G53 G0 X[#<_ini[change_position_3]X>]
-	G53 G1 Z-1 F3200
-	(debug, tool_get_move 33)
   o101 ELSEIF [#1 EQ 4]
 	G53 G0 Y[#<_ini[change_position_4]Y>]
 	G53 G0 X[#<_ini[change_position_4]X>]
-	G53 G1 Z-1 F3200
-	(debug, tool_get_move 38)
+  o101 ELSEIF [#1 EQ 5]
+	G53 G0 Y[#<_ini[change_position_5]Y>]
+	G53 G0 X[#<_ini[change_position_5]X>]
+  o101 ELSEIF [#1 EQ 6]
+	G53 G0 Y[#<_ini[change_position_6]Y>]
+	G53 G0 X[#<_ini[change_position_6]X>]
+  o101 ELSEIF [#1 EQ 7]
+	G53 G0 Y[#<_ini[change_position_7]Y>]
+	G53 G0 X[#<_ini[change_position_7]X>]
+  o101 ELSEIF [#1 EQ 8]
+	G53 G0 Y[#<_ini[change_position_8]Y>]
+	G53 G0 X[#<_ini[change_position_8]X>]
+  o101 ELSEIF [#1 EQ 9]
+	G53 G0 Y[#<_ini[change_position_9]Y>]
+	G53 G0 X[#<_ini[change_position_9]X>]
+  o101 ELSEIF [#1 EQ 10]
+	G53 G0 Y[#<_ini[change_position_10]Y>]
+	G53 G0 X[#<_ini[change_position_10]X>]
   o101 endif
+
 	;TODO set servo amp max current low at this point to reduce potential crash damage
 	G53 G1 Z[#<_ini[change_position_1]Z> + 75] F9600
-	M250 	;draw bar down, release tool and flush spindle with air
+	M250 	;draw bar down, clamps open, spindle flushed with air
+	M66 P1 L3 Q1 ;check if draw bar is all the way down = open to receive tool
+	o105 if [#5399 ne 1]
+    		(MSG, WARNING - Draw bar stuck in closed position. Check air pressure.)
+		G4P0.25
+		M251
+    		M71 ;restore modal settings
+    		M64 P63 (trigger e-stop)
+	o105 endif
 	G4P0.1
-	;TODO check draw bar cylinder position here
+
 	o102 if [#1 EQ 1]
 		G53 G1 Z[#<_ini[change_position_1]Z>] F#<f1>
 	o102 ELSEIF [#1 EQ 2]
@@ -51,9 +71,29 @@ o100 if [EXISTS[#<_ini[change_position_1]x>]]
 		G53 G1 Z[#<_ini[change_position_3]Z>] F#<f1>
 	o102 ELSEIF [#1 EQ 4]
 		G53 G1 Z[#<_ini[change_position_4]Z>] F#<f1>
+	o102 ELSEIF [#1 EQ 5]
+		G53 G1 Z[#<_ini[change_position_5]Z>] F#<f1>
+	o102 ELSEIF [#1 EQ 6]
+		G53 G1 Z[#<_ini[change_position_6]Z>] F#<f1>
+	o102 ELSEIF [#1 EQ 7]
+		G53 G1 Z[#<_ini[change_position_7]Z>] F#<f1>
+	o102 ELSEIF [#1 EQ 8]
+		G53 G1 Z[#<_ini[change_position_8]Z>] F#<f1>
+	o102 ELSEIF [#1 EQ 9]
+		G53 G1 Z[#<_ini[change_position_9]Z>] F#<f1>
+	o102 ELSEIF [#1 EQ 10]
+		G53 G1 Z[#<_ini[change_position_10]Z>] F#<f1>
 	o102 endif
 	
-  M251 ; pull draw bar up, clamp tool. There is a tool present in the spindle now.
+  	M251 ; pull draw bar up, clamp tool. There is a tool present in the spindle now.
+	M66 P1 L4 Q1 ;check if draw bar is all the way up = tool is clamped
+	o106 if [#5399 ne 0]
+    		(MSG, WARNING - Draw bar not properly closed.)
+		G4P0.25
+    		M71 ;restore modal settings
+    		M64 P63 (trigger e-stop)
+	o106 endif
+
   G4P0.2 ;TODO Check for tool presence
   G91 ;relative distance mode
   G1 X[#<_ini[change_offset]X>] Y[#<_ini[change_offset]Y>] F3200 ;move gently out of tool pocket
@@ -61,15 +101,16 @@ o100 if [EXISTS[#<_ini[change_position_1]x>]]
 ; TODO revert servo amp max current to default
   o120 endif
   G53 G1 Z0 F30000
+  G53 G0 X[#<_ini[change_position]X>]
 
-  o<check_tool_presence> call
+    o<check_tool_presence> call
    o111 if [#5399 LT 1]
     (MSG, WARNING - No tool detected after tool change.)
-    M71 ;restore modal settings
+    M71 (restore modal settings)
+    M61 Q0 (override tool in spindle with 0 - no tool)
+    M64 P63 (trigger e-stop)
     o100 return
    o111 endif
-
-  G53 G0 X[#<_ini[change_position]X>]
   M71 ;restore modal settings
 o100 endif
 o<tool_get_move> endsub

@@ -2,53 +2,54 @@ o<rack_change> sub
 
 M73 		(auto-restore modal settings on return)
 M102		(extend soft limits beyond normal envelope so we can reach the tool magazine)
-M5 		(stop spindle)
+M5 		    (stop spindle)
 M221 		(saw off and up)
 M206 	   	(drills off)
+M65 P63     (reset internal e-stop loop)
+
 #5599 = 1  	(turn on debug, output)
 G64 P0.5
-(debug, rack_change: current tool=#<_current_tool> current pocket: #<_current_pocket>)
-(debug, rack_change: selected tool=#<_selected_tool> selected pocket: #<_selected_pocket>)
-(print, rack_change: current tool=#<_current_tool> current pocket: #<_current_pocket>)
-(print, rack_change: selected tool=#<_selected_tool> selected pocket: #<_selected_pocket>)
-(debug, change_position_1 X: #<_ini[change_position_1]x>)
-(print, rack_change: check if a tool needs to be put back into a pocket before changing to a new tool.)
+(print, rack_change: current tool:#<_current_tool> current pocket: #<_current_pocket>)
+(print, rack_change: selected tool:#<_selected_tool> selected pocket: #<_selected_pocket>)
+
 ; unload previous tool into previous pocket
+
 o300 if [#<_current_pocket> GT 0]
-o301 if [#<_current_pocket> LT 7]
-     (debug, tool_put_move start)
+o301 if [#<_current_pocket> LT 10]
      (print, tool_put_move start)
      o<tool_put_move> call [#<_current_pocket>]
-     (debug, tool_put_move end)
      (print, tool_put_move end)
 o301 endif
-o302 if [#<_current_pocket> GT 6]
-     (MSG, current pocket #<_current_pocket> exceeds magazine pockets)
-     (print, initiating manual tool extraction)
-     G53 g1 Z0 F20000
-     G53 g0 X[#<_ini[change_position_0]x>] Y[#<_ini[change_position_0]x>]
+o302 if [#<_current_pocket> GT 9]
+     (MSG, Current pocket #<_current_pocket> exceeds magazine capacity.)
+     (MSG, Operator, please remove tool #<_current_tool> manually.)
+     G53 g1 Z0 F96000
+     G53 g0 X[#<_ini[change_position]x>] Y[#<_ini[change_position]y>]
+     M666 (e-stop, remove power from machine for manual tool change)
      ;TODO insert manual tool change
 o302 endif
 o300 endif
-; go to new pocket and load the new tool
-(print, tool_get_move start. selected pocket: #<_selected_pocket>)
+
+; load the new tool
 
 o303 if [#<_selected_pocket> GT 0]
      (print, selected pocket GT 0)
-o304 if [#<_selected_pocket> LT 7]
-     (print, selected pocket LT 7)
+o304 if [#<_selected_pocket> LT 10]
+     (print, selected pocket LT 10)
      o<tool_get_move> call [#<_selected_pocket>]
 o304 endif
 
-o305 if [#<_selected_pocket> GT 6]
-     (MSG, selected pocket #<_selected_pocket> exceeds magazine pockets)
-     (print, initiating manual tool insertion)
-     G53 g1 Z0 F20000
-     G53 g0 X[#<_ini[change_position_0]x>] Y[#<_ini[change_position_0]x>]
+o305 if [#<_selected_pocket> GT 9]
+     (print, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
+     (DEBUG, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
+     (MSG, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
+     G53 g1 Z0 F96000
+     G53 g0 X[#<_ini[change_position]x>] Y[#<_ini[change_position]y>]
      ;TODO insert manual tool change
+     (MSG, Operator, please insert tool #<_selected_tool> manually.)
 o305 endif
-
 o303 endif
+
 M101		(return soft limits to default values)
 ; succeed by returning a positive value
 (print, rack_change finished)

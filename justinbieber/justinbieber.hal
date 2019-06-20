@@ -34,7 +34,7 @@ setp   pid.x.error-previous-target true
 net x-index-enable  <=> pid.x.index-enable
 net x-enable        =>  pid.x.enable
 net x-pos-cmd       =>  pid.x.command
-net x-vel-cmd       =>  pid.x.command-deriv
+#net x-vel-cmd       =>  pid.x.command-deriv
 net x-pos-fb        =>  pid.x.feedback
 net x-output        =>  pid.x.output
 
@@ -60,7 +60,7 @@ setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.index-mask-invert 0
 setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.scale  [JOINT_0]ENCODER_SCALE
 
 net x-pos-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.position
-net x-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.velocity
+#net x-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.velocity
 net x-pos-fb               =>  joint.0.motor-pos-fb
 net x-index-enable    joint.0.index-enable  <=>  hm2_[HOSTMOT2](BOARD).0.encoder.03.index-enable
 net x-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.rawcounts
@@ -114,7 +114,7 @@ setp   pid.z.error-previous-target true
 net z-index-enable  <=> pid.z.index-enable
 net z-enable        =>  pid.z.enable
 net z-pos-cmd       =>  pid.z.command
-net z-vel-cmd       =>  pid.z.command-deriv
+#net z-vel-cmd       =>  pid.z.command-deriv
 net z-pos-fb        =>  pid.z.feedback
 net z-output        =>  pid.z.output
 
@@ -138,7 +138,7 @@ setp    hm2_[HOSTMOT2](BOARD).0.encoder.05.index-mask-invert 0
 setp    hm2_[HOSTMOT2](BOARD).0.encoder.05.scale  [JOINT_2]ENCODER_SCALE
 
 net z-pos-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.05.position
-net z-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.05.velocity
+#net z-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.05.velocity
 net z-pos-fb               =>  joint.2.motor-pos-fb
 net z-index-enable    joint.2.index-enable  <=>  hm2_[HOSTMOT2](BOARD).0.encoder.05.index-enable
 net z-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.05.rawcounts

@@ -2,5 +2,7 @@
 # M100 set max acceleration of XY axis
 max_acceleration=$1
 halcmd setp ini.0.max_acceleration $max_acceleration
+halcmd setp ini.x.max_acceleration $max_acceleration
 halcmd setp ini.1.max_acceleration $max_acceleration
+halcmd setp ini.y.max_acceleration $max_acceleration
 exit 0

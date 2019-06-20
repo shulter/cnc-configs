@@ -1,5 +1,5 @@
 o<check_tool_presence> sub	;check if any tool is in the spindle
-	(debug, exec check_tool_presence sub)
+	(print, exec check_tool_presence sub)
         M3 S680 ;turn on spindle as some tool holders have notches that make them invisible to the tool presence sensor.
 	M66 P13 L3 Q1 ;check if tool presence sensor is HIGH, 1s timeout. If not a single high signal is detected, it will time out and #5399 will be 1. That means no tool is present. 
 	M5
