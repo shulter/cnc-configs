@@ -1,7 +1,48 @@
-;TC all up
+;probe tool length and store offset in tool table
 o<m210> sub
-M5 ;spindle stop
-M65P ;tc down release, just in case solenoid is powered
-M64P ;tc1 holder up
+(print, m210 sub start)
+o111 if [#<_current_tool> LT 1]
+(MSG, No tool loaded for tool length probing.)
+o111 endif
+o112 if [#<_current_tool> GT 0]
+M73 		(auto-restore modal settings on return)
+M70
+M5 		    (stop spindle)
+G49         (cancel tool length compensation)
+(TODO: check if saw is down)
+M221 		(saw off and up)
+M206 	   	(drills off)
+M65 P63     (reset internal e-stop loop)
+(TODO: check if hor aggregate is down)
+;M203        (hor aggregate up, iso30 spindle up)
+G90
+G53 g1 Z0 F96000
+G53 g0 X[#<_ini[probe]x>] Y[#<_ini[probe]y>]
+M202        (iso30 spindle down)
+(#5400 is the current tool number)
+G91 (incremental distance mode)
+M49 (disable feed override controls)
+G38.3 Z[#<_ini[probe]z>] F2260
+(print, Probe tripped at #5063)
+o113 if [#5070 ne 1] 
+    		(MSG, Tool length probe timeout. Tool too short or no tool present.)
+		G4P0.1
+        G90
+		M72 ;restore modal settings
+    	M64 P63 (trigger e-stop)
+o113 endif
+;G1 Z2.2 F1500
+;G38.2 Z-2.5 F150
+G58 (G58 is the coordinate system with the correct Z offset for probing tools)
+G38.4 Z2.5 F150
+(print, Probe tripped at #5063)
+G10 L10 P#5400 Z0 (set Z value to tool offset)
+G90
+G43
+G53 G0 Z0
+M48 (disable feed override controls)
+M72 ;restore modal settings
+o112 endif
+(print, m210 sub end)
 o<m210> endsub
 M2

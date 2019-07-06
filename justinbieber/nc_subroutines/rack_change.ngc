@@ -6,9 +6,10 @@ M5 		    (stop spindle)
 M221 		(saw off and up)
 M206 	   	(drills off)
 M65 P63     (reset internal e-stop loop)
+M70
 
 #5599 = 1  	(turn on debug, output)
-G64 P0.5
+G64 P0.1
 (print, rack_change: current tool:#<_current_tool> current pocket: #<_current_pocket>)
 (print, rack_change: selected tool:#<_selected_tool> selected pocket: #<_selected_pocket>)
 

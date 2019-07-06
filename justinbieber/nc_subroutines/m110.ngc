@@ -1,0 +1,18 @@
+;probe tool length and store offset in tool table
+o<m110> sub
+
+o111 if [#<_current_tool> GT 0]
+M73 		(auto-restore modal settings on return)
+M5 		    (stop spindle)
+M221 		(saw off and up)
+M206 	   	(drills off)
+M65 P63     (reset internal e-stop loop)
+M203        (hor aggregate up, iso30 spindle up)
+G53 g1 Z0 F96000
+G53 g0 X[#<_ini[probe]x>] Y[#<_ini[probe]y>]
+M202        (iso30 spindle down)
+
+o111 endif
+
+o<m110> endsub
+M2

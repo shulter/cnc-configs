@@ -1,8 +1,14 @@
 # external input and output signals
 # see README for more pinout
 
-loadrt or2 count=1
+loadrt or2 count=3
 addf or2.0 servo-thread
+
+# tool length probe and probe in spindle:
+addf or2.1 servo-thread
+
+#to trigger z-limit when tool length probe signals overtravel alarm
+addf or2.2 servo-thread
 
 # --- MACHINE-IS-ENABLED ---
 
@@ -87,12 +93,12 @@ net tc-cover-is-open 	motion.digital-in-04 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.inpu
 net tc-cover-open-btn 	motion.digital-in-05 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-05
 net tc-cover-close-btn 	motion.digital-in-06 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-06
 
-net tc1is-up 		motion.digital-in-07 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-07
-net tc2is-up 		motion.digital-in-08 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-08
-net tc3is-up 		motion.digital-in-09 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-09
-net tc4is-up 		motion.digital-in-10 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-10
-net tc5is-up 		motion.digital-in-11 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-11
-net tc6is-up  		motion.digital-in-12 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-12
+# net tc1is-up 		    motion.digital-in-07 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-07
+net tool-probe-in		motion.digital-in-08 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-08-not
+net tool-probe-limit 	motion.digital-in-09 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-09-not
+# net tc4is-up 		    motion.digital-in-10 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-10
+# net tc5is-up 		    motion.digital-in-11 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-11
+# net tc6is-up  		motion.digital-in-12 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-12
 
 net spindle-tool-present 	motion.digital-in-13 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-13
 
@@ -113,13 +119,22 @@ net estop-in halui.estop.activate <= motion.digital-out-63
 #net abort     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-00
 
 # --- HOME-X ---
-#net home-x     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-17-not
 net home-x     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-21-not
 
 # --- HOME-Y ---
-#net home-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-18-not
 net home-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-20-not
 
 # --- HOME-Z ---
-#net home-z     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-19-not
-net home-z     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-22-not
+#net home-z    or2.2.in0 <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-22-not
+
+net home-z-limit        hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-22-not   => or2.2.in0
+net tool-probe-limit    motion.digital-in-09                            => or2.2.in1
+net home-z              or2.2.out
+
+
+#  ---probe signal---
+unlinkp motion.probe-input
+net spindle-probe-in    motion.digital-in-07       => or2.1.in0
+net tool-probe-in       motion.digital-in-08       => or2.1.in1
+net probe-in            or2.1.out                  =>  motion.probe-input
+

@@ -11,6 +11,11 @@ ISO30 Spindle: 0-10V VFD
 Custom M Codes:
 ============================
 
+M100Pn #set X and Y acceleration to n (mm/s2)
+M101 #set X soft limit smaller, to limit work envelope and not crash into tool magazine when jogging.
+M102 #set X soft limit to physical maximum, only used for ATC routines
+
+REMAP= M110  modalgroup=10 ngc=m110 #probe tool length and store new value to tool table
 REMAP= M200  modalgroup=10 ngc=m200 #iso30 dust hood down
 REMAP= M201  modalgroup=10 ngc=m201 #iso30 dust hood up
 REMAP= M202  modalgroup=10 ngc=m202 #iso30 down

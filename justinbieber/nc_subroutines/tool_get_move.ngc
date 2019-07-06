@@ -13,7 +13,7 @@ o100 if [EXISTS[#<_ini[change_position_1]x>]]
   ;did a timeout occur at the previous M66? Then the result should be (-1)
    o110 if [#5399 GT -1]
     (MSG, WARNING - Tool detected, but spindle should be empty.)
-    M71 ;restore modal settings
+    M72 ;restore modal settings
     M666 (e-stop)
     o100 return
    o110 endif
@@ -58,7 +58,7 @@ o100 if [EXISTS[#<_ini[change_position_1]x>]]
     		(MSG, WARNING - Draw bar stuck in closed position. Check air pressure.)
 		G4P0.25
 		M251
-    		M71 ;restore modal settings
+    		M72 ;restore modal settings
     		M64 P63 (trigger e-stop)
 	o105 endif
 	G4P0.1
@@ -90,7 +90,7 @@ o100 if [EXISTS[#<_ini[change_position_1]x>]]
 	o106 if [#5399 ne 0]
     		(MSG, WARNING - Draw bar not properly closed.)
 		G4P0.25
-    		M71 ;restore modal settings
+    		M72 ;restore modal settings
     		M64 P63 (trigger e-stop)
 	o106 endif
 
@@ -106,12 +106,12 @@ o100 if [EXISTS[#<_ini[change_position_1]x>]]
     o<check_tool_presence> call
    o111 if [#5399 LT 1]
     (MSG, WARNING - No tool detected after tool change.)
-    M71 (restore modal settings)
+    M72 (restore modal settings)
     M61 Q0 (override tool in spindle with 0 - no tool)
     M64 P63 (trigger e-stop)
     o100 return
    o111 endif
-  M71 ;restore modal settings
+  M72 ;restore modal settings
 o100 endif
 o<tool_get_move> endsub
 m2
