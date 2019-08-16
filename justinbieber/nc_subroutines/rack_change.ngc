@@ -16,6 +16,15 @@ G64 P0.1
 (print, rack_change: selected tool:#<_selected_tool> selected pocket: #<_selected_pocket>)
 
 ; unload previous tool into previous pocket
+o280 if [#<_current_pocket> EQ #<_selected_pocket>]
+    #1=1 (tool change successful)
+    o<rack_change> return [1]
+o280 endif
+o290 if [#<_current_tool> EQ #<_selected_tool>]
+    #1=1 (tool change successful)
+    o<rack_change> return [1]
+o290 endif
+
 
 o300 if [#<_current_pocket> GT 0]
 o301 if [#<_current_pocket> LT 10]
@@ -51,6 +60,7 @@ o310 if [#<_selected_pocket> GT 0]
         M222 (swivel saw parallel to X)
         M220 (saw on and down)
         #1=1 (tool change successful)
+        o<rack_change> return [1]
         o321 endif
     o320 endif
 
@@ -62,6 +72,7 @@ o310 if [#<_selected_pocket> GT 0]
         M223 (swivel saw parallel to Y)
         M220 (saw on and down)
         #1=1 (tool change successful)
+        o<rack_change> return [1]
         o331 endif
     o330 endif
 
@@ -71,6 +82,7 @@ o310 if [#<_selected_pocket> GT 0]
             (print, selected pocket LT 10)
             o<tool_get_move> call [#<_selected_pocket>]
             #1=1 (tool change successful)
+            o<rack_change> return [1]
         o350 endif
 
         o360 if [#<_selected_pocket> GT 9] 
@@ -82,7 +94,8 @@ o310 if [#<_selected_pocket> GT 0]
         G53 g0 X[#<_ini[change_position]x>] Y[#<_ini[change_position]y>]
         ;TODO insert manual tool change
         (MSG, Operator, please insert tool #<_selected_tool> manually.)
-            o361 endif
+        o<rack_change> return [0]
+        o361 endif
         o360 endif
     o340 endif
 o310 endif

@@ -1,8 +1,9 @@
 ;lifts down, left group first, then right group
 o<m237> sub
 M65P34 ;lifts down
-M65P35 ;reg pins down
+M65P35 ;reg pins down left
 g4p0.37
-M65P36 ;reg pins down
+M65P36 ;reg pins down right
+
 o<m237> endsub
 M2
