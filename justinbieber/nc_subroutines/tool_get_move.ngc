@@ -3,10 +3,12 @@ o<tool_get_move> sub
 #<f1>=2400.0 (feedrate to move tool down to pocket plane)
 (print, change_position_1 X: #<_ini[change_position_1]x>)
 o100 if [EXISTS[#<_ini[change_position_1]x>]]
+m202 ;move ISO30 aggregate down
+m221 ;move saw up
 (print, tool_get_move pocket: #1)
 (debug, tool_get_move pocket: #1)
   M70 ;save modal settings
-  G53 g1 Z0 F30000
+  G53 g1 Z0 F60000
   G64 P0.5
   M65 P63 (reset internal e-stop loop)
   o<check_tool_presence> call

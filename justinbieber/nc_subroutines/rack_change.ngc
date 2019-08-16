@@ -1,12 +1,14 @@
 o<rack_change> sub
 
 M73 		(auto-restore modal settings on return)
+M70
 M102		(extend soft limits beyond normal envelope so we can reach the tool magazine)
 M5 		    (stop spindle)
 M221 		(saw off and up)
 M206 	   	(drills off)
 M65 P63     (reset internal e-stop loop)
-M70
+M201        (lift ISO30 dust hood / nail aggregate up)
+G90         (absolute distance mode)
 
 #5599 = 1  	(turn on debug, output)
 G64 P0.1
@@ -21,35 +23,69 @@ o301 if [#<_current_pocket> LT 10]
      o<tool_put_move> call [#<_current_pocket>]
      (print, tool_put_move end)
 o301 endif
+(print, 25)
+;o302 if [#<_current_pocket> GT 9] AND [#<_current_pocket> LT 100]
 o302 if [#<_current_pocket> GT 9]
+    (print, 28)
+    o303 if [#<_current_pocket> LT 100]
      (MSG, Current pocket #<_current_pocket> exceeds magazine capacity.)
      (MSG, Operator, please remove tool #<_current_tool> manually.)
      G53 g1 Z0 F96000
-     G53 g0 X[#<_ini[change_position]x>] Y[#<_ini[change_position]y>]
-     M666 (e-stop, remove power from machine for manual tool change)
+     ;G53 g0 X600 Y300
+     ;M666 (e-stop, remove power from machine for manual tool change)
      ;TODO insert manual tool change
+    o303 endif
 o302 endif
 o300 endif
-
+(print, 39)
 ; load the new tool
 
-o303 if [#<_selected_pocket> GT 0]
+o310 if [#<_selected_pocket> GT 0]
      (print, selected pocket GT 0)
-o304 if [#<_selected_pocket> LT 10]
-     (print, selected pocket LT 10)
-     o<tool_get_move> call [#<_selected_pocket>]
-o304 endif
 
-o305 if [#<_selected_pocket> GT 9]
-     (print, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
-     (DEBUG, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
-     (MSG, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
-     G53 g1 Z0 F96000
-     G53 g0 X[#<_ini[change_position]x>] Y[#<_ini[change_position]y>]
-     ;TODO insert manual tool change
-     (MSG, Operator, please insert tool #<_selected_tool> manually.)
-o305 endif
-o303 endif
+    o320 if [#<_selected_tool> GT 4999] 
+        o321 if [#<_selected_tool> LT 6000]
+        (print, Selected tool #<_selected_tool> in range 5000-5999: saw aggregate X.)
+        G53 g1 Z0 F96000
+        M203 (lift ISO30 up)
+        M222 (swivel saw parallel to X)
+        M220 (saw on and down)
+        #1=1 (tool change successful)
+        o321 endif
+    o320 endif
+
+    o330 if [#<_selected_tool> GT 5999] 
+        o331 if [#<_selected_tool> LT 7000]
+        (print, Selected tool #<_selected_tool> in range 5000-5999: saw aggregate X.)
+        G53 g1 Z0 F96000
+        M203 (lift ISO30 up)
+        M223 (swivel saw parallel to Y)
+        M220 (saw on and down)
+        #1=1 (tool change successful)
+        o331 endif
+    o330 endif
+
+
+    o340 if [#1 EQ 0]
+        o350 if [#<_selected_pocket> LT 10]
+            (print, selected pocket LT 10)
+            o<tool_get_move> call [#<_selected_pocket>]
+            #1=1 (tool change successful)
+        o350 endif
+
+        o360 if [#<_selected_pocket> GT 9] 
+            o361 if [#<_selected_pocket> LT 100] 
+        (print, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
+        (DEBUG, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
+        (MSG, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
+        G53 g1 Z0 F96000
+        G53 g0 X[#<_ini[change_position]x>] Y[#<_ini[change_position]y>]
+        ;TODO insert manual tool change
+        (MSG, Operator, please insert tool #<_selected_tool> manually.)
+            o361 endif
+        o360 endif
+    o340 endif
+o310 endif
 
 M101		(return soft limits to default values)
 ; succeed by returning a positive value

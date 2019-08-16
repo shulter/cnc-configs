@@ -2,9 +2,11 @@ o<tool_put_move> sub
 
 #<f1>=9600.0 (feedrate to move tool down to pocket plane)
 #<f2>=3200.0 (feedrate to release and let go of tool in pocket)
-
+m221 ;saw off and up
+m202 ;move ISO30 aggregate down
 (print, tool_put_move sub start)
 M70 ;save modal settings
+G90 ;absolute distance mode
 o500 if [EXISTS[#<_ini[change_position_1]x>]]
   G53 G1 Z0 F96000
   o501 if [#1 EQ 1]
@@ -49,23 +51,31 @@ o500 if [EXISTS[#<_ini[change_position_1]x>]]
     G53 G0 X[[#<_ini[change_position_10]X>] + [#<_ini[change_offset]X>] ]
     G53 G1 Z[[#<_ini[change_position_10]Z>]] F#<f1>
   o501 endif
- 
+ o<check_tool_presence> call
+  ;did a timeout occur at the previous M66? Then the result should be (-1)
+   o502 if [#5399 LT 1]
+    (MSG, WARNING - no tool detected during tool_put_move.)
+    M72 ;restore modal settings
+    M666 (e-stop)
+    o<tool_put_move> return
+   o502 endif
+  
   G91 ;relative distance mode
   ; TODO set servo amp max current low at this point to reduce crash damage if a tool is still in the pocket.
   G1 X[-#<_ini[change_offset]X>] Y[-#<_ini[change_offset]Y>] F#<f2> ;move gently into tool pocket
   G90 ;absolute distance mode
   M250 ; draw bar down, release tool and flush spindle with air
-  M66 P1 L3 Q1 ;check if draw bar is all the way down = tool is not held tight in spindle anymore
+  M66 P1 L3 Q1 ;check if draw bar is all the way down == tool is not held tight in spindle anymore
   o505 if [#5399 ne 1] 
-    		(MSG, WARNING - Tool not released. Draw bar stuck. Check air pressure.)
+    (MSG, WARNING - Tool not released. Draw bar stuck. Check air pressure.)
 		G4P0.25
 		M251
-    		M72 ;restore modal settings
-    		M64 P63 (trigger e-stop)
+    M72 ;restore modal settings
+    M64 P63 (trigger e-stop)
   o505 endif
   G4P0.6 ; tool to settle
   G53 G1 Z[#<_ini[change_position_1]Z> + 7] F2000 ;move up slighty, leave tool in pocket
-  M66 P13 L4 Q1 ;check if tool presence sensor is LOW = no tool in spindle.
+  M66 P13 L4 Q1 ;check if tool presence sensor is LOW == no tool in spindle.
   o510 if [#5399 ne 0]
     		(MSG, WARNING - Tool detected, but spindle should be empty. Tool stuck in spindle?)
 		G53 G1 Z[#<_ini[change_position_1]Z>] F2000 ;move down again into the pocket
