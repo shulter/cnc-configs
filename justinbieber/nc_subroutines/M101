@@ -2,5 +2,5 @@
 # M101 enable soft limit on X axis, M102 disable soft limits
 halcmd setp ini.0.max_limit 3021.5;
 halcmd setp ini.x.max_limit 3021.5;
-echo "x softlimit at 3021.5";
+echo "x softlimit restricted back to 3021.5 after ATC";
 exit 0

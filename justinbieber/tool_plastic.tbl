@@ -1,0 +1,7 @@
+T1 P1 D8.000000 Z+90.217600 ;2f straight wood added 20181219 
+T2 P2 D3.800000 Z+110.381552 ;D3.8mm x 40 drill plastics 
+T3 P3 D4.000000 Z+76.602052 ;2f downcut carbide 
+T4 P4 D12.300000 Z+74.347200 ;12.3mm 2f chamfer 45deg 
+T5 P5 D8.000000 Z+87.854400 ;2+2f carbide endmill 
+T6 P6 D6.000000 Z+155.798000 ;6mm 45deg 2f chamfer mill 
+T7 P7 D4.000000 Z+76.692552 ;2f downcut carbide

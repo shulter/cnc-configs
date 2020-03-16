@@ -1,0 +1,6 @@
+#!/bin/bash
+# M103 set max acceleration of Z axis
+max_acceleration=$1
+halcmd setp ini.2.max_acceleration $max_acceleration
+halcmd setp ini.z.max_acceleration $max_acceleration
+exit 0

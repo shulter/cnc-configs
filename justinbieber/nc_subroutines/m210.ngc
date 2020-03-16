@@ -1,12 +1,12 @@
 ;probe tool length and store offset in tool table
 o<m210> sub
+M70
+M73 		(auto-restore modal settings on return)
 (print, m210 sub start)
 o111 if [#<_current_tool> LT 1]
 (MSG, No tool loaded for tool length probing.)
 o111 endif
 o112 if [#<_current_tool> GT 0]
-M73 		(auto-restore modal settings on return)
-M70
 M5 		    (stop spindle)
 G49         (cancel tool length compensation)
 (TODO: check if saw is down)
@@ -43,6 +43,7 @@ G53 G0 Z0
 M48 (disable feed override controls)
 M72 ;restore modal settings
 o112 endif
+M72 ;restore modal settings
 (print, m210 sub end)
 o<m210> endsub
 M2

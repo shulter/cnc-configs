@@ -1,0 +1,8 @@
+;ISO30 coolant nozzle on
+o<m8> sub
+M65P6
+M64P7
+G4P1
+M65P7
+o<m8> endsub
+M2

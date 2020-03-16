@@ -60,8 +60,11 @@ net spindle-drawbar-activate or2.0.out => hm2_[HOSTMOT2](BOARD).0.7i77.0.0.outpu
 net drills-on 		motion.digital-out-02	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-01
 #net spindle-drawbar 	motion.digital-out-01 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-02
 net spindle-down 	motion.digital-out-03 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
-net spindle-hood-down 	motion.digital-out-06	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
-net spindle-hood-up 	motion.digital-out-07 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-05
+#net spindle-hood-down 	motion.digital-out-06	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
+#net spindle-hood-up 	motion.digital-out-07 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-05
+
+net coolant1 	motion.digital-out-06	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-04
+net coolant2 	motion.digital-out-07 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-05
 
 #net tc-down 		motion.digital-out-0 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-06
 #net tc1up 		motion.digital-out-0 	hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-07
@@ -93,7 +96,7 @@ net tc-cover-is-open 	motion.digital-in-04 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.inpu
 net tc-cover-open-btn 	motion.digital-in-05 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-05
 net tc-cover-close-btn 	motion.digital-in-06 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-06
 
-# net tc1is-up 		    motion.digital-in-07 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-07
+net 3d-probe-in	        motion.digital-in-07 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-07-not
 net tool-probe-in		motion.digital-in-08 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-08-not
 net tool-probe-limit 	motion.digital-in-09 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-09-not
 # net tc4is-up 		    motion.digital-in-10 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-10
@@ -106,7 +109,8 @@ net spindle-tool-present 	motion.digital-in-13 hm2_[HOSTMOT2](BOARD).0.7i77.0.0.
 sets spindle-at-speed true
 
 # --- COOLANT-FLOOD ---
-net coolant-flood hm2_[HOSTMOT2](BOARD).0.gpio.025.out
+# net coolant-flood hm2_[HOSTMOT2](BOARD).0.gpio.025.out
+# net coolant-flood hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-05
 
 # --- COOLANT-MIST ---
 #net coolant-mist hm2_[HOSTMOT2](BOARD).0.7i77.0.0.output-03
@@ -127,7 +131,7 @@ net home-y     <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-20-not
 # --- HOME-Z ---
 #net home-z    or2.2.in0 <=  hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-22-not
 
-net home-z-limit        hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-22-not   => or2.2.in0
+net home-z-limit        hm2_[HOSTMOT2](BOARD).0.7i77.0.0.input-22       => or2.2.in0
 net tool-probe-limit    motion.digital-in-09                            => or2.2.in1
 net home-z              or2.2.out
 

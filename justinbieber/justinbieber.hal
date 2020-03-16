@@ -79,8 +79,10 @@ net home-x     =>  joint.0.pos-lim-sw-in
 
 #setp lin2rev.0.scale 	-13.6318
 #setp lin2rev.0.scale 	-13.61356
-setp lin2rev.0.scale 	-13.63145211 #measured with christof 20180411
 #setp lin2rev.0.scale 	-13.64530141
+#setp lin2rev.0.scale 	-13.63145211 #measured with christof 20180411
+setp lin2rev.0.scale 	-13.6384076979 #zerodur calibration 20191018
+                        
 
 net yenable joint.1.amp-enable-out => hm2_[HOSTMOT2](BOARD).0.stbl.0.2.enable-00
 net yfault hm2_[HOSTMOT2](BOARD).0.stbl.0.2.fault-00 => joint.1.amp-fault-in

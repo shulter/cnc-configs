@@ -9,7 +9,6 @@ m221 ;move saw up
 (debug, tool_get_move pocket: #1)
   M70 ;save modal settings
   G53 g1 Z0 F60000
-  G64 P0.5
   M65 P63 (reset internal e-stop loop)
   o<check_tool_presence> call
   ;did a timeout occur at the previous M66? Then the result should be (-1)

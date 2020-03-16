@@ -16,8 +16,8 @@ M101 #set X soft limit smaller, to limit work envelope and not crash into tool m
 M102 #set X soft limit to physical maximum, only used for ATC routines
 
 REMAP= M110  modalgroup=10 ngc=m110 #probe tool length and store new value to tool table
-REMAP= M200  modalgroup=10 ngc=m200 #iso30 dust hood down
-REMAP= M201  modalgroup=10 ngc=m201 #iso30 dust hood up
+REMAP= M200  modalgroup=10 ngc=m200 #iso30 dust hood down, probe down
+REMAP= M201  modalgroup=10 ngc=m201 #iso30 dust hood up, probe up
 REMAP= M202  modalgroup=10 ngc=m202 #iso30 down
 REMAP= M203  modalgroup=10 ngc=m203 #iso30 up, HOR up
 
@@ -78,27 +78,27 @@ IO mapping:
 | #226 |                                    |                             | 
 | #227 |                                    |                             | 
 | #228 |                                    |                             | 
-| #229 |                                    |                             | 
+| #229 |  3D Probe output                   |07 (net spindle-probe-in)    | 7i77.0.0.input-07
 | #230 |                                    |                             | 
 | #231 |                                    |                             | 
 | #232 |                                    |                             | 
 | #233 |                                    |                             | 
 | #234 |                                    |                             | 
 | #235 |                                    |                             | 
-| #236 | Draw Bar is down                   |00                           | 7i77.0.0.input-00
-| #237 | Draw Bar is up                     |01                           | 7i77.0.0.input-01
+| #236 |  Draw Bar is down                  |00                           | 7i77.0.0.input-00
+| #237 |  Draw Bar is up                    |01                           | 7i77.0.0.input-01
 | #238 |  ISO 30 Tool present               |13                           | 7i77.0.0.input-13
 | #239 |  Manual Tool Change BTN            |02                           | 7i77.0.0.input-02
-| #240 |  TC Pocket#1 is up                 |07  (net tc1is-up)           | 
-| #241 |  TC Pocket#2 is up                 |08                           | 
-| #242 |  TC Pocket#3 is up                 |09                           | 
+| #240 |  (TC Pocket#1 is up)               |                             | 
+| #241 |  Tool Probe Output                 |08  (net tool-probe-in)      | 7i77.0.0.input-08
+| #242 |  Tool Probe Overtravel Alarm       |09  (net tool-probe-limit)   | 7i77.0.0.input-09
 | #243 |  TC Pocket#4 is up                 |10                           | 
 | #244 |  TC Pocket#5 is up                 |11                           | 
 | #245 |  TC Pocket#6 is up                 |12                           | 
 | #246 |  TC Cover closed                   |03                           | 
 | #247 |  TC Cover open                     |04                           | 
-| #247 |  TC Cover close BTN                |05                           | 
-| #247 |  TC Cover open BTN                 |06                           | 
+| #248?|  TC Cover close BTN                |05                           | 
+| #249?|  TC Cover open BTN                 |06                           | 
 |      |                                    |                             | 
 |      |                                    |                             | 
 | #308 |  vac loop left  pneumatic valve    |0.gpio.027.out DIO38                           | 
@@ -149,9 +149,9 @@ IO mapping:
 | #365 |  drill (forstner,leftmost?)        |             |
 |  |                             |                             | 
 | #1000 |  ISO30, hor aggregate up          |15                             | 
-| #1001 |  Limit X                                 | 7i77.0.0.input-21-not                            | 
-| #1002 |  Limit Y                                | 7i77.0.0.input-18-not                            | 
-| #1003 |  Limit Z                                 | 7i77.0.0.input-22-not                            | 
+| #1001 |  Limit X                          | 7i77.0.0.input-21-not                            | 
+| #1002 |  Limit Y                          | 7i77.0.0.input-18-not                            | 
+| #1003 |  Limit Z                          | 7i77.0.0.input-22                                | 
 | #1004 |  ISO30 through spindle air        |                             | 
 | #1005 |  ISO30 draw bar release tool      |                             | 
 

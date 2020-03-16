@@ -11,7 +11,6 @@ M201        (lift ISO30 dust hood / nail aggregate up)
 G90         (absolute distance mode)
 
 #5599 = 1  	(turn on debug, output)
-G64 P0.1
 (print, rack_change: current tool:#<_current_tool> current pocket: #<_current_pocket>)
 (print, rack_change: selected tool:#<_selected_tool> selected pocket: #<_selected_pocket>)
 
@@ -60,6 +59,7 @@ o310 if [#<_selected_pocket> GT 0]
         M222 (swivel saw parallel to X)
         M220 (saw on and down)
         #1=1 (tool change successful)
+        M101		(return soft limits to default values)
         o<rack_change> return [1]
         o321 endif
     o320 endif
@@ -72,6 +72,7 @@ o310 if [#<_selected_pocket> GT 0]
         M223 (swivel saw parallel to Y)
         M220 (saw on and down)
         #1=1 (tool change successful)
+        M101		(return soft limits to default values)
         o<rack_change> return [1]
         o331 endif
     o330 endif
@@ -82,6 +83,7 @@ o310 if [#<_selected_pocket> GT 0]
             (print, selected pocket LT 10)
             o<tool_get_move> call [#<_selected_pocket>]
             #1=1 (tool change successful)
+            M101		(return soft limits to default values)
             o<rack_change> return [1]
         o350 endif
 
@@ -94,7 +96,8 @@ o310 if [#<_selected_pocket> GT 0]
         G53 g0 X[#<_ini[change_position]x>] Y[#<_ini[change_position]y>]
         ;TODO insert manual tool change
         (MSG, Operator, please insert tool #<_selected_tool> manually.)
-        o<rack_change> return [0]
+        M101		(return soft limits to default values)
+        o<rack_change> return [1]
         o361 endif
         o360 endif
     o340 endif
