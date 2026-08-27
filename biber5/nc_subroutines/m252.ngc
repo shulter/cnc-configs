@@ -1,0 +1,7 @@
+;ISO30 quick tool release
+o<m252> sub
+M250 ;release tool, flush ISO30 spindle with air
+G4P2 ;wait 2 sec
+M251 ;pull draw bar back up, deactivate air flush
+o<m252> endsub
+M2

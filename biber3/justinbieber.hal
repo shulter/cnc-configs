@@ -1,0 +1,236 @@
+loadusr ./toolinit.py
+loadrt [KINS]KINEMATICS
+loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS num_dio=64 
+loadrt hostmot2
+loadrt [HOSTMOT2](DRIVER) config=[HOSTMOT2](CONFIG)
+setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 25000000
+loadrt pid names=pid.x,pid.z
+loadrt lin2rev
+
+addf hm2_[HOSTMOT2](BOARD).0.read         servo-thread
+addf lin2rev.0 		      servo-thread
+addf motion-command-handler   servo-thread
+addf motion-controller        servo-thread
+addf pid.x.do-pid-calcs       servo-thread
+addf pid.z.do-pid-calcs       servo-thread
+addf hm2_[HOSTMOT2](BOARD).0.write        servo-thread
+
+
+#*******************
+#  AXIS X
+#*******************
+
+setp   pid.x.Pgain     [JOINT_0]P
+setp   pid.x.Igain     [JOINT_0]I
+setp   pid.x.Dgain     [JOINT_0]D
+setp   pid.x.bias      [JOINT_0]BIAS
+setp   pid.x.FF0       [JOINT_0]FF0
+setp   pid.x.FF1       [JOINT_0]FF1
+setp   pid.x.FF2       [JOINT_0]FF2
+setp   pid.x.deadband  [JOINT_0]DEADBAND
+setp   pid.x.maxoutput [JOINT_0]MAX_OUTPUT
+setp   pid.x.error-previous-target true
+
+net x-index-enable  <=> pid.x.index-enable
+net x-enable        =>  pid.x.enable
+net x-pos-cmd       =>  pid.x.command
+#net x-vel-cmd       =>  pid.x.command-deriv
+net x-pos-fb        =>  pid.x.feedback
+net x-output        =>  pid.x.output
+
+# ---PWM Generator signals/setup---
+
+setp   hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout0-scalemax  [JOINT_0]OUTPUT_SCALE
+setp   hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout0-minlim    [JOINT_0]OUTPUT_MIN_LIMIT
+setp   hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout0-maxlim    [JOINT_0]OUTPUT_MAX_LIMIT
+
+net x-output                             => hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout0
+net x-pos-cmd    joint.0.motor-pos-cmd
+net x-enable     joint.0.amp-enable-out
+# enable _all_ sserial pwmgens
+net x-enable   hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogena
+
+# ---Encoder feedback signals/setup---
+
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.counter-mode 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.filter 1
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.index-invert 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.index-mask 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.index-mask-invert 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.03.scale  [JOINT_0]ENCODER_SCALE
+
+net x-pos-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.position
+#net x-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.velocity
+net x-pos-fb               =>  joint.0.motor-pos-fb
+net x-index-enable    joint.0.index-enable  <=>  hm2_[HOSTMOT2](BOARD).0.encoder.03.index-enable
+net x-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.03.rawcounts
+
+# ---setup home / limit switch signals---
+
+net home-x     =>  joint.0.home-sw-in
+net home-x     =>  joint.0.neg-lim-sw-in
+net home-x     =>  joint.0.pos-lim-sw-in
+
+
+#*******************
+#  AXIS Y
+#*******************
+
+#setp lin2rev.0.scale 	-13.6318
+#setp lin2rev.0.scale 	-13.61356
+#setp lin2rev.0.scale 	-13.64530141
+#setp lin2rev.0.scale 	-13.63145211 #measured with christof 20180411
+setp lin2rev.0.scale 	-13.6384076979 #zerodur calibration 20191018
+                        
+
+net yenable joint.1.amp-enable-out => hm2_[HOSTMOT2](BOARD).0.stbl.1.2.enable-00
+net yfault hm2_[HOSTMOT2](BOARD).0.stbl.1.2.fault-00 => joint.1.amp-fault-in
+net yposcmd joint.1.motor-pos-cmd => lin2rev.0.cmd-in
+net ymposcmd lin2rev.0.cmd-out => hm2_[HOSTMOT2](BOARD).0.stbl.1.2.pos_cmd
+net yposfb hm2_[HOSTMOT2](BOARD).0.stbl.1.2.pos_fb => lin2rev.0.fb-in
+net ymposfb lin2rev.0.fb-out => joint.1.motor-pos-fb
+
+# ---Encoder feedback signals/setup---
+
+# ---setup home / limit switch signals---
+
+net home-y     =>  joint.1.home-sw-in
+net home-y     =>  joint.1.neg-lim-sw-in
+net home-y     =>  joint.1.pos-lim-sw-in
+
+#*******************
+#  AXIS Z
+#*******************
+
+setp   pid.z.Pgain     [JOINT_2]P
+setp   pid.z.Igain     [JOINT_2]I
+setp   pid.z.Dgain     [JOINT_2]D
+setp   pid.z.bias      [JOINT_2]BIAS
+setp   pid.z.FF0       [JOINT_2]FF0
+setp   pid.z.FF1       [JOINT_2]FF1
+setp   pid.z.FF2       [JOINT_2]FF2
+setp   pid.z.deadband  [JOINT_2]DEADBAND
+setp   pid.z.maxoutput [JOINT_2]MAX_OUTPUT
+setp   pid.z.error-previous-target true
+
+net z-index-enable  <=> pid.z.index-enable
+net z-enable        =>  pid.z.enable
+net z-pos-cmd       =>  pid.z.command
+#net z-vel-cmd       =>  pid.z.command-deriv
+net z-pos-fb        =>  pid.z.feedback
+net z-output        =>  pid.z.output
+
+# ---PWM Generator signals/setup---
+
+setp   hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout2-scalemax  [JOINT_2]OUTPUT_SCALE
+setp   hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout2-minlim    [JOINT_2]OUTPUT_MIN_LIMIT
+setp   hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout2-maxlim    [JOINT_2]OUTPUT_MAX_LIMIT
+
+net z-output                             => hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout2
+net z-pos-cmd    joint.2.motor-pos-cmd
+net z-enable     joint.2.amp-enable-out
+
+# ---Encoder feedback signals/setup---
+
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.05.counter-mode 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.05.filter 1
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.05.index-invert 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.05.index-mask 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.05.index-mask-invert 0
+setp    hm2_[HOSTMOT2](BOARD).0.encoder.05.scale  [JOINT_2]ENCODER_SCALE
+
+net z-pos-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.05.position
+#net z-vel-fb               <=  hm2_[HOSTMOT2](BOARD).0.encoder.05.velocity
+net z-pos-fb               =>  joint.2.motor-pos-fb
+net z-index-enable    joint.2.index-enable  <=>  hm2_[HOSTMOT2](BOARD).0.encoder.05.index-enable
+net z-pos-rawcounts        <=  hm2_[HOSTMOT2](BOARD).0.encoder.05.rawcounts
+
+# ---setup home / limit switch signals---
+
+net home-z     =>  joint.2.home-sw-in
+net home-z     =>  joint.2.neg-lim-sw-in
+net home-z     =>  joint.2.pos-lim-sw-in
+
+
+#*******************
+#  SPINDLE S
+#*******************
+
+# ---PWM Generator signals/setup---
+
+setp   hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout3-scalemax  [SPINDLE_9]OUTPUT_SCALE
+setp   hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout3-minlim    [SPINDLE_9]OUTPUT_MIN_LIMIT
+setp   hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout3-maxlim    [SPINDLE_9]OUTPUT_MAX_LIMIT
+
+net spindle-vel-cmd-rpm-abs     => hm2_[HOSTMOT2](BOARD).0.7i77.1.1.analogout3
+
+net spindle-vel-cmd-rps        <=  spindle.0.speed-out-rps
+net spindle-vel-cmd-rps-abs    <=  spindle.0.speed-out-rps-abs
+net spindle-vel-cmd-rpm        <=  spindle.0.speed-out
+net spindle-vel-cmd-rpm-abs    <=  spindle.0.speed-out-abs
+net spindle-enable             <=  spindle.0.on
+net spindle-brake              <=  spindle.0.brake
+net spindle-revs               =>  spindle.0.revs
+net spindle-at-speed           =>  spindle.0.at-speed
+net spindle-vel-fb-rps         =>  spindle.0.speed-in
+net spindle-index-enable      <=>  spindle.0.index-enable
+
+#******************************
+# connect miscellaneous signals
+#******************************
+
+#  ---HALUI signals---
+
+net joint-select-a        halui.axis.x.select
+net x-is-homed            halui.joint.0.is-homed
+net jog-x-pos             halui.axis.x.plus
+net jog-x-neg             halui.axis.x.minus
+net jog-x-analog          halui.axis.x.analog
+net joint-select-b        halui.axis.y.select
+net y-is-homed            halui.joint.1.is-homed
+net jog-y-pos             halui.axis.y.plus
+net jog-y-neg             halui.axis.y.minus
+net jog-y-analog          halui.axis.y.analog
+net joint-select-c        halui.axis.z.select
+net z-is-homed            halui.joint.2.is-homed
+net jog-z-pos             halui.axis.z.plus
+net jog-z-neg             halui.axis.z.minus
+net jog-z-analog          halui.axis.z.analog
+net jog-selected-pos      halui.axis.selected.plus
+net jog-selected-neg      halui.axis.selected.minus
+net spindle-manual-cw     halui.spindle.0.forward
+net spindle-manual-ccw    halui.spindle.0.reverse
+net spindle-manual-stop   halui.spindle.0.stop
+net machine-is-on         halui.machine.is-on
+net jog-speed             halui.axis.jog-speed 
+net MDI-mode              halui.mode.is-mdi
+
+#  ---coolant signals---
+
+net coolant-mist      <=  iocontrol.0.coolant-mist
+net coolant-flood     <=  iocontrol.0.coolant-flood
+
+#  ---probe signal---
+
+net probe-in     =>  motion.probe-input
+
+#  ---motion control signals---
+
+net in-position               <=  motion.in-position
+net machine-is-enabled        <=  motion.motion-enabled
+
+#  ---digital in / out signals---
+
+#  ---estop signals---
+
+net estop-out     <=  iocontrol.0.user-enable-out
+net estop-out     =>  iocontrol.0.emc-enable-in
+
+#  ---manual tool change signals---
+
+#loadusr -W hal_manualtoolchange
+#net tool-change-request     iocontrol.0.tool-change       =>  hal_manualtoolchange.change
+#net tool-change-confirmed   iocontrol.0.tool-changed      <=  hal_manualtoolchange.changed
+#net tool-number             iocontrol.0.tool-prep-number  =>  hal_manualtoolchange.number
+#net tool-prepare-loopback   iocontrol.0.tool-prepare      =>  iocontrol.0.tool-prepared
+
