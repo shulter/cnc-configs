@@ -1,0 +1,6 @@
+;trigger e-stop
+o<m666> sub
+M221 		(saw off and up)
+M206 	   	(drills off)
+o<m666> endsub
+M2
