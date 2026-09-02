@@ -1,0 +1,6 @@
+;ISO30 dust hood up and held up
+o<m201> sub
+M65P6
+M64P7
+o<m201> endsub
+M2
