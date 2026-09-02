@@ -2,6 +2,20 @@ o<rack_change> sub
 
 M73 		(auto-restore modal settings on return)
 M70
+
+; remember whatever acceleration the running program had set (falls back to the ini default the first time this runs in a session), so it can be restored once the tool change is done
+o200 if [EXISTS[#<_xy_accel>]]
+o200 else
+    #<_xy_accel> = #<_ini[axis_x]max_acceleration>
+o200 endif
+o201 if [EXISTS[#<_z_accel>]]
+o201 else
+    #<_z_accel> = #<_ini[axis_z]max_acceleration>
+o201 endif
+
+M198 P[#<_ini[axis_x]max_acceleration>] Q[#<_ini[axis_y]max_acceleration>] (raw set: tool change moves at each axis's own ini default acceleration, overriding any M100 slowdown set by the running program. raw, so it doesn't clobber the #<_xy_accel> backup above)
+M199 P[#<_ini[axis_z]max_acceleration>] (raw set: same, for Z)
+M66 P13 L0                              (queue buster: earlier moves keep their original acceleration, tool change moves get the fast one. value read is unused.)
 M102		(extend soft limits beyond normal envelope so we can reach the tool magazine)
 M5 		    (stop spindle)
 M221 		(saw off and up)
@@ -16,7 +30,7 @@ G90         (absolute distance mode)
 
 ; unload previous tool into previous pocket
 o280 if [#<_current_pocket> EQ #<_selected_pocket>]
-    o281 if [#<_selected_tool> GT 4999] 
+    o281 if [#<_selected_tool> GT 4999]
         o282 if [#<_selected_tool> LT 6000]
         (print, Selected tool #<_selected_tool> in range 5000-5999: saw aggregate X.)
         G53 g1 Z0 F96000
@@ -26,7 +40,7 @@ o280 if [#<_current_pocket> EQ #<_selected_pocket>]
         o282 endif
     o281 endif
 
-    o283 if [#<_selected_tool> GT 5999] 
+    o283 if [#<_selected_tool> GT 5999]
         o284 if [#<_selected_tool> LT 7000]
         (print, Selected tool #<_selected_tool> in range 5000-5999: saw aggregate X.)
         G53 g1 Z0 F96000
@@ -36,11 +50,12 @@ o280 if [#<_current_pocket> EQ #<_selected_pocket>]
         o284 endif
     o283 endif
     #1=1 (tool change successful)
+    o<restore_accel> call
     o<rack_change> return [1]
 o280 endif
 
 o290 if [#<_current_tool> EQ #<_selected_tool>]
-    o291 if [#<_selected_tool> GT 4999] 
+    o291 if [#<_selected_tool> GT 4999]
         o292 if [#<_selected_tool> LT 6000]
         (print, Selected tool #<_selected_tool> in range 5000-5999: saw aggregate X.)
         G53 g1 Z0 F96000
@@ -50,7 +65,7 @@ o290 if [#<_current_tool> EQ #<_selected_tool>]
         o292 endif
     o291 endif
 
-    o293 if [#<_selected_tool> GT 5999] 
+    o293 if [#<_selected_tool> GT 5999]
         o294 if [#<_selected_tool> LT 7000]
         (print, Selected tool #<_selected_tool> in range 5000-5999: saw aggregate X.)
         G53 g1 Z0 F96000
@@ -60,6 +75,7 @@ o290 if [#<_current_tool> EQ #<_selected_tool>]
         o294 endif
     o293 endif
     #1=1 (tool change successful)
+    o<restore_accel> call
     o<rack_change> return [1]
 o290 endif
 
@@ -90,7 +106,7 @@ o300 endif
 o310 if [#<_selected_pocket> GT 0]
      (print, selected pocket GT 0)
 
-    o320 if [#<_selected_tool> GT 4999] 
+    o320 if [#<_selected_tool> GT 4999]
         o321 if [#<_selected_tool> LT 6000]
         (print, Selected tool #<_selected_tool> in range 5000-5999: saw aggregate X.)
         G53 g1 Z0 F96000
@@ -99,11 +115,12 @@ o310 if [#<_selected_pocket> GT 0]
         M220 (saw on and down)
         #1=1 (tool change successful)
         M101		(return soft limits to default values)
+        o<restore_accel> call
         o<rack_change> return [1]
         o321 endif
     o320 endif
 
-    o330 if [#<_selected_tool> GT 5999] 
+    o330 if [#<_selected_tool> GT 5999]
         o331 if [#<_selected_tool> LT 7000]
         (print, Selected tool #<_selected_tool> in range 5000-5999: saw aggregate X.)
         G53 g1 Z0 F96000
@@ -112,6 +129,7 @@ o310 if [#<_selected_pocket> GT 0]
         M220 (saw on and down)
         #1=1 (tool change successful)
         M101		(return soft limits to default values)
+        o<restore_accel> call
         o<rack_change> return [1]
         o331 endif
     o330 endif
@@ -123,11 +141,12 @@ o310 if [#<_selected_pocket> GT 0]
             o<tool_get_move> call [#<_selected_pocket>]
             #1=1 (tool change successful)
             M101		(return soft limits to default values)
+            o<restore_accel> call
             o<rack_change> return [1]
         o350 endif
 
-        o360 if [#<_selected_pocket> GT 10] 
-            o361 if [#<_selected_pocket> LT 100] 
+        o360 if [#<_selected_pocket> GT 10]
+            o361 if [#<_selected_pocket> LT 100]
         (print, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
         (DEBUG, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
         (MSG, Selected pocket #<_selected_pocket> exceeds magazine capacity.)
@@ -136,6 +155,7 @@ o310 if [#<_selected_pocket> GT 0]
         ;TODO insert manual tool change
         (MSG, Operator, please insert tool #<_selected_tool> manually.)
         M101		(return soft limits to default values)
+        o<restore_accel> call
         o<rack_change> return [1]
         o361 endif
         o360 endif
@@ -143,6 +163,7 @@ o310 if [#<_selected_pocket> GT 0]
 o310 endif
 
 M101		(return soft limits to default values)
+o<restore_accel> call
 ; succeed by returning a positive value
 (print, rack_change finished)
 o<rack_change> endsub [1]

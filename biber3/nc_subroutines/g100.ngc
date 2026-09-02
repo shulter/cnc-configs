@@ -1,0 +1,43 @@
+o<g100> sub
+; G100 [X..] [Y..] [Z..] - rapid positioning move (like G0) that always runs at the ini-default
+; (fast) acceleration, regardless of any M100/M103 slowdown the running program has set for
+; surface finish. Restores that slowdown afterward. Omitted axis words stay at their current
+; position, same as a plain G0.
+
+o400 if [EXISTS[#<_xy_accel>]]
+o400 else
+    #<_xy_accel> = #<_ini[axis_x]max_acceleration>
+o400 endif
+o401 if [EXISTS[#<_z_accel>]]
+o401 else
+    #<_z_accel> = #<_ini[axis_z]max_acceleration>
+o401 endif
+
+o410 if [EXISTS[#<x>]]
+    #<_g100_x> = #<x>
+o410 else
+    #<_g100_x> = #5420
+o410 endif
+o411 if [EXISTS[#<y>]]
+    #<_g100_y> = #<y>
+o411 else
+    #<_g100_y> = #5421
+o411 endif
+o412 if [EXISTS[#<z>]]
+    #<_g100_z> = #<z>
+o412 else
+    #<_g100_z> = #5422
+o412 endif
+
+M198 P[#<_ini[axis_x]max_acceleration>] Q[#<_ini[axis_y]max_acceleration>] (raw set: each axis's own fast ini default acceleration for this rapid, doesn't touch the tracked M100 value)
+M199 P[#<_ini[axis_z]max_acceleration>] (raw set: fast Z acceleration for this rapid)
+M66 P13 L0                              (queue buster: earlier moves keep their original acceleration, this rapid gets the fast one. value read is unused.)
+
+G0 X#<_g100_x> Y#<_g100_y> Z#<_g100_z>
+
+M198 P#<_xy_accel>                      (raw restore: back to whatever the program last set with M100)
+M199 P#<_z_accel>                       (raw restore: back to whatever the program last set with M103)
+M66 P13 L0                              (queue buster: this rapid finishes at fast acceleration before the next move reverts. value read is unused.)
+
+o<g100> endsub
+m2

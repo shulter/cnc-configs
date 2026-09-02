@@ -1,0 +1,6 @@
+o<restore_accel> sub
+; restore the X/Y/Z acceleration the running program had set before a tool change (falls back to the ini default if the program never called M100/M103 this session)
+M100 P#<_xy_accel>
+M103 P#<_z_accel>
+o<restore_accel> endsub
+m2

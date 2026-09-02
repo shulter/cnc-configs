@@ -1,0 +1,7 @@
+o<m100> sub
+; M100 Pn - set max acceleration of X and Y to n (mm/s2)
+#<_xy_accel> = #1  (remember the last commanded X/Y acceleration globally, e.g. so a tool change can restore it afterwards)
+M198 P#1           (raw HAL poke: apply the new X/Y acceleration)
+M66 P13 L0         (queue buster: flush the motion queue so the new acceleration takes effect at the right point, not before earlier queued moves finish. value read is unused.)
+o<m100> endsub
+m2

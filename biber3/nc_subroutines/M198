@@ -1,8 +1,11 @@
 #!/bin/bash
-# M100 set max acceleration of XY axis
-max_acceleration=$1
-halcmd setp ini.0.max_acceleration $max_acceleration
-halcmd setp ini.x.max_acceleration $max_acceleration
-halcmd setp ini.1.max_acceleration $max_acceleration
-halcmd setp ini.y.max_acceleration $max_acceleration
+# M198 (internal): raw HAL poke to set max acceleration of X (P) and Y (Q, defaults to P if omitted).
+# Called by m100.ngc (REMAP of M100, single-value X=Y) and by rack_change.ngc/g100.ngc (independent
+# per-axis ini defaults). Do not call M198 directly from g-code, use M100 Pn instead.
+x_accel=$1
+y_accel=${2:-$1}
+halcmd setp ini.0.max_acceleration $x_accel
+halcmd setp ini.x.max_acceleration $x_accel
+halcmd setp ini.1.max_acceleration $y_accel
+halcmd setp ini.y.max_acceleration $y_accel
 exit 0

@@ -1,0 +1,7 @@
+o<m103> sub
+; M103 Pn - set max acceleration of Z to n (mm/s2)
+#<_z_accel> = #1  (remember the last commanded Z acceleration globally, e.g. so a tool change can restore it afterwards)
+M199 P#1          (raw HAL poke: apply the new Z acceleration)
+M66 P13 L0        (queue buster: flush the motion queue so the new acceleration takes effect at the right point, not before earlier queued moves finish. value read is unused.)
+o<m103> endsub
+m2
