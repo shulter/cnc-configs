@@ -1,5 +1,0 @@
-;Reg pins up
-o<m231> sub
-M64P35 ;reg pins up
-o<m231> endsub
-M2
