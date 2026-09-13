@@ -1,0 +1,5 @@
+;Reg pins up
+o<m232> sub
+M64P36 ;reg pins up
+o<m232> endsub
+M2

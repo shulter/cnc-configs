@@ -1,0 +1,8 @@
+;ISO30 dust hood down
+o<m208> sub
+M65P7
+M64P6
+G4P1
+M65P6
+o<m208> endsub
+M2

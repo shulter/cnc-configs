@@ -1,0 +1,5 @@
+;HOR + ISO30 UP (duplicate of M203)
+o<m300> sub
+M203 ;hor aggregate + ISO30 UP
+o<m300> endsub
+M2

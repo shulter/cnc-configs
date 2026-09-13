@@ -1,0 +1,7 @@
+;Vac pump power on, activate left zone, deactivate right zone
+o<m242> sub
+M64P37 ;vac pump power on
+M64P38 ;left vac loop on
+M65P39 ;right vac loop off
+o<m242> endsub
+M2

@@ -1,0 +1,12 @@
+;Saw swivel to X
+o<m223> sub
+M221
+M64P11 ;unlock saw swivel mechanism
+G4P0.3
+M65P13
+M64P12 ;swivel saw parallel to X
+G4P1
+M65P11 ;lock saw swivel mechanism
+M65P12
+o<m223> endsub
+M2

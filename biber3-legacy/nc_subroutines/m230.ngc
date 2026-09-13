@@ -1,0 +1,7 @@
+;Reg pins and lifts down
+o<m230> sub
+M65P34 ;lifts down
+M65P35 ;reg pins down
+M65P36 ;reg pins down
+o<m230> endsub
+M2
